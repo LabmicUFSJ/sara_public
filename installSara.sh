@@ -10,4 +10,5 @@ echo "Criando o ambiente"
 python3 -m venv saraEnv
 echo "env Criado :)"
 source saraEnv/bin/activate
+pip install --upgrade pip
 pip install -r requirements.txt
