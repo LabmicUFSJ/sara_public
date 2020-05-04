@@ -8,6 +8,9 @@ Este guia foi elaborado com o intuito de guiar a Instalação do Sara no ambient
 
 execute o script de instalação ou siga os passos a seguir:
 
+- Script de instalação:
+    > installSara.sh
+
 - Atualize o seu sistema operacional:
     > sudo apt update
 - Realize o upgrade do ambiente
