@@ -11,9 +11,20 @@ import time
 
 from pymongo import MongoClient
 from twitter.error import TwitterError
+import threading, queue
+
+fila = queue.Queue()
+
 
 from credenciais.conexao_twitter import inicia_conexao
 
+def processa_fila():
+    while True:
+        tweet, conexao = fila.get()
+        conexao.replace_one(tweet, tweet, True)
+        fila.task_done()
+
+threading.Thread(target=processa_fila, daemon=True).start()
 
 class Sauron():
     """docstring for Sauron."""
@@ -79,7 +90,9 @@ class Sauron():
                     exibicao = 0
                 contador += 1
                 exibicao += 1
-                self.salvar_mongo(tweet, conexao_banco)
+                # self.salvar_mongo(tweet, conexao_banco)
+                # coloca na fila para processamento dos dados
+                fila.put((tweet,conexao_banco))
         except TwitterError as exc:
             print(f"error {exc.message}")
             if 'Unauthorized' in exc.message.get('message'):
@@ -106,7 +119,9 @@ class Sauron():
                     exibicao = 0
                 contador += 1
                 exibicao += 1
-                self.salvar_mongo(tweet, conexao_banco)
+                # self.salvar_mongo(tweet, conexao_banco)
+                # coloca em uma fila para processamento
+                fila.put((tweet, conexao_banco))
                 if contador == limite and limite != 0:
                     print("Coleta encerrada a partir do limite determinado.")
                     return
