@@ -11,4 +11,5 @@ python3 -m venv saraEnv
 echo "env Criado :)"
 source saraEnv/bin/activate
 pip3 install --upgrade pip
+pip3 install --upgrade wheels setuptools
 pip3 install -r requirements.txt

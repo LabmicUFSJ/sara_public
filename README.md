@@ -1,5 +1,5 @@
 # Sara
-Sara é um framework semi-automatizado para coleta e análise de dados de redes sociais utilizando Redes complexas e mineração de dados.
+Sara é um framework semi-automatizado para coleta e análise de dados de redes sociais, utilizando Redes complexas, aprendizagem de máquina e mineração de dados.
 
 Desenvolvido no Laboratório de Modelagem Computacional e Inteligência Computacional (LABMIC) da Universidade Federal de São João del-Rei(UFSJ)
 
@@ -7,28 +7,31 @@ Estado : Em desenvolvimento
 
 Site : https://labmicufsj.github.io/sara_public/
 
-# Como Instalar
+## Guias
 
-- [Guia de Instalacão](Guia.md)
+- [Guia de Instalacão.](Guias/Guia_instalacao.md)
+- [Guia geral como utilizar.](Guias/Guia_execucao.md)
+- [Agendamento de Coleta.](Guias/Guia_agendamento.md)
 
-## Módulos
+Módulos
+-------
 
-### Coletor
+#### Coletor
 
-O módulo de coleta combina o coletor web e a API de coleta em tempo real do Twitter.
+O módulo de coleta utiliza a API do Twitter.
 
 Módulos associados:
-* sara_coletor - Realiza as coletas de tweets em tempo real.
-* coletor_agendado - Realiza coletas de acordo com duração e intervalo agendado.
-* conexao_twitter - Contém os dados de acesso da API twitter.
-- Os dados são salvos no mongodb, um banco de dados não relacional.
+* `sara_coletor` - Realiza as coletas de tweets em tempo real.
+* `coletor_agendado` - Realiza coletas de acordo com duração e intervalo agendado.
+* `conexao_twitter` - Contém os dados de acesso da API twitter.
 
+Os dados coletados são salvos no mongodb, um banco de dados não relacional.
 
 ### Geração da Rede
 
 A geração da rede é realizada por meio do módulo sara_estrutural.
 
-* sara_estrutural - Gera uma rede direcionada ou não direcionada.
+* `sara_estrutural` - Gera uma rede direcionada ou não direcionada.
 
 A rede gerada é salva no diretório redes.
 
@@ -47,10 +50,11 @@ A detecção de comunidade neste framework é realizada por meio do módulo Over
 
 Esta ferramenta procura encontrar ego comunidades formada em torno de determinados usuários.
 
-- Detecção de comunidades - Realiza a detecção de comunidades sobrepostas, utilize o resultado de centralidade ou outro sequencia de importância para detecção de comunidades.
+- Detecção de comunidades - Realiza a detecção de comunidades sobrepostas, utilize o resultado da centralidade ou outra sequência de importância para detecção de comunidades.
 
 Modulo associado
-> overlap.py
+
+- `overlap.py`
 
 ## Visualização e Análise do conteúdo
 
@@ -58,8 +62,8 @@ A visualização e análise do conteúdo é realizada por meio da utilização d
 
 Módulos associados:
 
-* Sara_conteudo - Responsável pela geração da núvem de palavras.
-* Sara_sentimento - Responsável pela análise de sentimento.
+* `Sara_conteudo` - Responsável pela geração da núvem de palavras.
+* `Sara_sentimento` - Responsável pela análise de sentimento.
 
 
 ## Dependências:
@@ -79,7 +83,7 @@ Consulte o guia de instalação.
 
 ## Artigos associados
 
-Trabalhos relacionados a esta pesquisa publicados em conferencias:
+Trabalhos relacionados a esta pesquisa que foram publicados em conferências:
 
 - [Sara - A Semi-Automatic Framework for Social Network Analysis](https://sol.sbc.org.br/index.php/webmedia_estendido/article/view/8137/8012)
 
