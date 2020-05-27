@@ -10,7 +10,7 @@ from core.logger import log
 
 coletor = Sauron()
 agendamento = sched.scheduler(time.time, time.sleep)
-
+intervalo = 0
 
 try:
     name_file = sys.argv[0]
@@ -44,9 +44,10 @@ def coleta(termo ,colecao, nome_banco, duracao):
     print(f"Tempo até proxima coleta {intervalo_coleta} min.")
 
 while True:
-    agendamento.enter(intervalo_coleta*60, 1, coleta, argument=(termo,
-                                                                colecao,
-                                                                nome_banco,
-                                                                duracao_coleta
-                                                                ))
+    agendamento.enter(intervalo*60, 1, coleta, argument=(termo,
+                                                         colecao,
+                                                         nome_banco,
+                                                         duracao_coleta
+                                                        ))
+    intervalo = intervalo_coleta
     agendamento.run()

@@ -27,7 +27,7 @@ Módulos associados:
 
 Os dados coletados são salvos no mongodb, um banco de dados não relacional.
 
-### Geração da Rede
+#### Geração da Rede
 
 A geração da rede é realizada por meio do módulo sara_estrutural.
 
@@ -35,7 +35,7 @@ A geração da rede é realizada por meio do módulo sara_estrutural.
 
 A rede gerada é salva no diretório redes.
 
-## Análise de Centralidade
+### Análise de Centralidade
 
 O framework identifica os vértices de maior importância de acordo com as seguintes métricas de centralidade:
 - Betweenness, PageRank, Degree, Curtidas, Retweets.
@@ -44,7 +44,7 @@ A detecção de centralidade é realizada por meio da utilização do módulo sa
 
 O resultado deste módulo é salvo no diretório resultados_importancia
 
-## Comunidade
+### Comunidade
 
 A detecção de comunidade neste framework é realizada por meio do módulo Overlap.
 
@@ -56,7 +56,7 @@ Modulo associado
 
 - `overlap.py`
 
-## Visualização e Análise do conteúdo
+### Visualização e Análise do conteúdo
 
 A visualização e análise do conteúdo é realizada por meio da utilização da técnica de LDA combinada com uma nuvem de palavras.
 
