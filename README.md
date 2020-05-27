@@ -17,13 +17,14 @@ O módulo de coleta combina o coletor web e a API de coleta em tempo real do Twi
 
 Módulos associados:
 * sara_coletor - Realiza as coletas de tweets em tempo real.
+* coletor_agendado - Realiza coletas de acordo com duração e intervalo agendado.
 * conexao_twitter - Contém os dados de acesso da API twitter.
 - Os dados são salvos no mongodb, um banco de dados não relacional.
 
 
 ### Geração da Rede
 
-A geração da rede é realizada por meio do módulo saraEstrutural.
+A geração da rede é realizada por meio do módulo sara_estrutural.
 
 * sara_estrutural - Gera uma rede direcionada ou não direcionada.
 
@@ -59,10 +60,10 @@ Módulos associados:
 * Sara_sentimento - Responsável pela análise de sentimento.
 
 
-## Depêndencias:
+## Dependências:
 
 Consulte o guia de instalação.
-- python 3.7
+- python >= 3.6
 - pymongo
 - mongodb
 - networkx

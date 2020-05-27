@@ -18,9 +18,8 @@ from credenciais.conexao_twitter import inicia_conexao
 class Sauron():
     """docstring for Sauron."""
 
-    def __init__(self):
+    def __init__(self, agendamento = False):
         # conexão com o banco de dados
-        self.cliente = MongoClient()
         self.cliente = MongoClient('localhost', 27017)
 
         # inica a conexao com twitter
@@ -31,6 +30,7 @@ class Sauron():
         self.collection = ""
         self.controle_exibicao = 1000
         self.sleep_on_error = 20
+        self.agendamento = agendamento
 
     def banco(self, nome_banco, colecao):
         """configura collection e db"""
@@ -60,6 +60,36 @@ class Sauron():
         """Salva o tweet no mongodb"""
         post.replace_one(tweet, tweet, True)
         # self.save_data("dados_coletados", tweet)
+
+    def coleta_agendada(self, termo_pesquisa, colecao, nome_banco, duracao):
+        """Coleta com agendamento."""
+        conexao_banco = self.banco(nome_banco, colecao)
+        retorno = self.api.GetStreamFilter(track=[termo_pesquisa])
+        contador = 0
+        exibicao = 0
+        now = time.time()
+        break_after = (duracao*60) + now
+        try:
+            for tweet in retorno:
+                if time.time()>=break_after:
+                    print("Tweets Coletados", contador)
+                    return
+                if exibicao == self.controle_exibicao:
+                    print("Tweets Coletados", contador)
+                    exibicao = 0
+                contador += 1
+                exibicao += 1
+                self.salvar_mongo(tweet, conexao_banco)
+        except TwitterError as exc:
+            print(f"error {exc.message}")
+            if 'Unauthorized' in exc.message.get('message'):
+                print("favor verificar as credências de acesso.")
+                sys.exit()
+            time.sleep(self.sleep_on_error)
+            # realiza coleta no período de tempo restante
+            restante = break_after-time.time()
+            self.coleta_agendada(termo_pesquisa, colecao, nome_banco,
+                                 restante)
 
     def monitor_twitter(self, termo_pesquisa, conexao_banco, limite=0):
         """Monitora as postagens em tempo real"""
