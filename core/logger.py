@@ -8,13 +8,11 @@ from datetime import datetime
 def log(termo, file="log_init.txt"):
     """Log."""
     print("Log init ok")
-    now = datetime.now()
+    now = datetime.utcnow()
     current_time = now.strftime("%H:%M:%S - %d/%m/%Y")
+    msg = "Termo:" + str(termo) + " - Inicio:" + current_time + " - UTC "+"\n"
     with (open(file, "a+")) as arquivo:
-        arquivo.write(
-            "Termo:" + str(termo) + "- Inicio:" + current_time + "\n"
-        )
-
+        arquivo.write(msg)
 
 def log_erro(file="log_error.txt"):
     """Log error."""
