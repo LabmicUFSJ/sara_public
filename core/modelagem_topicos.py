@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 """
 LDA
 """
-import os
-from pprint import pprint
+# import os
+# from pprint import pprint
 
 import core.cloud as cloud
 import core.pre_processamento as pre_processamento
@@ -12,9 +12,9 @@ import gensim
 import gensim.corpora as corpora
 import core.database as bd
 import nltk
-from gensim.models import CoherenceModel
-from gensim.utils import simple_preprocess
-from nltk.stem import RSLPStemmer
+# from gensim.models import CoherenceModel
+# from gensim.utils import simple_preprocess
+# from nltk.stem import RSLPStemmer
 
 
 def make_bigrams(bigram_mod, texts):
@@ -46,7 +46,7 @@ def carrega_tweet_mongo(banco, colecao):
                 lista_tweets.append(
                     pre_processamento.pre_processing(full_tweet)
                 )
-        except Exception as e:
+        except Exception:
             # print("erro",e)
             pass
     # print(len(lista_tweets))

@@ -3,7 +3,7 @@
 """
 Aplica o pré-processamento
 """
-import ast
+# import ast
 import re
 # import base
 import string
@@ -126,7 +126,7 @@ def pre_processing(text):
         if len(word) > 1:
             token_list.append(word)
     # remove stopwords
-    tokens_final = [i for i in token_list if not i in set_stop]
+    tokens_final = [i for i in token_list if i not in set_stop]
     return " ".join(tokens_final)
 
 

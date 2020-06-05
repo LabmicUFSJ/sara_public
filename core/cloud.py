@@ -20,7 +20,6 @@ def gerar_texto(texto, n_repeticoes, lda=False):
     """Transforma a tupla em uma string"""
     # print(texto)
 
-    lista_final = []
     texto_str = ""
     if(lda is False):
         for i in texto:
@@ -30,11 +29,10 @@ def gerar_texto(texto, n_repeticoes, lda=False):
         print("LDA")
         for i in texto:
             texto_str += " " + str(i[1])
-            for j in range(0,int(i[0]*n_repeticoes)):
-            # trecho que torna a palavra composta
-
-              palavra = i[1].replace(" ","_")
-              texto_str+= " "+str(palavra)
+            for j in range(0, int(i[0]*n_repeticoes)):
+                # trecho que torna a palavra composta
+                palavra = i[1].replace(" ", "_")
+                texto_str += " "+str(palavra)
             # ---------------
             # sem bigrama
 

@@ -5,8 +5,7 @@
 TF-idf
 """
 
-from scipy.sparse.csr import csr_matrix
-from sklearn.feature_extraction.text import TfidfTransformer, TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 import core.cloud as cloud
 import core.database as bd
@@ -26,7 +25,7 @@ def carrega_tweet_mongo(nome_base, colecao):
                 lista_tweets.append(
                     pre_processamento(full_tweet)
                 )
-        except Exception as e:
+        except Exception:
             pass
     return lista_tweets
 

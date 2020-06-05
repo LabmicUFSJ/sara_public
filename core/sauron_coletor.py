@@ -15,7 +15,7 @@ from twitter.error import TwitterError
 from http.client import IncompleteRead
 import threading
 import queue
-from logger import log_erro
+from core.logger import log_erro
 
 fila = queue.Queue()
 
