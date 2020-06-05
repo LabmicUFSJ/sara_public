@@ -9,27 +9,31 @@ Modulo de coleta utilizando a api do Twitter .
 import sys
 import time
 
+from credenciais.conexao_twitter import inicia_conexao
 from pymongo import MongoClient
 from twitter.error import TwitterError
-import threading, queue
+from http.client import IncompleteRead
+import threading
+import queue
 
 fila = queue.Queue()
 
 
-from credenciais.conexao_twitter import inicia_conexao
-
 def processa_fila():
+    """Consulta a fila e salva os dados no banco."""
     while True:
         tweet, conexao = fila.get()
         conexao.replace_one(tweet, tweet, True)
         fila.task_done()
 
+
 threading.Thread(target=processa_fila, daemon=True).start()
 
-class Sauron():
-    """docstring for Sauron."""
 
-    def __init__(self, agendamento = False):
+class Sauron():
+    """Classe responsavel pela coleta de dados ."""
+
+    def __init__(self):
         # conexão com o banco de dados
         self.cliente = MongoClient('localhost', 27017)
 
@@ -37,11 +41,8 @@ class Sauron():
         self.api = inicia_conexao()
         # caminho = 'central_eleicoes/'
         # configuração do banco de dados MongoDB
-        self.pos = ""
-        self.collection = ""
         self.controle_exibicao = 1000
         self.sleep_on_error = 20
-        self.agendamento = agendamento
 
     def banco(self, nome_banco, colecao):
         """configura collection e db"""
@@ -82,7 +83,7 @@ class Sauron():
         break_after = (duracao*60) + now
         try:
             for tweet in retorno:
-                if time.time()>=break_after:
+                if time.time() >= break_after:
                     print("Tweets Coletados", contador)
                     return
                 if exibicao == self.controle_exibicao:
@@ -92,8 +93,8 @@ class Sauron():
                 exibicao += 1
                 # self.salvar_mongo(tweet, conexao_banco)
                 # coloca na fila para processamento dos dados
-                fila.put((tweet,conexao_banco))
-        except TwitterError as exc:
+                fila.put((tweet, conexao_banco))
+        except (TwitterError, IncompleteRead) as exc:
             print(f"error {exc.message}")
             if 'Unauthorized' in exc.message.get('message'):
                 print("favor verificar as credências de acesso.")
@@ -125,7 +126,7 @@ class Sauron():
                 if contador == limite and limite != 0:
                     print("Coleta encerrada a partir do limite determinado.")
                     return
-        except TwitterError as exc:
+        except (TwitterError, IncompleteRead) as exc:
             print(f"error {exc.message}")
             if 'Unauthorized' in exc.message.get('message'):
                 print("favor verificar as credencias de acesso.")

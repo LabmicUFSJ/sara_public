@@ -29,12 +29,12 @@ try:
     nome_banco = sys.argv[4]
 except IndexError as exc:
     print(f"error {exc}")
-    print(f"ERRO!Digite {name_file} <termo>"
+    print(f"ERRO!Digite {name_file} <termo> "
           "<numero_tweets> <colecao> <banco de dados>")
     print("\nTermo: O termo a ser coletado" +
           "\nNúmero de Tweets: número de tweets a ser coletado." +
-          "0 para definir sem limite" +
-          "\nColecao: A coleção onde os tweets serão salvos" +
+          "0 para definir sem limites" +
+          "\nColecao: A coleção onde os tweets serão salvos." +
           "\nBanco de Dados: O  banco onde os dados serão armazenados")
 
     sys.exit()
