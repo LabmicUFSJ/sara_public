@@ -10,13 +10,14 @@ def log(termo, file="log_init.txt"):
     print("Log init ok")
     now = datetime.utcnow()
     current_time = now.strftime("%H:%M:%S - %d/%m/%Y")
-    msg = "Termo:" + str(termo) + " - Inicio:" + current_time + " - UTC "+"\n"
+    msg = "Termo: " + str(termo) + "-Inicio: " + current_time + " - UTC "+"\n"
     with (open(file, "a+")) as arquivo:
         arquivo.write(msg)
 
-def log_erro(file="log_error.txt"):
+
+def log_erro(termo, file="log_error.txt"):
     """Log error."""
-    now = datetime.now()
+    now = datetime.utcnow()
     current_time = now.strftime("%H:%M:%S - %d/%m/%Y")
     with (open(file, "a+")) as arquivo:
-        arquivo.write("Erro ocorrido em:" + current_time + "\n")
+        arquivo.write(f"termo: {termo} Erro ocorrido em: {current_time} \n")

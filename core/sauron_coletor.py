@@ -15,6 +15,7 @@ from twitter.error import TwitterError
 from http.client import IncompleteRead
 import threading
 import queue
+from logger import log_erro
 
 fila = queue.Queue()
 
@@ -96,6 +97,7 @@ class Sauron():
                 fila.put((tweet, conexao_banco))
         except (TwitterError, IncompleteRead) as exc:
             print(f"error {exc.message}")
+            log_erro(exc.message)
             if 'Unauthorized' in exc.message.get('message'):
                 print("favor verificar as credências de acesso.")
                 sys.exit()
@@ -128,6 +130,7 @@ class Sauron():
                     return
         except (TwitterError, IncompleteRead) as exc:
             print(f"error {exc.message}")
+            log_erro(exc.message)
             if 'Unauthorized' in exc.message.get('message'):
                 print("favor verificar as credencias de acesso.")
                 sys.exit()
