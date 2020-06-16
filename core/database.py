@@ -26,13 +26,24 @@ def carregar_usuarios(nome_banco, colecao):
     colecao = carregar_banco(cliente, nome_banco, colecao)
     usuarios = colecao.find({}, {"user": 1})
     lista_usuarios = []
-    for i in usuarios:
-        lista_usuarios.append(i)
+    for usuario in usuarios:
+        lista_usuarios.append(usuario.get('user'))
     return lista_usuarios
 
 
+def carrega_tweets(nome_banco, colecao):
+    """Carrega Tweets."""
+    cliente = inicia_conexao()
+    colecao = carregar_banco(cliente, nome_banco, colecao)
+    tweets = colecao.find({})
+    lista_tweets = []
+    for tweet in tweets:
+        lista_tweets.append(tweet)
+    return lista_tweets
+
+
 def carrega_tweet_mongo(nome_base, colecao):
-    """Carrega os tweets limpos"""
+    """Carrega os tweets limpos."""
     cliente = inicia_conexao()
     colecao = carregar_banco(cliente, nome_base, colecao)
     tweets = colecao.find({})

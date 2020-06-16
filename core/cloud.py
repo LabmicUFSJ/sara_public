@@ -64,6 +64,6 @@ def cloud_lda(lista_tweets, n_repeticoes=1000):
     """Gera a nuvem de tags a partir de uma lista de tuplas LDA"""
     print("REP", n_repeticoes)
     texto = gerar_texto(lista_tweets, n_repeticoes, True)
-    #texto="casarao_casa casa_casinha"
+    # texto="casarao_casa casa_casinha"
     make_cloud(texto, "lda")
     print("Cloud Lda Gerada.!!")
