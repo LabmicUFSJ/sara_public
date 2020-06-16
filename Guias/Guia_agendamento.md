@@ -1,7 +1,7 @@
 Guia Agendamento de Coleta
 ---------------------------
 
-O Sara suporta coleta agendadas. Para tal somente é necessário executar o
+A Sara suporta coleta agendadas. Para tal somente é necessário executar o
 `coletor_agendado.py` como apresentado a seguir:
 
 ```

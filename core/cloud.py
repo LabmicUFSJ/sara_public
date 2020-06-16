@@ -1,6 +1,6 @@
 # encode: utf-8
 """
-Módulo geração núvem de palavras
+Módulo geração nuvem de palavras
 """
 import uuid
 

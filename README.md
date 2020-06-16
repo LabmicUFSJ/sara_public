@@ -3,9 +3,11 @@ Sara é um framework semi-automatizado para coleta e análise de dados de redes 
 
 Desenvolvido no Laboratório de Modelagem Computacional e Inteligência Computacional (LABMIC) da Universidade Federal de São João del-Rei(UFSJ)
 
-Estado : Em desenvolvimento
+Estado : Em desenvolvimento / Experimental
 
 Site : https://labmicufsj.github.io/sara_public/
+
+![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
 
 ## Guias
 

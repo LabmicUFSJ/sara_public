@@ -1,24 +1,38 @@
 # Guia de Instalação Sara
 
-Este guia foi elaborado com o intuito de guiar a Instalação do Sara no ambiente ubuntu e sistemas operacionais ubuntu-like.
+Este guia foi elaborado com o intuito de guiar a Instalação da Sara no ambiente Ubuntu e CentOS.
 
-- Testado no ubuntu 18.04
+Testado em: 
+ - Ubuntu 18.04
+ - CentOS 7
 
-## Resolução inicial de dependências
-
-execute o script de instalação ou siga os passos a seguir:
-
-- Script de instalação:
-    > installSara.sh
-
-- Atualize o seu sistema operacional:
-    > sudo apt update
-- Realize o upgrade do ambiente
-    > sudo apt upgrade
+## Instalação CentOs
 
 - Instale o banco de dados, mongodb
 
     > https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+
+- Agora, execute o script de instalação:
+    > install_centos.sh
+
+## Instalação Ubuntu
+
+- Instale o banco de dados, mongodb
+
+    > https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+
+Execute o script de instalação ou realize a instalação manual.
+
+- Script de instalação:
+    > installSara.sh
+
+### Instalação Manual Ubuntu
+
+- Atualize o seu sistema operacional:
+    > sudo apt update
+
+- Realize o upgrade do ambiente
+    > sudo apt upgrade
 
 - Instale pip, virtualenv
 
@@ -30,7 +44,7 @@ execute o script de instalação ou siga os passos a seguir:
 
     > sudo pip install virtualenv
 
-## Criando um ambiente virtual
+### Criando um ambiente virtual
 
 Este ambiente funcionara como uma 'jaula', evitando conflito de dependências.
 
@@ -60,7 +74,7 @@ A tela do terminal devera estar similar a tela seguinte:
 ```
 
 
-## Pós-Instalação
+# Pós-Instalação
 Caso tenha utilizado o script de instalação ative o ambiente virtual com o seguinte comando:
 
 > source saraEnv/bin/activate
