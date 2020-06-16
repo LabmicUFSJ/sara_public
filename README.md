@@ -1,13 +1,15 @@
 # Sara
-Sara é um framework semi-automatizado para coleta e análise de dados de redes sociais, utilizando Redes complexas, aprendizagem de máquina e mineração de dados.
+[![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](https://github.com/LabmicUFSJ/sara_public/)
 
-Desenvolvido no Laboratório de Modelagem Computacional e Inteligência Computacional (LABMIC) da Universidade Federal de São João del-Rei(UFSJ)
+A Sara é um framework semi-automatizado para coleta e análise de dados de redes sociais online, utilizando Redes complexas, Aprendizagem de Máquina e Mineração de texto.
+
+Desenvolvido no Laboratório de Modelagem Computacional e Inteligência Computacional (LABMIC) da Universidade Federal de São João del-Rei (UFSJ)
 
 Estado : Em desenvolvimento / Experimental
 
 Site : https://labmicufsj.github.io/sara_public/
 
-![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
+
 
 ## Guias
 
@@ -24,29 +26,29 @@ O módulo de coleta utiliza a API do Twitter.
 
 Módulos associados:
 * `sara_coletor` - Realiza as coletas de tweets em tempo real.
-* `coletor_agendado` - Realiza coletas de acordo com duração e intervalo agendado.
-* `conexao_twitter` - Contém os dados de acesso da API twitter.
+* `coletor_agendado` - Realiza coletas de acordo com agendamento.
+* `conexao_twitter` - Contém os dados de acesso da API do Twitter.
 
 Os dados coletados são salvos no mongodb, um banco de dados não relacional.
 
 #### Geração da Rede
 
-A geração da rede é realizada por meio do módulo sara_estrutural.
+A geração da rede é realizada por meio do módulo `sara_estrutural`.
 
 * `sara_estrutural` - Gera uma rede direcionada ou não direcionada.
 
-A rede gerada é salva no diretório redes.
+A rede gerada é salva no diretório `redes/`.
 
-### Análise de Centralidade
+#### Análise de Centralidade
 
 O framework identifica os vértices de maior importância de acordo com as seguintes métricas de centralidade:
 - Betweenness, PageRank, Degree, Curtidas, Retweets.
 
 A detecção de centralidade é realizada por meio da utilização do módulo sara_centralidade.
 
-O resultado deste módulo é salvo no diretório resultados_importancia
+O resultado deste módulo é salvo no diretório `resultados_importancia/`.
 
-### Comunidade
+#### Detecção de Comunidades
 
 A detecção de comunidade neste framework é realizada por meio do módulo Overlap.
 
@@ -58,13 +60,13 @@ Modulo associado
 
 - `overlap.py`
 
-### Visualização e Análise do conteúdo
+#### Análise de conteúdo
 
 A visualização e análise do conteúdo é realizada por meio da utilização da técnica de LDA combinada com uma nuvem de palavras.
 
 Módulos associados:
 
-* `Sara_conteudo` - Responsável pela geração da núvem de palavras.
+* `Sara_conteudo` - Responsável pela geração da nuvem de palavras.
 * `Sara_sentimento` - Responsável pela análise de sentimento.
 
 
