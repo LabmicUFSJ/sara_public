@@ -24,7 +24,7 @@ No final do processo será gerada uma nuvem de palavras.
 ### Gerando Rede de Retweets(Estrutural)
 
 ``` shell
-(saraEnv)$: python3 saraEstrutural.py <nome_rede> <nome_base> <nome_colecao> <True||False> <limite>
+(saraEnv)$: python saraEstrutural.py <nome_rede> <nome_base> <nome_colecao> <True||False> <limite>
 ```
 - nome_rede: Nome a ser utilizado para salvar a rede gerada.
 - nome_base: Nome do banco de dados onde os tweets baixados estão presente.
@@ -40,7 +40,7 @@ Para realização desta etapa é necessário que se tenha um grafo gerado.
 Nesta etapa é gerada uma lista de nós ordernada por importância quanto a centralidade, que pode ser utilizada na detecção de comunidades.
 
 ``` shell
-(saraEnv)$: python3 sara_centralidade.py <banco> <colecao> <grafo>
+(saraEnv)$: python sara_centralidade.py <banco> <colecao> <grafo>
 ```
 
 Entrada: grafo.gml
@@ -50,7 +50,7 @@ saída: Um ranking gravado na pasta resultados_importancia
 ### Sara Sentimento(Leia)
 
 ``` shell
-(saraEnv)$: python3 sara_sentimento.py <banco> <colecao>
+(saraEnv)$: python sara_sentimento.py <banco> <colecao>
 ```
 
 Nesta etapa é gerada um gráfico simples da análise de sentimento.

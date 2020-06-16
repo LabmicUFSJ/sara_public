@@ -13,7 +13,7 @@ Testado em:
     > https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
 
 - Agora, execute o script de instalação:
-    > install_centos.sh
+    > installCentOs.sh
 
 ## Instalação Ubuntu
 
