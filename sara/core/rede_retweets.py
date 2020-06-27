@@ -2,25 +2,23 @@
 """
 Gera a rede de Retweets.
 Generate the Retweets of Network.
+Example in Digraph:
+A -> B
+
+The user B was retweeted the user A.
 """
 import os
+import sys
 
 import networkx as nx
 
 import sara.core.database as bd
 from sara.core.config import network_path
-from sara.core.utils import check_path
+from sara.core.utils import create_path
 
-# 0 define para usar toda a base..
-# limite_tweets=0
-# nome_rede="joaoamoedo_full"
-# nome_base="eleicao"
-# #caso seja informado uma coleção que não exista a mesma é criada..
-# nome_colecao="temer"
-######
 
-# Check the path and create dir if not exists.
-check_path(network_path)
+# Check if there is a path and create a dir, if it does not exist.
+create_path(network_path)
 
 
 def main(nome_rede, nome_base, nome_colecao, direcionada, limite_tweets):
@@ -28,33 +26,25 @@ def main(nome_rede, nome_base, nome_colecao, direcionada, limite_tweets):
     colecao = bd.carregar_banco(cliente, nome_base, nome_colecao)
     # grafo não direcionado
     if "True" in direcionada:
-        print("Gerando uma rede direcionada.")
+        print("------\nGerando uma rede direcionada.")
         grafo = nx.DiGraph()
     else:
-        print("Gerando uma rede não direcionada.")
+        print("------\nGerando uma rede não direcionada.")
         grafo = nx.Graph()
 
-    # utilizado para selecionar o titulo
-    # contendo a palavra senado maiusculo e minusculo.
-    # retorno=colecao.find({"titulo":{"$regex":"senado","$options":"i"}})
-    # for i in retorno:
-    #     print(i)
     # carrega os tweets da coleção..
     try:
         # limitando o número de tweets utilizado..
         tweets = colecao.find().limit(limite_tweets)
     except Exception as e:
         print(f"erro {e}")
-        exit()
+        sys.exit()
     cont = 0
     for tweet in tweets:
-        # print (tweet['user']['screen_name'])
         destino = None
         try:
-            # print(tweet)
             cont += 1
             destino = tweet['user']['screen_name']
-            # print(origem)
         except Exception:
             pass
         try:
@@ -63,7 +53,9 @@ def main(nome_rede, nome_base, nome_colecao, direcionada, limite_tweets):
             origem = None
         if destino is not None and origem is not None:
             grafo.add_edge(origem, destino)
-    print(f"------\nGerando a rede com: {cont} tweets")
+
+    print(f"Com: {cont} tweets")
+    print("Utilizando: Retweets")
     print(f"Nome da Rede: {nome_rede}")
     print(f"Originada da Colecao: {nome_colecao}\n--------")
     print(f"Sumário da Rede: \n{nx.info(grafo)} \n------")

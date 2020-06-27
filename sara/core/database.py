@@ -31,10 +31,12 @@ def carregar_usuarios(nome_banco, colecao):
     return lista_usuarios
 
 
-def carrega_tweets(nome_banco, colecao):
+def carrega_tweets(nome_banco, colecao, limite=None):
     """Carrega Tweets."""
     cliente = inicia_conexao()
     colecao = carregar_banco(cliente, nome_banco, colecao)
+    if limite:
+        tweets = colecao.find({}).limit(limite)
     tweets = colecao.find({})
     lista_tweets = []
     for tweet in tweets:

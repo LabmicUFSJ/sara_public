@@ -9,10 +9,10 @@ import matplotlib.pyplot as plt
 
 from wordcloud import WordCloud
 from sara.core.config import cloud_path
-from sara.core.utils import check_path
+from sara.core.utils import create_path
 
-# Check if path exist.
-check_path(cloud_path)
+# Create a path
+create_path(cloud_path)
 
 
 def reorganiza(palavra):
