@@ -134,6 +134,12 @@ def degree(grafo):
     return lista_degree
 
 
+def fix_size(lista, size):
+    """Add 0 in the list."""
+    new_list = [0 for i in range(len(lista), size)]
+    return lista + new_list
+
+
 def salvar_csv(nome_rede, lista_betweenness, lista_retweets, lista_curtidas,
                lista_degree,
                lista_pagerank):
@@ -160,8 +166,8 @@ def salvar_csv(nome_rede, lista_betweenness, lista_retweets, lista_curtidas,
 
 def imprimir_sementes(sementes, nome_metodo, nome_rede):
     """Imprir sementes"""
-    arq_sementes = open(centrality_path + 
-                        "sementes_" + nome_metodo + "_" + nome_rede, "w")
+    arq_sementes = open(f'{centrality_path}"sementes_{nome_metodo}_'
+                        f'{nome_rede}', "w")
     for i in sementes:
         arq_sementes.write(str(i[0]) + "\n")
     arq_sementes.close()
@@ -171,37 +177,26 @@ def main(nome_base, colecao, lista_nos, nome_rede):
     cliente = bd.inicia_conexao()
     colecao = bd.carregar_banco(cliente, nome_base, colecao)
 
-    # inica a conexao com twitter
-    # api = conexao.inicia_conexao()
-
-    # utilizado para selecionar o titulo contendo
-    # a palavra senado maiusculo e minúsculo.
-    # retorno=colecao.find({"titulo":{"$regex":"senado","$options":"i"}})
-    # for i in retorno:
-    #     print(i)
-    # print("Dados",nome_base,nome_colecao,lista_nos,nome_rede)
     tweets = []
     for nome_no in lista_nos:
-        tweets.append(
-            colecao.find(
-                {"user.screen_name": {"$regex": nome_no, "$options": "i"}}
-            )
-        )
+        tweets.append(colecao.find({"user.screen_name":
+                                   {"$regex": nome_no,
+                                    "$options": "i"}}))
 
     user = {}
     tweets = prepara_tweets(tweets)
     user = consulta_origem(user, tweets)
-    print(user)
+    # print(user)
 
     user = consulta(user, tweets)
-    print("pos", user)
+    # print("pos", user)
 
     lista = []
     for i in user:
         # Nome, Retweets, Curtidas
         lista.append([i, user[i][0], user[i][1]])
-    print("Retweets")
-    arq_retweets = open(centrality_path + "sementes_retweets_" + nome_rede, "w")
+    print("Retweets", len(lista))
+    arq_retweets = open(f'{centrality_path}sementes_retweets_{nome_rede}', "w")
     retorno = sorted(lista, key=key_retweets_dic, reverse=True)
     # print(retorno)
     # print("LN",lista_nos)
@@ -223,23 +218,22 @@ def main(nome_base, colecao, lista_nos, nome_rede):
                 lista_retweets.append(retweets[1])
                 arq_retweets.write(str(no) + "\n")
     arq_retweets.close()
-    arq_curtidas = open(centrality_path + "sementes_curtidas_" + nome_rede, "w")
+    arq_curtidas = open(f'{centrality_path}sementes_curtidas_{nome_rede}', "w")
     print("Curtidas")
     for curtidas in sorted(lista, key=key_curtidas_dic, reverse=True):
         for no in lista_nos:
             if curtidas[0].lower() == no.lower():
                 lista_curtidas.append(float(curtidas[2]))
                 arq_curtidas.write(str(no) + "\n")
-    print(len(lista_curtidas), len(lista_retweets), len(lista_betweenness),
-          len(lista_degree),
-          len(lista_degree))
 
-    salvar_csv(
-        nome_rede,
-        lista_betweenness,
-        lista_retweets,
-        lista_curtidas,
-        lista_degree,
-        lista_pagerank,
-    )
+    # fix size adding zero
+    if len(lista_curtidas) != len(lista_degree):
+        lista_curtidas = fix_size(lista_curtidas, len(lista_degree))
+    if len(lista_retweets) != len(lista_degree):
+        lista_retweets = fix_size(lista_retweets, len(lista_degree))
+
+    print(len(lista_curtidas), len(lista_retweets), len(lista_betweenness),
+          len(lista_degree), len(lista_pagerank))
+    salvar_csv(nome_rede, lista_betweenness, lista_retweets, lista_curtidas,
+               lista_degree, lista_pagerank)
     arq_curtidas.close()
