@@ -2,7 +2,12 @@
 # !/usr/bin/env python3
 """
 Central de Análise de conteúdo do Framework Sara.
-Gera a Núvem de palavras
+Gera a Nuvem de palavras
+
+Sara - Sistema de Análise de Dados de Redes Sociais Online
+Licença - MIT
+Autores: Carlos Magno
+LABMIC - UFSJ
 """
 # import core.bagwords as bagwords
 import sys

@@ -2,10 +2,13 @@
 # !/usr/bin/env python3
 """
 Central Estrutural -
-Sara - Sistema de Análise de Dados com Redes Complexas e Analytics
-Focado em análises politicas no twitter.
 Generate Networks:
 From retweets or mentions(@)
+
+Sara - Sistema de Análise de Dados de Redes Sociais Online
+Licença - MIT
+Autores: Carlos Magno
+LABMIC - UFSJ
 """
 # system import
 import sys
@@ -13,14 +16,6 @@ import sys
 # intern import
 from sara.core.rede_retweets import main as retweet_network
 from sara.core.rede_mencoes import mentions_network
-
-
-def show_msg(network, database, collection, directed, limit, source):
-    """Show message."""
-    print(f"Gerando uma rede utilizando {source}")
-    print(f"Dados digitados\n Nome Grafo:{network}\n banco:{database}\n"
-          f" Colecao:{collection}\n Direcionada:{directed}\n "
-          f"Limite de tweets:{limit}")
 
 
 def main():

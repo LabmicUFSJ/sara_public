@@ -1,24 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-Framework de Análise de dados Politicos no twitter..
-Central de Coleta Dados do Framework de Análise de Dados -
-Sara - Sistema de Análise de Dados com Redes Complexas e Analytics
-Focado em análises politicas no twitter.
+Coletor de Tweets.
 
-Coletor API
+Sara - Sistema de Análise de Dados de Redes Sociais Online
+Licença - MIT
+Autores: Carlos Magno
+LABMIC - UFSJ
 """
 import sys
 
 from sara.core.sauron_coletor import Sauron
 from sara.core.logger import log
-# padrao_pesquisa,limite,colecao,nome_banco="eleicao"
-# coletor de dados
 
-
-# termo="haddad"
-# n_tweets=0
-# colecao="haddad_2310"
-# nome_banco="eleicao"
 
 # termo colecao numero_tweets
 try:
