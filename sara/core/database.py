@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Realiza a conexao com o MOngoDB
+Realiza a conexao com o MongoDB.
+MongoDB utils.
 """
 from pymongo import MongoClient
 

@@ -17,4 +17,4 @@ python3 -m pip install --upgrade wheels setuptools
 python3 -m pip install -r requirements.txt
 echo "A Sara foi instalado com sucesso :)"
 echo "Agora, acesse o ambiente e começe a utilizar o Framework :)"
-echo "Você pode acessar o ambiente com source/SaraEnv/bin/activate"
+echo "Você pode acessar o ambiente com source /SaraEnv/bin/activate"

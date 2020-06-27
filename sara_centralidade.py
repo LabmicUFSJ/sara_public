@@ -2,9 +2,12 @@
 # !/usr/bin/env python3
 """
 Central Estrutural -
-Sara - Sistema de Análise de Dados com Redes Complexas e Analytics
-Focado em análises politicas no twitter.
 Realiza o calculo de centralidade
+
+Sara - Sistema de Análise de Dados de Redes Sociais Online
+Licença - MIT
+Autores: Carlos Magno
+LABMIC - UFSJ
 """
 import sys
 
@@ -14,7 +17,7 @@ import sara.core.centralidade as relevante
 
 
 class Importancia():
-    """docstring for Estrutural."""
+    """Centrality."""
 
     def __init__(self):
         try:
@@ -35,11 +38,6 @@ class Importancia():
 
     def realiza_busca(self):
         """realiza pesquisa na rede."""
-        # self.lista_nos=["biakicis","mblivre","SenadorKajuru",
-        # "joaoamoedonovo","QuebrandoOTabu","BolsonaroSP",
-        # "CarlosBolsonaro",
-        # "jose_neumanne","davialcolumbre"]
-        # self.lista_nos=['mblivre',"biakicis","jose_neumanne"]
         nome_rede = self.nome_rede.split(".")[0]
         relevante.main(self.nome_base, self.nome_colecao,
                        self.lista_nos, nome_rede)

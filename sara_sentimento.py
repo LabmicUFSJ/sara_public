@@ -2,6 +2,12 @@
 """
 Módulo Responsável pela Análise de sentimento
 Utiliza o Leia para realizar a análise Léxica de Sentimento.
+Sentimental Analysis
+
+Sara - Sistema de Análise de Dados de Redes Sociais Online
+Licença - MIT
+Autores: Carlos Magno
+LABMIC - UFSJ
 """
 import sys
 

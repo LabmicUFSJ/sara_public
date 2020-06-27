@@ -47,7 +47,7 @@ class Sauron():
 
     def banco(self, nome_banco, colecao):
         """configura collection e db"""
-        # # configura o local de salvamento no banco.
+        # configura o local de salvamento no banco.
         banco = self.cliente[nome_banco]
         # coleção ...
         post = banco[colecao]

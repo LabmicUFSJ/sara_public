@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # need this if you want to save tfidf_matr
-# explorar usar tf-id
 """
 TF-idf
+Sara - Sistema de Análise de Dados de Redes Sociais Online
 """
 
 from sklearn.feature_extraction.text import TfidfVectorizer
