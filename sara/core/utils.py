@@ -1,5 +1,5 @@
 """
-Módulo de utilidades.
+Utils
 """
 import re
 import datetime
@@ -7,8 +7,8 @@ import os
 
 
 def max_data_tweets(tweets):
-    """Retorna a data de postagem mais nova dos tweets."""
-    anos = []
+    """Return the date of the most recent tweet."""
+    years = []
     for tweet in tweets:
         try:
             # print(tweet.get('id'))
@@ -17,13 +17,13 @@ def max_data_tweets(tweets):
             year = year.replace("  ", "")
             date1 = datetime.datetime.strptime(year, '%a %b %d %H:%M:%S %Y')
             date1 = date1.strftime("%Y-%m-%d")
-            anos.append(date1)
+            years.append(date1)
         except KeyError:
             pass
-    return max(anos)
+    return max(years)
 
 
-def check_path(dir):
+def create_path(dir):
     """Create a dir."""
     if os.path.exists(dir) is False:
         os.mkdir(dir)

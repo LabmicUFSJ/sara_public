@@ -5,7 +5,7 @@ import networkx as nx
 
 import sara.core.database as bd
 from sara.core.config import centrality_path
-from sara.core.utils import check_path
+from sara.core.utils import create_path
 
 """
 Realiza o cálculo das centralidades
@@ -13,9 +13,7 @@ Centrality
 * Calcula retweets, degree, pagerank, betweenness, curtidas
 """
 
-
-# Check if a path exists, and create a dir if not exist.
-check_path(centrality_path)
+create_path(centrality_path)
 
 
 def top(lista, numero):
