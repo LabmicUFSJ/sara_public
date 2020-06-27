@@ -1,5 +1,9 @@
 # Sara
-[![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](https://github.com/LabmicUFSJ/sara_public/)
+[![experimental](https://img.shields.io/badge/stability-experimental-red)](https://github.com/LabmicUFSJ/sara_public/) [![version](https://img.shields.io/badge/version-0.3-blue)](https://github.com/LabmicUFSJ/sara_public/blob/master/CHANGELOG.md) [![labmic](https://img.shields.io/badge/UFSJ-Labmic-lightgrey)](https://ufsj.edu.br/)
+
+
+
+
 
 A Sara é um framework semi-automatizado para coleta e análise de dados de redes sociais online, utilizando Redes complexas, Aprendizagem de Máquina e Mineração de texto.
 
@@ -13,9 +17,9 @@ Site : https://labmicufsj.github.io/sara_public/
 
 ## Guias
 
-- [Guia de Instalacão.](Guias/Guia_instalacao.md)
-- [Guia geral como utilizar.](Guias/Guia_execucao.md)
-- [Agendamento de Coleta.](Guias/Guia_agendamento.md)
+- [Guia de Instalacão.](sara/Guias/Guia_instalacao.md)
+- [Guia geral como utilizar.](sara/Guias/Guia_execucao.md)
+- [Agendamento de Coleta.](sara/Guias/Guia_agendamento.md)
 
 Módulos
 -------

@@ -10,7 +10,7 @@ Geração da rede
 import sys
 
 # intern import
-import core.rede_retweets as rede
+import sara.core.rede_retweets as rede
 
 
 def main():

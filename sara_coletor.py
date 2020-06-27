@@ -9,8 +9,8 @@ Coletor API
 """
 import sys
 
-from core.sauron_coletor import Sauron
-from core.logger import log
+from sara.core.sauron_coletor import Sauron
+from sara.core.logger import log
 # padrao_pesquisa,limite,colecao,nome_banco="eleicao"
 # coletor de dados
 

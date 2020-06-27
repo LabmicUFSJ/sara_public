@@ -1,0 +1,7 @@
+{
+"sementes_predefinidas":false,
+"nome_arq_sementes":"sementes_karate",
+"tamanho_maximo_exibicao":20,
+"tamanho_maximo_nodes_plot":100,
+"salvar_todas_comunidades":true
+}

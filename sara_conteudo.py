@@ -7,7 +7,7 @@ Gera a Núvem de palavras
 # import core.bagwords as bagwords
 import sys
 
-import core.modelagem_topicos as modelagem_topicos
+import sara.core.modelagem_topicos as modelagem_topicos
 
 try:
     name_file = sys.argv[0]

@@ -9,8 +9,13 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-import core.database as bd
-from sentimento.leia import SentimentIntensityAnalyzer
+import sara.core.database as bd
+from sara.sentimento.leia import SentimentIntensityAnalyzer
+from sara.core.config import sentiment_path
+from sara.core.utils import check_path
+
+# Check if path exist.
+check_path(sentiment_path)
 
 
 class DetectorSentimento():
@@ -53,10 +58,12 @@ class DetectorSentimento():
                                                   'Indice',
                                                   'Sentimento', 'Final'])
 
-        print("Sentimento\n",data_frame.Sentimento.value_counts())
-        data_frame.Sentimento.value_counts().to_csv("analise_sentimento_resumo"
-                                                    +colecao+".csv")
-        data_frame.to_csv("analise_sentimento"+colecao+".csv",index=False)
+        print("Sentimento\n", data_frame.Sentimento.value_counts())
+        data_frame.Sentimento.value_counts().to_csv(f"{sentiment_path}"
+                                                    f"analise_sentiment_resumo"
+                                                    f"{colecao}.csv")
+        data_frame.to_csv(f"{sentiment_path}analise_sentiment{colecao}.csv",
+                          index=False)
 
         fig, axes = plt.subplots(figsize=(7, 7))
         axes = sns.countplot(y="Sentimento", data=data_frame, ax=axes)

@@ -91,6 +91,7 @@ env.bak/
 venv.bak/
 saraEnv/
 SaraEnv/
+resultados/
 .vscode/
 
 # Spyder project settings

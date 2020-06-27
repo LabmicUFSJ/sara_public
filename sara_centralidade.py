@@ -10,7 +10,7 @@ import sys
 
 import networkx as nx
 
-import core.centralidade as relevante
+import sara.core.centralidade as relevante
 
 
 class Importancia():

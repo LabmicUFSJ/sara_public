@@ -3,10 +3,11 @@ Este módulo é responsavel pelo agendamento de coleta
 """
 
 import sys
-import sched, time
+import sched
+import time
 
-from core.sauron_coletor import Sauron
-from core.logger import log
+from sara.core.sauron_coletor import Sauron
+from sara.core.logger import log
 
 coletor = Sauron()
 agendamento = sched.scheduler(time.time, time.sleep)
@@ -34,7 +35,7 @@ except IndexError as exc:
     sys.exit()
 
 
-def coleta(termo ,colecao, nome_banco, duracao):
+def coleta(termo, colecao, nome_banco, duracao):
     """Coleta de dados."""
     print("Realizando coleta agendada.")
     print(f"Duracao desta coleta {duracao} min ")
@@ -43,11 +44,10 @@ def coleta(termo ,colecao, nome_banco, duracao):
     print("Fim desta coleta.. aguardando nova coleta agendada.")
     print(f"Tempo até proxima coleta {intervalo_coleta} min.")
 
+
 while True:
-    agendamento.enter(intervalo*60, 1, coleta, argument=(termo,
-                                                         colecao,
+    agendamento.enter(intervalo*60, 1, coleta, argument=(termo, colecao,
                                                          nome_banco,
-                                                         duracao_coleta
-                                                        ))
+                                                         duracao_coleta))
     intervalo = intervalo_coleta
     agendamento.run()
