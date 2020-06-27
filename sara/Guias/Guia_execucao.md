@@ -24,13 +24,14 @@ No final do processo será gerada uma nuvem de palavras.
 ### Gerando Rede de Retweets(Estrutural)
 
 ``` shell
-(saraEnv)$: python saraEstrutural.py <nome_rede> <nome_base> <nome_colecao> <True||False> <limite>
+(saraEnv)$: python sara_estrutural.py <nome_rede> <nome_base> <nome_colecao> <True|False> <limite> <r|m>
 ```
 - nome_rede: Nome a ser utilizado para salvar a rede gerada.
 - nome_base: Nome do banco de dados onde os tweets baixados estão presente.
 - nome_colecao: Nome da coleção onde estão os dados.
 - True ou False: Se true gera uma rede direcionada.
-- limite: Número de tweets utilizados para geração da rede, para usar todos defina como 0.
+- limite: Número de tweets utilizados para geração da rede, para usar todos defina como 0. 
+- r|m : r - Gera rede utilizando retweets, m - Gera a rede utilizando menções (@)
 
 A rede gerada sera salva na pasta redes, a ser gerada após a execução.
 ### Centralidade (Importância)
