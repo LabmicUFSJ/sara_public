@@ -20,12 +20,14 @@ Sara - Changelog
 ---------------------------
 
 ### Adicionado
-- Adicionado Módulo de agendamento de coleta.
+- Adicionado módulo de agendamento de coleta.
 - Adicionado script de instalação para CentOS.
 - Adicionado script de remoção do Sara.
+- Adicionado suporte para geracao da rede por menção de usuários(@).
 
 ### Atualizado
 - Atualizado script de instalação.
+- Estrutura de diretórios da Sara.
 
 ## 0.2 - 04-05-2020
 -------------------
