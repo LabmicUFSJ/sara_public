@@ -94,6 +94,10 @@ SaraEnv/
 resultados/
 .vscode/
 
+# Grafos
+*.gml
+*.edgelist
+
 # Spyder project settings
 .spyderproject
 .spyproject
