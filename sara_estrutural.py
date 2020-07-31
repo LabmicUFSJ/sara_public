@@ -14,8 +14,8 @@ LABMIC - UFSJ
 import sys
 
 # intern import
-from sara.core.rede_retweets import main as retweet_network
-from sara.core.rede_mencoes import mentions_network
+from sara.core.retweets_network import main as retweet_network
+from sara.core.mentions_network import mentions_network
 
 
 def main():

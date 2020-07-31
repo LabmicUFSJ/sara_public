@@ -12,21 +12,21 @@ LABMIC - UFSJ
 # import core.bagwords as bagwords
 import sys
 
-import sara.core.modelagem_topicos as modelagem_topicos
+import sara.core.topic_model as topic_model
 
 try:
-    name_file = sys.argv[0]
-    banco = sys.argv[1]
-    colecao = sys.argv[2]
+    name = sys.argv[0]
+    database = sys.argv[1]
+    collection = sys.argv[2]
 except IndexError as exc:
     print(f"erro {exc}")
-    print(f"Digite {name_file} <banco> <colecao>")
+    print(f"Digite {name} <banco> <colecao>")
     sys.exit()
 
-print(f"Banco a ser utilizado:{banco} \nColecao: {colecao}")
+print(f"Banco a ser utilizado:{database} \nColecao: {collection}")
 
 
 # Análise de conteúdo
-palavras = modelagem_topicos.main(banco, colecao, 1000)
+words = topic_model.main(database, collection, 1000)
 # print("Modelagem ... OK\nSentimento Modelagem:")
 # print("Sentimento Modelagem... ok")

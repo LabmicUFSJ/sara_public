@@ -15,14 +15,14 @@ from sara.core.logger import log
 
 # termo colecao numero_tweets
 try:
-    name_file = sys.argv[0]
-    termo = sys.argv[1]
+    name = sys.argv[0]
+    term = sys.argv[1]
     n_tweets = sys.argv[2]
-    colecao = sys.argv[3]
-    nome_banco = sys.argv[4]
+    collection = sys.argv[3]
+    database = sys.argv[4]
 except IndexError as exc:
     print(f"error {exc}")
-    print(f"ERRO!Digite {name_file} <termo> "
+    print(f"ERRO!Digite {name} <termo> "
           "<numero_tweets> <colecao> <banco de dados>")
     print("\nTermo: O termo a ser coletado" +
           "\nNúmero de Tweets: número de tweets a ser coletado." +
@@ -33,8 +33,6 @@ except IndexError as exc:
     sys.exit()
 
 
-log(termo)
-coletor = Sauron()
-coletor.pesquisa(termo, n_tweets, colecao, nome_banco)
-
-# odetalhista.detector_bots(nome_banco,colecao)
+log(term)
+data_collector = Sauron()
+data_collector.pesquisa(term, n_tweets, collection, database)
