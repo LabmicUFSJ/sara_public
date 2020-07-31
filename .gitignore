@@ -84,6 +84,8 @@ celerybeat-schedule
 # Environments
 .env
 .venv
+.vscode/
+*.code-workspace
 env/
 venv/
 ENV/
@@ -91,12 +93,21 @@ env.bak/
 venv.bak/
 saraEnv/
 SaraEnv/
-resultados/
+
 .vscode/
+
+# credenciais
+sara/credenciais/conexao_twitter.py
 
 # Grafos
 *.gml
 *.edgelist
+*.joblib
+
+# resultados
+usuarios_monitorados
+resultados/
+log_init.txt
 
 # Spyder project settings
 .spyderproject
