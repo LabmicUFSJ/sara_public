@@ -150,26 +150,26 @@ class Sauron():
                 print(f"error {exc}")
         return lista_ids
 
-    veiculos = [
-        '@uol',
-        '@uolnoticias',
-        '@g1',
-        '@veja',
-        '@brasil247',
-        '@cartacapital',
-        '@exame',
-        '@elpais_brasil',
-        '@bbcbrasil',
-        '@RevistaEpoca',
-        '@folha',
-        '@veja',
-        '@estadao',
-        '@tijolaco',
-        '@o_antagonista',
-        '@agenciabrasil',
-    ]
+    # veiculos = [
+    #     '@uol',
+    #     '@uolnoticias',
+    #     '@g1',
+    #     '@veja',
+    #     '@brasil247',
+    #     '@cartacapital',
+    #     '@exame',
+    #     '@elpais_brasil',
+    #     '@bbcbrasil',
+    #     '@RevistaEpoca',
+    #     '@folha',
+    #     '@veja',
+    #     '@estadao',
+    #     '@tijolaco',
+    #     '@o_antagonista',
+    #     '@agenciabrasil',
+    # ]
 
-    checadores_noticias = ['@agencialupa', '@aosfatos', '@agenciapublica']
+    # checadores_noticias = ['@agencialupa', '@aosfatos', '@agenciapublica']
 
     # nome da coleção
     def pesquisa(self, padrao_pesquisa, limite, colecao, nome_banco="eleicao"):

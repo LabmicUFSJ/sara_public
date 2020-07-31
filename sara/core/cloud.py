@@ -55,7 +55,7 @@ def make_cloud(texto, name):
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis("off")
     plt.savefig(f"{cloud_path}cloud_{name}_{str(uuid.uuid4().hex)}.png")
-    # plt.show()
+    plt.show()
 
 
 def cloud_tf(lista_tupla, n_repeticoes=1000):

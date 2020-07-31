@@ -23,8 +23,8 @@ def max_data_tweets(tweets):
     return max(years)
 
 
-def create_path(dir):
+def create_path(path):
     """Create a dir."""
-    if os.path.exists(dir) is False:
-        os.mkdir(dir)
-        print(f"Diretório {dir} foi criado.")
+    if os.path.exists(path) is False:
+        os.makedirs(path)
+        print(f"Diretório {path} foi criado.")
