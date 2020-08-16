@@ -7,11 +7,12 @@ Example in a Digraph:
 A -> B
 The user A was mentioned by user B.
 """
+import sys
 import os
 
 import networkx as nx
 
-from sara.core.database import carrega_tweets
+from sara.core.database import inicia_conexao, _load_database
 from sara.core.config import network_path
 from sara.core.utils import create_path
 
@@ -19,8 +20,11 @@ from sara.core.utils import create_path
 create_path(network_path)
 
 
-def mentions_network(name, database, collection, graph_type, limit=None):
+def mentions_network(name, database, collection, graph_type, limit_tweets):
     """Generate mentions network."""
+
+    cliente = inicia_conexao()
+    colecao = _load_database(cliente, database, collection)
 
     if "True" in graph_type:
         print("------\nGerando uma rede: direcionada.")
@@ -30,8 +34,13 @@ def mentions_network(name, database, collection, graph_type, limit=None):
         print("------\nGerando uma rede: não direcionada.")
         # generate a graph
         graph = nx.Graph()
-
-    tweets = carrega_tweets(database, collection, limit)
+        # carrega os tweets da coleção..
+    try:
+        # limitando o número de tweets utilizado..
+        tweets = colecao.find().limit(limit_tweets)
+    except Exception as e:
+        print(f"erro {e}")
+        sys.exit(-1)
     count = 0
     for tweet in tweets:
         destiny = None
