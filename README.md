@@ -1,5 +1,6 @@
 # Sara
 [![experimental](https://img.shields.io/badge/stability-experimental-red)](https://github.com/LabmicUFSJ/sara_public/) [![version](https://img.shields.io/badge/version-0.2-blue)](https://github.com/LabmicUFSJ/sara_public/blob/master/CHANGELOG.md) [![labmic](https://img.shields.io/badge/UFSJ-Labmic-lightgrey)](https://ufsj.edu.br/)
+![Python application](https://github.com/LabmicUFSJ/sara_public/workflows/Python%20application/badge.svg)
 
 
 
