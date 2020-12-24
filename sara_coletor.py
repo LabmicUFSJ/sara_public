@@ -9,9 +9,9 @@ LABMIC - UFSJ
 """
 import sys
 
-from sara.core.sauron_coletor import Sauron
+from sara.core.collector import SaraCollector
 from sara.core.logger import log
-
+from sara.core.sara_data import SaraData
 
 # termo colecao numero_tweets
 try:
@@ -19,20 +19,20 @@ try:
     term = sys.argv[1]
     n_tweets = sys.argv[2]
     collection = sys.argv[3]
-    database = sys.argv[4]
 except IndexError as exc:
-    print(f"error {exc}")
+    print(f"error {exc}\n")
     print(f"ERRO!Digite {name} <termo> "
-          "<numero_tweets> <colecao> <banco de dados>")
-    print("\nTermo: O termo a ser coletado" +
+          "<numero_tweets> <colecao>")
+    print('\n--------------------------------------------\n')
+    print("Termo: O termo a ser coletado" +
           "\nNúmero de Tweets: número de tweets a ser coletado." +
-          "0 para definir sem limites" +
-          "\nColecao: A coleção onde os tweets serão salvos." +
-          "\nBanco de Dados: O  banco onde os dados serão armazenados")
+          " 0 para definir sem limites" +
+          "\nColecao: A coleção onde os tweets serão armazenados.\n")
 
     sys.exit()
 
 
 log(term)
-data_collector = Sauron()
-data_collector.pesquisa(term, n_tweets, collection, database)
+storage = SaraData(collection)
+data_collector = SaraCollector(storage)
+data_collector.real_time_collector(term, n_tweets)

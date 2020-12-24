@@ -1,19 +1,14 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/env python3
-"""
-LDA
-"""
+"""LDA"""
 # import os
 # from pprint import pprint
 
-import sara.core.cloud as cloud
 import gensim
 import gensim.corpora as corpora
-from sara.core.database import load_full_tweets_clean
 import nltk
-# from gensim.models import CoherenceModel
-# from gensim.utils import simple_preprocess
-# from nltk.stem import RSLPStemmer
+
+import sara.core.cloud as cloud
 
 
 def make_bigrams(bigram_mod, texts):
@@ -28,41 +23,24 @@ def unpack_tupla(tupla):
     return final
 
 
-def main(banco, colecao, n_topicos):
-    tweets = load_full_tweets_clean(banco, colecao)
+# pylint:disable=too-many-locals
+def get_lda_topics(tweets, n_topicos):
+    """Get LDA topics."""
     docfinal = []
-
     # bigramas
     for doc in tweets:
         nltk_tokens = nltk.word_tokenize(doc)
+        print(nltk_tokens)
         docfinal.append(list(nltk.bigrams(nltk_tokens)))
-        # docfinal.append(doc.split())
     l_final = []
     # combina os bigramas em conjunto de palavras.
     for i in docfinal:
-        # print(i)
-        lista = []
-        for elementos in i:
-            # print(elementos)
-            lista.append(unpack_tupla(elementos))
+        lista = [unpack_tupla(elementos) for elementos in i]
         l_final.append(lista)
-    # print(l_final)
     docfinal = l_final
 
-    # #Stemização no texto
-    # st = RSLPStemmer()
-    # doc_stemming=[]
-    # for i in docfinal:
-    #     list=[]
-    #     for k in i:
-    #         list.append(st.stem(k))
-    #     doc_stemming.append(list)
-    # docfinal=doc_stemming
-    # ------------------
-
+    # print(docfinal)
     # Creating the term dictionary of our courpus,
-    # where every unique term is assigned an index.
-    # dictionary = corpora.Dictionary(doc_clean)
     dictionary = corpora.Dictionary(docfinal)
     # Converting list of documents (corpus) into Document Term Matrix
     # using dictionary prepared above.
@@ -71,49 +49,18 @@ def main(banco, colecao, n_topicos):
     # Creating the object for LDA model using gensim library
     Lda = gensim.models.ldamodel.LdaModel
 
-    # hdp = HdpModel(doc_term_matrix,dictionary, T=200)
-    #
-    # def topic_prob_extractor(gensim_hdp):
-    #     shown_topics = gensim_hdp.show_topics(num_topics=-1, formatted=False)
-    #     topics_nos = [x[0] for x in shown_topics ]
-    #     weights = [ sum([item[1] for item in shown_topics[topicN][1]]) for
-    #     topicN in topics_nos ]
-    #
-    #     return pd.DataFrame({'topic_id' : topics_nos, 'weight' : weights})
-    #
-    # print(topic_prob_extractor(hdp))
-
     # Running and Trainign LDA model on the document term matrix.
-    ldamodel = Lda(
-        corpus=doc_term_matrix,
-        id2word=dictionary,
-        num_topics=10,
-        random_state=1000,
-        update_every=1,
-        chunksize=1000,
-        passes=100,
-        alpha='auto',
-        per_word_topics=True,
-    )
+    ldamodel = Lda(corpus=doc_term_matrix, id2word=dictionary, num_topics=10,
+                   random_state=1000, update_every=1, chunksize=1000,
+                   passes=100, alpha='auto', per_word_topics=True)
 
-    topicos = ldamodel.top_topics(
-        corpus=doc_term_matrix,
-        dictionary=dictionary,
-        coherence='u_mass',
-        topn=10,
-        processes=-1,
-    )
-    final = []
-    # print("TOpicos", topicos)
-    for top in topicos:
-        # print(top)
-        final.append(top[0])
-
-    lf = []
+    topicos = ldamodel.top_topics(corpus=doc_term_matrix,
+                                  dictionary=dictionary, coherence='u_mass',
+                                  topn=10, processes=-1)
+    final = [top[0] for top in topicos]
+    topics = []
     for i in final:
-        # print("Topicos:",i)
         for k in i:
-            lf.append(k)
-    # print(lf)
-    cloud.cloud_lda(lf, n_topicos)
-    return lf
+            topics.append(k)
+    cloud.cloud_lda(topics, n_topicos)
+    return topics

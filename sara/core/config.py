@@ -2,10 +2,14 @@
 Default Config File.
 """
 
-default = 'resultados/'
-centrality_path = f'{default}resultados_importancia/'
-network_path = f'{default}redes/'
-cloud_path = f'{default}cloud/'
-sentiment_path = f'{default}sentimento/'
-sarabot_path = f'{default}sarabot/'
-quarentine_path = f'{default}sarabot/quarantine/'
+# database to mongo
+DATABASE = 'mestrado'
+DEFAULT = 'resultados/'
+sara_files_path = f'{DEFAULT}sara_storage/'
+centrality_path = f'{DEFAULT}resultados_importancia/'
+network_path = f'{DEFAULT}redes/'
+cloud_path = f'{DEFAULT}cloud/'
+sentiment_path = f'{DEFAULT}sentimento/'
+sarabot_path = f'{DEFAULT}sarabot/'
+quarentine_path = f'{DEFAULT}sarabot/quarantine/'
+tf_idf_path = f'{DEFAULT}tf_idf'

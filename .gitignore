@@ -93,7 +93,7 @@ env.bak/
 venv.bak/
 saraEnv/
 SaraEnv/
-
+sara_develop/
 .vscode/
 
 # credenciais
@@ -108,6 +108,8 @@ sara/credenciais/conexao_twitter.py
 usuarios_monitorados
 resultados/
 log_init.txt
+brasnam/
+resultados_bot/
 
 # Spyder project settings
 .spyderproject

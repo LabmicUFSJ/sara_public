@@ -14,8 +14,8 @@ LABMIC - UFSJ
 import sys
 
 # intern import
-from sara.core.network_generators.retweets_network import retweets_network
-from sara.core.network_generators.mentions_network import mentions_network
+from sara.core.network_generators.retweets_network import weigth_retweet_network
+from sara.core.network_generators.mentions_network import weighted_mentions_network
 from sara.core.sara_data import SaraData
 
 def main():
@@ -41,6 +41,7 @@ def main():
     else:
         directed = False
     try:
+        print('Gerando rede com pesos.')
         data = SaraData(collection_name, storage_type='mongodb')
         if source == 'r':
             # Generate Retweets network
@@ -48,13 +49,13 @@ def main():
                           'retweeted_status.user.screen_name':1}
             tweets = data.get_projected_data(projection, limit)
             print('tipo', directed)
-            retweets_network(network_name, tweets, directed)
+            weigth_retweet_network(network_name, tweets, directed)
         elif source == 'm':
             # Generate mentions network
             projection = {'user.screen_name':1,
                           'entities.user_mentions.screen_name':1}
             tweets = data.get_projected_data(projection, limit)
-            mentions_network(network_name, tweets, directed)
+            weighted_mentions_network(network_name, tweets, directed)
         else:
             raise IndexError
 

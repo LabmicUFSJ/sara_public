@@ -25,7 +25,7 @@ def black_color(**_):
 
 
 def _unpack(texto, n_repeticoes):
-    """Transforma a tupla em uma string."""
+    """Unpack."""
     texto_str = ""
     print("LDA")
     for i in texto:
@@ -38,7 +38,7 @@ def _unpack(texto, n_repeticoes):
 
 
 def make_cloud(texto, name):
-    """Cria a nuvem de tags."""
+    """Generate words cloud."""
     # Generate a word cloud image
     wordcloud = WordCloud(height=300, width=800,
                           max_font_size=40, margin=1, min_font_size=2,

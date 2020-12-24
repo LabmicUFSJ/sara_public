@@ -45,16 +45,18 @@ def _remove_links(text):
 class PreProcessing:
     """Classe responsável pelo pré-processamento dos dados."""
 
-    def __init__(self):
+    def __init__(self, remove_adjectives=False):
         """pre-processing."""
         self.nlp = spacy.load("pt_core_news_sm")
         self.spacy_stopwords = spacy.lang.pt.stop_words.STOP_WORDS
         self.set_stop = stopWords.load_stop_words()
-        # Load adjectives
-        self.set_adjectives = stopWords.load_stop_words("adjetivos.txt")
+
+        if remove_adjectives:
+            # Load adjectives
+            self.set_adjectives = stopWords.load_stop_words("adjetivos.txt")
+            self.set_stop = self.set_stop.union(self.set_adjectives)
         # Merge stopWords set
         self.set_stop = self.set_stop.union(self.spacy_stopwords)
-        self.set_stop = self.set_stop.union(self.set_adjectives)
 
     def add_stop_word(self, word):
         """Add a stop word to set the stopwords."""
@@ -98,7 +100,7 @@ class PreProcessing:
         tokens = self.nlp(text)
         for token in tokens:
             word = re.sub(r"\s", "", token.text)
-            if len(word) < 1:
+            if len(word) < 2:
                 continue
             token_list.append(word)
         # remove stopwords

@@ -4,8 +4,8 @@ Generate user metadata.
 
 Obs: This module is private.
 """
-import re
 import datetime
+import re
 from unicodedata import normalize
 
 
@@ -14,11 +14,11 @@ def _remove_special_characters(text):
     return normalize('NFKD', text).encode('ASCII', 'ignore').decode('ASCII')
 
 
-def get_ratio(a, b):
+def get_ratio(user_a, user_b):
     """Get ratio."""
-    b = 1 if int(b) == 0 else b
-    a = 1 if int(b) == 0 else a
-    return a/b
+    user_b = 1 if int(user_b) == 0 else user_b
+    user_a = 1 if int(user_b) == 0 else user_a
+    return user_a/user_b
 
 
 def count_numbers(text):
@@ -35,7 +35,7 @@ def has(text, term):
 def get_reputation(followers, following):
     """Get reputation of user."""
     try:
-        return (followers / (followers + following))
+        return followers / (followers + following)
     except ZeroDivisionError:
         return 0.0
 
@@ -124,9 +124,9 @@ def get_user_metadata(user, data_coleta=None):
 
     try:
         account_age = get_account_age(year, data_coleta)
-    except Exception as e:
-        print(e)
-        return
+    except TypeError as error:
+        print(f"Error in get account age: {error}")
+        return None
 
     # tweets by day
     temp_age = 1 if account_age == 0 else account_age

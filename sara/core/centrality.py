@@ -11,13 +11,20 @@ create_path(centrality_path)
 class Centrality:
     """Centrality Class."""
 
-    def __init__(self, network, directed):
-        """Centrality Class."""
+    def __init__(self, network):
+        """Centrality Class.
+           ARGS: nx.Graph or nx.DiGraph.
+        """
+        if isinstance(network, nx.Graph):
+            self.directed = False
+        elif isinstance(network, nx.DiGraph):
+            self.directed = True
+        else:
+            raise TypeError('Invalid network type.')
         self.network = network
         self.betweenness_list = self.get_betweenness()
         self.degree_list = self.get_degree()
-        self.directed = directed
-        if directed:
+        if self.directed:
             self.pagerank_list = self.get_pagerank()
 
     @property
@@ -27,6 +34,7 @@ class Centrality:
 
     @staticmethod
     def __get_dict(elements_list):
+        """Return a dict."""
         return {element[0]: element[1] for element in elements_list}
 
     @staticmethod

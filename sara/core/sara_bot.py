@@ -2,20 +2,28 @@
 Verify if a account is bot.
 This module is private.
 """
-from joblib import load
-import pandas as pd
-import numpy as np
 import json
 
+import numpy as np
+import pandas as pd
+from joblib import load
 
-from sara.core.metadados import get_user_metadata
-from sara.core.database import load_users
 from sara.core.config import sarabot_path
+from sara.core.metadados import get_user_metadata
+from sara.core.mongo.db import load_users
 from sara.core.utils import create_path
 
 
-class SaraBot:
+def _save_list(path, data_list):
+    print(f"File stored in {path}")
+    with open(path, 'w') as arq:
+        for data in data_list:
+            arq.write(str(data['id'])+'\n')
 
+
+class SaraBot:
+    """SaraBotTagger Class."""
+    # pylint:disable=too-many-instance-attributes
     def __init__(self, database, collection, limit=None):
 
         # Create a path
@@ -60,8 +68,8 @@ class SaraBot:
             stats.update({"class": user['class']})
             self.stats.append(stats)
             count += 1
-        self._save_list(self.bot_path, self.bot_list)
-        self._save_list(self.human_path, self.human_list)
+        _save_list(self.bot_path, self.bot_list)
+        _save_list(self.human_path, self.human_list)
         self.number_humans = len(self.human_list)
         self.number_bots = len(self.bot_list)
         return self.human_list, self.bot_list
@@ -72,12 +80,6 @@ class SaraBot:
         percent = (self.number_bots*100)/sum_users
         return {"humans": len(self.human_list), "bots": len(self.bot_list),
                 "percent_bots": percent}
-
-    def _save_list(self, path, data_list):
-        print(f"File stored in {path}")
-        with open(path, 'w') as arq:
-            for data in data_list:
-                arq.write(str(data['id'])+'\n')
 
     # def save_csv(self):
     #     """Save data to csv."""
@@ -96,3 +98,14 @@ class SaraBot:
 
         with open(self.stats_path, 'w', encoding="utf8") as json_file:
             json.dump(stats, json_file)
+class SaraBotStandalone:
+
+    def __init__(self, model="sara/core/bot_model/modelo_2.joblib"):
+        self.model = load(model)
+
+    def is_bot(self, user_dict):
+        user_stats = get_user_metadata(user_dict)
+        user_table = pd.DataFrame([user_stats])
+        user_table = user_table.drop(columns=['id_str'])
+        user = np.array(user_table)
+        return self.model.predict(user)[0]

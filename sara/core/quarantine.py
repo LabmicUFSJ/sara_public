@@ -1,13 +1,15 @@
 """
 Quarantine
 """
-from sara.credenciais.conexao_twitter import inicia_conexao
-from sara.core.utils import create_path
-from sara.core.config import quarentine_path
 import json
+
+from sara.core.config import quarentine_path
+from sara.core.utils import create_path
+from sara.credenciais.conexao_twitter import inicia_conexao
 
 
 class Quarantine:
+    """Quarantine Class."""
 
     def __init__(self, users_list, subject):
         self.api = inicia_conexao()
@@ -33,7 +35,8 @@ class Quarantine:
         if len(users_temp) != 0:
             requests.append(users_temp)
         for request in requests:
-            data_requested = self.api.UsersLookup(user_id=request, return_json=True)
+            data_requested = self.api.UsersLookup(user_id=request,
+                                                  return_json=True)
             users = users+data_requested
         users_exist = [user.get('id_str') for user in users]
         users_suspended = list(set(self.users_ids) - set(users_exist))
@@ -50,10 +53,12 @@ class Quarantine:
         self._save_json(stats)
 
     def _save_json(self, stats):
+        """Save stats like JSON."""
         with open(self.stats_path, 'w', encoding='utf8') as json_file:
             json.dump(stats, json_file)
 
     def save_list(self, users_list):
+        """Save list to file."""
         with open(self.suspended_path, 'w', encoding='utf8') as arq:
             for user in users_list:
                 arq.write(str(user)+"\n")

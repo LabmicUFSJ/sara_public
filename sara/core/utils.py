@@ -1,9 +1,9 @@
 """
 Utils
 """
-import re
 import datetime
-import os
+import re
+from pathlib import Path
 
 
 def max_data_tweets(tweets):
@@ -25,6 +25,15 @@ def max_data_tweets(tweets):
 
 def create_path(path):
     """Create a dir."""
-    if os.path.exists(path) is False:
-        os.makedirs(path)
-        print(f"Diretório {path} foi criado.")
+    path_tree = Path(path)
+    if not path_tree.exists():
+        path_tree.mkdir(parents=True, exist_ok=True)
+        print(f"Diretório {path_tree} foi criado.")
+
+
+def save_data(name, data):
+    """save data to file json ."""
+    arq = open(name + ".txt", "a")
+    arq.write(str(data))
+    arq.write("\n")
+    arq.close()

@@ -1,0 +1,1 @@
+"""Init Network types."""

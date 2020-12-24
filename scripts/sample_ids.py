@@ -4,12 +4,14 @@ Generate a sample list from a list the ids.
 Input : list the ids
 Output : list ids.txt and data from database in csv
 """
-import sys
 import os
-import pandas as pd
+import sys
 from random import sample
-from sara.core.metados import get_user_metadata
-from sara.core.database import return_users
+
+import pandas as pd
+
+from sara.core.metadados import get_user_metadata
+from sara.core.mongo.db import return_users
 
 try:
     path_tree = sys.argv[1]
