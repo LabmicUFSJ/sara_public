@@ -31,7 +31,10 @@ def format_weight_edges(retweeted):
     return elements, elements_dict
 
 def retweets_network(nome_rede, tweets, directed):
-    """Generate retweet network."""
+    """Generate retweet network.
+
+    Return an nx.Digraph network or Nx.Graph() network
+    """
     # grafo não direcionado
     if directed:
         print("------\nGerando uma rede direcionada.")
@@ -68,27 +71,7 @@ def retweets_network(nome_rede, tweets, directed):
     print("Network Type: Retweets")
     print(f"Network Name: {nome_rede}")
     print(f"Sumário da Rede: \n{nx.info(graph)} \n------")
-    # try:
-    #     arquivo = open(network_path + "sumario_" + nome_rede, "w")
-    # except FileNotFoundError:
-    #     os.mkdir(network_path)
-    #     arquivo = open(network_path + "sumario_" + nome_rede, "w")
-    # arquivo.write(str(nx.info(graph)))
-    # arquivo.close()
-    # print('Saving network with .gml')
-    # nx.write_gml(graph, network_path + nome_rede + ".gml")
-    # print('Saving network with .gexf')
-    # nx.write_gexf(graph, network_path + nome_rede + ".gexf")
-    # graph_ids = nx.convert_node_labels_to_integers(graph)
-    # # gera traducao de nome para números
-    # cont = 0
-    # with open(network_path + "traducao_"+nome_rede, 'a+') as arq:
-    #     for i in graph:
-    #         arq.write(i+":"+str(cont)+"\n")
-    #         cont += 1
-    # nx.write_edgelist(graph_ids,
-    #                   network_path + nome_rede + ".edgelist", data=False)
-    # return graph
+    return graph
 
 def weigth_retweet_network(nome_rede, tweets, directed):
     """Generate Weighted retweet network."""
@@ -143,26 +126,5 @@ def weigth_retweet_network(nome_rede, tweets, directed):
     print("Network Type: Retweets")
     print(f"Network Name: {nome_rede}")
     print(f"Sumário da Rede: \n{nx.info(graph)} \n------")
-    try:
-        arquivo = open(network_path + "sumario_" + nome_rede, "w")
-    except FileNotFoundError:
-        os.mkdir(network_path)
-        arquivo = open(network_path + "sumario_" + nome_rede, "w")
-    arquivo.write(str(nx.info(graph)))
-    arquivo.close()
-    print('Saving network with .gml')
-    nx.write_gml(graph, network_path + nome_rede + "_weighted.gml")
-    print('Saving network with .gexf')
-    nx.write_gexf(graph, network_path + nome_rede + "_weighted.gexf")
-    graph_ids = nx.convert_node_labels_to_integers(graph)
-    # gera traducao de nome para números
-    cont = 0
-    with open(network_path + "traducao_"+nome_rede, 'a+') as arq:
-        for i in graph:
-            arq.write(i+":"+str(cont)+"\n")
-            cont += 1
-    nx.write_edgelist(graph_ids,
-                      network_path + nome_rede + "_weighted.edgelist",
-                      data=True)
     return graph
 
