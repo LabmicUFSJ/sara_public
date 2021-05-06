@@ -21,6 +21,13 @@ Site : https://labmicufsj.github.io/sara_public/
 - [Guia geral como utilizar.](sara/Guias/Guia_execucao.md)
 - [Agendamento de Coleta.](sara/Guias/Guia_agendamento.md)
 
+
+## Instalação
+
+- Instale utilizando setup.py
+
+> python3 setup.py install
+
 Módulos
 -------
 
@@ -66,7 +73,7 @@ Modulo associado
 
 #### Análise de conteúdo
 
-A visualização e análise do conteúdo é realizada por meio da utilização da técnica de LDA combinada com uma nuvem de palavras.
+A visualização e análise do conteúdo é realizada por meio da utilização da técnica de LDA, NMF combinada com uma nuvem de palavras.
 
 Módulos associados:
 
@@ -75,19 +82,10 @@ Módulos associados:
 
 
 ## Dependências:
-
-Consulte o guia de instalação.
-- python >= 3.6
-- pymongo
+- Python Versão 3.6 ou superior
 - mongodb
-- networkx
-- gensim
-- spacy
-- matplot
-- wordcloud
-- nltk
-- seaborn
-- pandas
+
+- [dependências](requirements.txt)
 
 ## Artigos associados
 
