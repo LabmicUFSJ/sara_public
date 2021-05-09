@@ -12,7 +12,7 @@ def remover_acentos(txt):
 
 
 # leitura dos arquivos
-arquivo = open("gerador_stop_words.txt")
+arquivo = open("stopwords_txt/gerador_stop_words.txt")
 
 
 lista_final = []
@@ -32,7 +32,7 @@ for i in sem_acentuacao:
 lista_stop_words = set(lista_stop_words).union(set(lista_sem_acentuacao))
 print(len(lista_stop_words))
 arquivo.close()
-arq = open("sara/stopwords_v2.txt", "w")
+arq = open("stopwords_txt/stopwords_v2.txt", "w")
 for i in lista_stop_words:
     arq.write(i + "\n")
 arq.close()

@@ -20,7 +20,8 @@ packages = [
     "sara.core.mongo",
     "sara.core.network_generators",
     "sara.sentimento",
-    "sara.stopWords",
+    "sara.stopwords",
+    "sara.stopwords.stopwords_txt",
     "sara.credenciais",
     "sara.utils"
 ]
@@ -35,6 +36,7 @@ setup(
     author='Carlos Barbosa',
     license='MIT',
     install_requires=install_requires,
+    include_package_data=True,
     setup_requires=['pytest-runner'],
     tests_require=['pytest==4.4.1'],
     test_suite='tests',

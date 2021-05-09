@@ -3,6 +3,7 @@
 
 """Pre-processing Class."""
 # import ast
+import os
 import re
 # import base
 import string
@@ -11,7 +12,9 @@ from unicodedata import normalize
 import emoji
 import spacy
 
-import sara.stopWords.StopWords as stopWords
+import sara.stopwords.StopWords as stopWords
+
+absolute_path = os.path.dirname(os.path.abspath(__file__))
 
 
 def _remove_emoji(text):
@@ -49,11 +52,15 @@ class PreProcessing:
         """pre-processing."""
         self.nlp = spacy.load("pt_core_news_sm")
         self.spacy_stopwords = spacy.lang.pt.stop_words.STOP_WORDS
-        self.set_stop = stopWords.load_stop_words()
+        path_to_stopwords = (f"{absolute_path}/"
+                             "../stopwords/stopwords_txt/stopwords_v2.txt")
+        self.set_stop = stopWords.load_stop_words(path_to_stopwords)
 
         if remove_adjectives:
             # Load adjectives
-            self.set_adjectives = stopWords.load_stop_words("adjetivos.txt")
+            path_adjectives = (f"{absolute_path}/"
+                               "../stopwords/stopwords_txt/adjetivos.txt")
+            self.set_adjectives = stopWords.load_stop_words(path_adjectives)
             self.set_stop = self.set_stop.union(self.set_adjectives)
         # Merge stopWords set
         self.set_stop = self.set_stop.union(self.spacy_stopwords)
