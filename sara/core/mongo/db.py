@@ -2,7 +2,9 @@
 """DB"""
 import random
 import sys
+
 from pymongo import MongoClient
+from pymongo.errors import ConnectionFailure
 
 from sara.core.pre_processing import PreProcessing
 
@@ -11,7 +13,15 @@ pre_processing = PreProcessing()
 
 def get_client():
     """Inicia a conexão com o mongoDb."""
-    return MongoClient('localhost', 27017)
+    client = MongoClient('localhost', 27017)
+    try:
+        # The ismaster command is cheap and does not require auth.
+        client.admin.command('ismaster')
+    except ConnectionFailure:
+        print("Server not available, please run mongodb")
+        print("You can run mongodb using: sudo service mongod start")
+        sys.exit(-1)
+    return client
 
 
 def load_database(client, name, collection):
@@ -29,7 +39,8 @@ def load_users(database_name, collection, number_users):
     collection = load_database(client, database_name, collection)
     total_documents = collection.count_documents({})
     consult_number = total_documents if number_users is None else number_users
-    users = collection.find({}, {"user": 1, "retweeted_status.user":1}).limit(consult_number*2)
+    projection = {"user": 1, "retweeted_status.user": 1}
+    users = collection.find({}, projection).limit(consult_number*2)
     users_dict = {}
     for user in users:
         retweeted = user.get('retweeted_status')
