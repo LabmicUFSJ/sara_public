@@ -4,6 +4,7 @@ Utils
 import datetime
 import re
 from pathlib import Path
+
 import networkx as nx
 
 
@@ -34,54 +35,35 @@ def create_path(path):
 
 def save_data(name, data):
     """save data to file json ."""
-    arq = open(name + ".txt", "a")
-    arq.write(str(data))
-    arq.write("\n")
-    arq.close()
+    with open(name + ".txt", "a") as arq:
+        arq.write(str(data))
+        arq.write("\n")
 
 
-def save_mention_network(graph, network_path):
-    """Save mention network to file."""
-    try:
-        archive = open(network_path + "mention_summary_", "w")
-    except FileNotFoundError:
-        path_to_save = Path(network_path)
-        path_to_save.mkdir(parents=True, exist_ok=True)
-        archive = open(network_path + "mention_summary_", "w")
-    archive.write(str(nx.info(graph)))
-    archive.close()
-    nx.write_gml(graph, network_path + ".gml")
-    print('Saving network with .gexf')
-    nx.write_gexf(graph, network_path + ".gexf")
-    graph_ids = nx.convert_node_labels_to_integers(graph)
-    # gera traducao de nome para números
-    count = 0
-    with open(network_path + "mention_traducao_", 'a+') as arq:
-        for i in graph:
-            arq.write(i+":"+str(count)+"\n")
-            count += 1
-    nx.write_edgelist(graph_ids, network_path + ".edgelist", data=True)
+def save_network(graph, network_path):
+    """Save retweet network to file.
 
+    """
+    print(f"Saving network in the path {network_path}")
 
-def save_retweet_network(graph, network_path):
-    """Save retweet network to file."""
-    try:
-        archive = open(network_path + "summary_", "w")
-    except FileNotFoundError:
-        path_to_save = Path(network_path)
-        path_to_save.mkdir(parents=True, exist_ok=True)
-        archive = open(network_path + "summary_", "w")
-    archive.write(str(nx.info(graph)))
-    archive.close()
+    network_name = network_path.name
+    if not network_path.exists():
+        network_path.mkdir(parents=True, exist_ok=True)
+    summary_path = network_path.joinpath(f"{network_name}_summary.txt")
+    with open(summary_path, "w") as archive:
+        archive.write(str(nx.info(graph)))
     print('Saving network with .gml')
-    nx.write_gml(graph, network_path+".gml")
+    path_network_gml = str(network_path) + f"/{network_name}.gml"
+    nx.write_gml(graph, path_network_gml)
     print('Saving network with .gexf')
-    nx.write_gexf(graph, network_path + ".gexf")
+    nx.write_gml(graph, str(network_path)+f"/{network_name}.gexf")
     graph_ids = nx.convert_node_labels_to_integers(graph)
     # gera traducao de nome para números
     cont = 0
-    with open(network_path + "traducao_", 'a+') as arq:
+    print('Saving network with .edgelist')
+    with open(str(network_path) + f"/traducao_{network_name}", 'a+') as arq:
         for i in graph:
             arq.write(i+":"+str(cont)+"\n")
             cont += 1
-    nx.write_edgelist(graph_ids, network_path + ".edgelist", data=False)
+    edgelist_name = str(network_path)+f"/{network_name}.edgelist"
+    nx.write_edgelist(graph_ids, edgelist_name, data=False)
