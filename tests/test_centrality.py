@@ -1,8 +1,9 @@
 """centrality tests."""
 from unittest import TestCase
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from sara.core.centrality import Centrality
+import networkx as nx
 
 
 def begin_lists(instance):
@@ -21,10 +22,12 @@ class TestCentrality(TestCase):
     @patch('sara.core.centrality.Centrality.get_pagerank')
     def setUp(self, *_):
         """Execute before each tests."""
-        self.graph_path = "network.gml"
-        self.main_digraph = Centrality(self.graph_path, directed=True)
+        self.digraph= MagicMock(spec=nx.DiGraph)
+        self.main_digraph = Centrality(self.digraph)
         self.main_digraph = begin_lists(self.main_digraph)
-        self.main_graph = Centrality(self.graph_path, directed=False)
+
+        self.graph = MagicMock(spec=nx.Graph)
+        self.main_graph = Centrality(self.graph)
         self.main_graph = begin_lists(self.main_graph)
 
     @patch('networkx.betweenness_centrality')

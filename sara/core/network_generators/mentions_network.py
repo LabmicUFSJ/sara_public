@@ -1,103 +1,69 @@
 """
 Generate the mentions network.
 
-Source: User mentioned
-Destination: The user who made the mention.
+Source: The user who made the mention.
+Destination: User mentionaned;
+
 Example in a Digraph:
-A -> B
+A <- B
 The user A was mentioned by user B.
+
 """
-import sys
 
-import networkx as nx
-import pandas as pd
-from sara.core.config import network_path
-from sara.core.utils import create_path
-
-create_path(network_path)
+from sara.core.network_generators.commons import (format_weighted_edges,
+                                                  get_networkx_instance,
+                                                  validate_input)
 
 
-def _format_weight_edges(retweeted):
-    """Format weight edges."""
-    elements = []
-    elements_dict = []
-    for key, value in retweeted.items():
-        source, destiny = key
-        weight = value
-        elements.append((source, destiny, weight))
-        elements_dict.append({'origem': source, 'destino': destiny,
-                              'peso': weight})
-    return elements, elements_dict
-
-
-def _show_stats(graph, tweets, name):
-    """Show stats about the network."""
-    print(f"Com: {len(tweets)} tweets")
-    print("Utilizando: Menções(@)")
-    print(f"Nome da Rede: {name}")
-    print(f"Sumário da Rede: \n{nx.info(graph)} \n------")
-
-
-def _validade_input(tweets):
-    """Valided tweet input."""
-    try:
-        if not tweets:
-            raise ValueError('The tweets list is empty.')
-    except ValueError as error:
-        print(f"erro {error}")
-        sys.exit(-1)
-
-
-def _get_network(directed):
-    """Return a nx.Digraph() or nx.Graph() instance.
-    Argument: directed True -> Return nx.Digraph()
-        directed False - > Return nx.Graph()
+def get_mentions_network(tweets, directed):
+    """Generate mentions network.
+    Arguments:
+        Tweets: List of tweets (dictionary)
+        directed : True or False (Boolean)
+    Returns:
+        An Graph or Digraph from networkx
     """
-    if directed:
-        print("------\nGerando uma rede: direcionada.")
-        return nx.DiGraph()
-    print("------\nGerando uma rede: não direcionada.")
-    return nx.Graph
-
-
-def mentions_network(name, tweets, directed):
-    """Generate mentions network."""
-    graph = _get_network(directed)
-    _validade_input(tweets)
+    graph = get_networkx_instance(directed)
+    validate_input(tweets)
     for tweet in tweets:
         destiny = None
         try:
             source = tweet['user'].get('screen_name', None)
-            mentions = tweet['entities'].get('user_mentions', None)
+            mentions = tweet['entities'].get('user_mentions')
         except KeyError:
             continue
         for mention in mentions:
-            destiny = mention.get('screen_name', None)
+            destiny = mention.get('screen_name')
             # elimina self loops.
             if destiny == source:
                 continue
             if destiny is not None and source is not None:
                 graph.add_edge(source, destiny)
-
-    _show_stats(graph, tweets, name)
     return graph
 
 
-def weighted_mentions_network(name, tweets, directed):
-    """Generate Weighted mentions network."""
+def get_weighted_mentions_network(tweets, directed):
+    """Generate weighted mentions network.
+        The weight is generate from the number the mentions.
+        Arguments:
+            Tweets: List of tweets (dictionary)
+            directed : True or False (Boolean)
+        Returns:
+            An Graph or Digraph from networkx
+    """
     weighted_edges = {}
-    graph = _get_network(directed)
-    _validade_input(tweets)
+    graph = get_networkx_instance(directed)
+    validate_input(tweets)
     for tweet in tweets:
         destiny = None
         try:
-            source = tweet['user'].get('screen_name', None)
-            mentions = tweet['entities'].get('user_mentions', None)
+            source = tweet['user'].get('screen_name')
+            mentions = tweet['entities'].get('user_mentions')
         except KeyError:
             continue
         for mention in mentions:
-            destiny = mention.get('screen_name', None)
-            # elimina self loops.
+            destiny = mention.get('screen_name')
+            # not allow self loops.
             if destiny == source:
                 continue
             if destiny is not None and source is not None:
@@ -110,13 +76,6 @@ def weighted_mentions_network(name, tweets, directed):
                 else:
                     weighted_edges[weighted_tuple] = 1
 
-    elements, dict_weights = _format_weight_edges(weighted_edges)
-    # save table with weights
-    table_weight = pd.DataFrame(dict_weights)
-    table_weight.sort_values(by=['weight'], inplace=True, ascending=False)
-    table_weight.to_csv(network_path+'weights_'+name+'.csv', index=False)
-
+    elements = format_weighted_edges(weighted_edges)
     graph.add_weighted_edges_from(elements)
-
-    _show_stats(graph, tweets, name)
     return graph

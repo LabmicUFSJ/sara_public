@@ -7,124 +7,66 @@ A -> B
 
 The user B was retweeted the user A.
 """
-import os
-import sys
+from sara.core.network_generators.commons import (get_networkx_instance,
+                                                  format_weighted_edges)
 
-import pandas as pd
-import networkx as nx
 
-from sara.core.config import network_path
-from sara.core.utils import create_path
-
-# Check if there is a path and create a dir, if it does not exist.
-create_path(network_path)
-
-def format_weight_edges(retweeted):
-    elements = []
-    elements_dict = []
-    for key, value in retweeted.items():
-        source, destiny = key
-        weight = value
-        elements.append((source, destiny, weight))
-        elements_dict.append({'origem':source, 'destino':destiny,
-                              'peso':weight})
-    return elements, elements_dict
-
-def retweets_network(nome_rede, tweets, directed):
+def get_retweets_network(tweets, directed):
     """Generate retweet network.
 
     Return an nx.Digraph network or Nx.Graph() network
     """
-    # grafo não direcionado
-    if directed:
-        print("------\nGerando uma rede direcionada.")
-        graph = nx.DiGraph()
-    else:
-        print("------\nGerando uma rede não direcionada.")
-        graph = nx.Graph()
-    try:
-        # limitando o número de tweets utilizado..
-        if not tweets:
-            raise ValueError('The tweet list is empty.')
-    except ValueError as error:
-        print(f"erro {error}")
-        sys.exit(-1)
-    cont = 0
+    graph = get_networkx_instance(directed)
     for tweet in tweets:
-        destino = None
+        destiny = None
         try:
-            cont += 1
-            origem = tweet['user']['screen_name']
+            source = tweet['user']['screen_name']
         except KeyError:
             pass
         try:
-            destino = tweet['retweeted_status']['user']['screen_name']
+            destiny = tweet['retweeted_status']['user']['screen_name']
         except KeyError:
-            origem = None
-        # elimina self loops.
-        if destino == origem:
+            source = None
+        # Not allow self loops
+        if destiny == source:
             continue
-        if destino is not None and origem is not None:
-            graph.add_edge(origem, destino)
+        if destiny is not None and source is not None:
+            graph.add_edge(source, destiny)
 
-    print(f"Number Tweets: {cont} ")
-    print("Network Type: Retweets")
-    print(f"Network Name: {nome_rede}")
-    print(f"Sumário da Rede: \n{nx.info(graph)} \n------")
     return graph
 
-def weigth_retweet_network(nome_rede, tweets, directed):
+
+def get_weigthed_retweet_network(tweets, directed):
     """Generate Weighted retweet network."""
     retweet_edges = {}
-    # grafo não direcionado
-    if directed:
-        print("------\nGerando uma rede direcionada.")
-        graph = nx.DiGraph()
-    else:
-        print("------\nGerando uma rede não direcionada.")
-        graph = nx.Graph()
-    try:
-        # limitando o número de tweets utilizado..
-        if not tweets:
-            raise ValueError('The tweet list is empty.')
-    except ValueError as error:
-        print(f"erro {error}")
-        sys.exit(-1)
-    cont = 0
+    if not tweets:
+        ValueError("The tweet list is empty.")
+
+    graph = get_networkx_instance(directed)
+
     for tweet in tweets:
-        destino = None
+        destiny = None
         try:
-            cont += 1
-            origem = tweet['user']['screen_name']
+            source = tweet['user']['screen_name']
         except KeyError:
             pass
         try:
-            destino = tweet['retweeted_status']['user']['screen_name']
+            destiny = tweet['retweeted_status']['user']['screen_name']
         except KeyError:
-            origem = None
+            source = None
         # elimina self loops.
-        if destino == origem:
+        if destiny == source:
             continue
-        if destino is not None and origem is not None:
-            w = (origem, destino)
-            peso = 0
-            if w in retweet_edges:
-                peso = retweet_edges[w]
-                peso+=1
-                retweet_edges[w] = peso
+        if destiny is not None and source is not None:
+            path_edge = (source, destiny)
+            weight = 0
+            if path_edge in retweet_edges:
+                weight = retweet_edges[path_edge]
+                weight += 1
+                retweet_edges[path_edge] = weight
             else:
-                retweet_edges[w] = 1
+                retweet_edges[path_edge] = 1
 
-    elements, dicio_pesos = format_weight_edges(retweet_edges)
-    table_pesos = pd.DataFrame(dicio_pesos)
-    table_pesos.sort_values(by=['peso'], inplace=True, ascending=False)
-    table_pesos.to_csv(network_path+'pesos_'+nome_rede+'.csv', index=False)
+    elements = format_weighted_edges(retweet_edges)
     graph.add_weighted_edges_from(elements)
-
-
-    print(f"Number Tweets: {cont} ")
-    print("Network Type: Retweets")
-    print(f"Network Name: {nome_rede}")
-    print(f"Sumário da Rede: \n{nx.info(graph)} \n------")
     return graph
-
