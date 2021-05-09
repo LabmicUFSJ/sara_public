@@ -52,3 +52,8 @@ urllib3==1.25.9
 wasabi==0.6.0
 wordcloud==1.8.1
 zipp==3.1.0
+scikit-learn==0.24.2
+pytest==6.2.4
+pytest-cov==2.11.1
+pytest-runner==5.3.0
+yala==3.0.1
