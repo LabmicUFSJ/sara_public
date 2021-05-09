@@ -15,10 +15,12 @@ class Centrality:
         """Centrality Class.
            ARGS: nx.Graph or nx.DiGraph.
         """
-        if isinstance(network, nx.Graph):
-            self.directed = False
-        elif isinstance(network, nx.DiGraph):
+        # This check is not pythonic.
+        # An pattern project to return type is best
+        if isinstance(network, nx.DiGraph):
             self.directed = True
+        elif isinstance(network, nx.Graph):
+            self.directed = False
         else:
             raise TypeError('Invalid network type.')
         self.network = network
