@@ -5,9 +5,10 @@ Modulo de coleta utilizando a api do Twitter .
 
 import sys
 import time
-from http.client import IncompleteRead
 
+from requests.exceptions import ChunkedEncodingError
 from twitter.error import TwitterError
+from urllib3.exceptions import IncompleteRead, ProtocolError
 
 from sara.core.logger import log_erro
 from sara.core.sara_data import SaraData
@@ -22,7 +23,7 @@ class SaraCollector():
         self.api = inicia_conexao()
         # configuração do banco de dados MongoDB
         self.controle_exibicao = 1000
-        self.sleep_on_error = 20
+        self.sleep_on_error = 10
         if not isinstance(storage, SaraData):
             raise TypeError('The Storage type is necessary.')
         self.storage = storage
@@ -46,12 +47,15 @@ class SaraCollector():
                 exibicao += 1
                 # coloca na fila para processamento dos dados
                 self.storage.save_data((tweet))
-        except (TwitterError, IncompleteRead) as exc:
+        except (TwitterError, ProtocolError, IncompleteRead,
+                ChunkedEncodingError) as exc:
             print(f"error {exc.message}")
             log_erro(exc.message)
             if 'Unauthorized' in exc.message:
-                print("favor verificar as credências de acesso.")
+                print(f"Please check your credentials {exc.message}.")
                 sys.exit(-1)
+
+            # Wait X seconds to try to collect new tweets again.
             time.sleep(self.sleep_on_error)
             # realiza coleta no período de tempo restante
             restante = break_after-time.time()
@@ -74,12 +78,14 @@ class SaraCollector():
                 if contador == limite and limite != 0:
                     print("Coleta encerrada a partir do limite determinado.")
                     return
-        except (TwitterError, IncompleteRead) as exc:
+        except (TwitterError, ProtocolError, IncompleteRead,
+                ChunkedEncodingError) as exc:
             print(f"error {exc.message}")
             log_erro(exc.message)
             if 'Unauthorized' in exc.message:
-                print("favor verificar as credencias de acesso.")
+                print(f"Please check your credentials {exc.message}.")
                 sys.exit(-1)
+            # wait to retry collect tweets.
             time.sleep(self.sleep_on_error)
             self.real_time_collector(termo_pesquisa, limite)
 
