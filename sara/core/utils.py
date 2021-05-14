@@ -67,3 +67,13 @@ def save_network(graph, network_path):
             cont += 1
     edgelist_name = str(network_path)+f"/{network_name}.edgelist"
     nx.write_edgelist(graph_ids, edgelist_name, data=False)
+
+
+def load_txt(path_to_file):
+    """Load a txt from path and return list.
+
+    Args:
+        path_to_file ([type]): [description]
+    """
+    with open(path_to_file, "r") as lines:
+        return [line.strip() for line in lines]

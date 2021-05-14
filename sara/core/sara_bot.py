@@ -98,14 +98,34 @@ class SaraBot:
 
         with open(self.stats_path, 'w', encoding="utf8") as json_file:
             json.dump(stats, json_file)
+
+
 class SaraBotStandalone:
+    """SaraBot Standalone Class."""
 
     def __init__(self, model="sara/core/bot_model/modelo_2.joblib"):
+        """Load bot model."""
         self.model = load(model)
 
     def is_bot(self, user_dict):
+        """Check if the user received is a bot.
+
+        Argument: User dictionary.
+
+        If the user is a bot return 1,
+        otherwise return 0.
+        """
         user_stats = get_user_metadata(user_dict)
         user_table = pd.DataFrame([user_stats])
         user_table = user_table.drop(columns=['id_str'])
         user = np.array(user_table)
         return self.model.predict(user)[0]
+
+    def is_bots(self, list_users):
+        """Check a list the users.
+
+        Argument: list[users_dict]
+
+        Return a list if user is a bot return 1, otherwise return 0.
+        """
+        return [self.is_bot(user) for user in list_users]

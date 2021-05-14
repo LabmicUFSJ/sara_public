@@ -12,13 +12,13 @@ tweets_queue = queue.Queue()
 
 
 def storage_mongodb():
-    """Consulta a fila e salva os dados no banco."""
+    """Queue to save data in MongoDB."""
     while True:
-        tweet, conexao = tweets_queue.get()
-        conexao.replace_one(tweet, tweet, True)
+        tweet, connection = tweets_queue.get()
+        connection.replace_one(tweet, tweet, True)
         tweets_queue.task_done()
 
-
+# Use thread to save data in database.
 threading.Thread(target=storage_mongodb, daemon=True).start()
 
 
@@ -66,11 +66,16 @@ class SaraData:
         conn = load_database(self.client, self.database, self.collection)
         return conn.find(projection=project).limit(number_tweets)
 
-    def get_filtered_tweet(self, filter, project, number):
+    def get_filtered_tweet(self, proj_filter, project, number):
         """Get filtered data."""
         conn = load_database(self.client, self.database, self.collection)
-        return conn.find(filter, projection=project).limit(number)
+        return conn.find(proj_filter, projection=project).limit(number)
 
+    def count_recovered_documments(self, proj_filter, number):
+        """Return number the elements returned by the query the Mongo."""
+        conn = load_database(self.client, self.database, self.collection)
+        recovered = conn.count_documents(proj_filter, limit=number)
+        return recovered
 
     def save_data(self, data):
         """Save data."""
@@ -84,5 +89,9 @@ class SaraData:
 
     def get_all_collections(self):
         """Return all collections from a database."""
+        collections_list = []
         if 'mongodb' in self.storage_type:
-          return [coll for coll in self.client[self.database].collection_names()]
+            database = self.client[self.database].collection_names()
+            for collection_name in database:
+                collections_list.append(collection_name)
+        return collections_list
