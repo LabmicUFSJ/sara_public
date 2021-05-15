@@ -12,7 +12,7 @@ from urllib3.exceptions import IncompleteRead, ProtocolError
 
 from sara.core.logger import log_erro
 from sara.core.sara_data import SaraData
-from sara.credenciais.conexao_twitter import inicia_conexao
+from sara.credentials.twitter_api import get_twitter_api
 
 
 class SaraCollector():
@@ -20,7 +20,7 @@ class SaraCollector():
 
     def __init__(self, storage):
         # inica a conexao com twitter
-        self.api = inicia_conexao()
+        self.api = get_twitter_api()
         # configuração do banco de dados MongoDB
         self.controle_exibicao = 1000
         self.sleep_on_error = 10

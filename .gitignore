@@ -96,9 +96,6 @@ SaraEnv/
 sara_develop/
 .vscode/
 
-# credenciais
-sara/credenciais/conexao_twitter.py
-
 # Grafos
 *.gml
 *.edgelist
