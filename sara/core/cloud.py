@@ -54,6 +54,7 @@ def make_cloud(texto, name):
     # wordcloud.to_file(name_pdf)
     data = wordcloud.to_svg()
     # save svg
+    print(f"Saved image: {name_svg}")
     with open(name_svg, "w") as arq:
         arq.write(data)
 
