@@ -22,7 +22,7 @@ packages = [
     "sara.sentimento",
     "sara.stopwords",
     "sara.stopwords.stopwords_txt",
-    "sara.credenciais",
+    "sara.credentials",
     "sara.utils"
 ]
 
@@ -38,7 +38,7 @@ setup(
     install_requires=install_requires,
     include_package_data=True,
     setup_requires=['pytest-runner'],
-    tests_require=['pytest==4.4.1'],
+    tests_require=['pytest==6.2.4'],
     test_suite='tests',
     entry_points={
         'console_scripts': [

@@ -16,35 +16,35 @@ from sara.credentials.twitter_api import get_twitter_api
 
 
 class SaraCollector():
-    """Classe responsavel pela coleta de dados ."""
+    """Class responsible for collecting the Tweets."""
 
     def __init__(self, storage):
-        # inica a conexao com twitter
+        # Get twitter API
         self.api = get_twitter_api()
-        # configuração do banco de dados MongoDB
-        self.controle_exibicao = 1000
+        self.show_data_treshold = 1000
         self.sleep_on_error = 10
         if not isinstance(storage, SaraData):
-            raise TypeError('The Storage type is necessary.')
+            raise TypeError('The Storage type must be SaraData. But the '
+                            f'storage type is: {type(storage).__name__} .')
         self.storage = storage
 
-    def scheduled(self, termo_pesquisa, duracao):
-        """Scheduled collector."""
-        retorno = self.api.GetStreamFilter(track=[termo_pesquisa])
-        contador = 0
-        exibicao = 0
+    def scheduled(self, monitored_term, duration):
+        """Collect tweets in real time in scheduled mode."""
+        tweets = self.api.GetStreamFilter(track=[monitored_term])
+        number_tweets_collected = 0
+        exhibition_count = 0
         now = time.time()
-        break_after = (duracao*60) + now
+        break_after = (duration*60) + now
         try:
-            for tweet in retorno:
+            for tweet in tweets:
                 if time.time() >= break_after:
-                    print("Tweets Coletados", contador)
+                    print(f"Collected tweets {number_tweets_collected}")
                     return
-                if exibicao == self.controle_exibicao:
-                    print("Tweets Coletados", contador)
-                    exibicao = 0
-                contador += 1
-                exibicao += 1
+                if exhibition_count == self.show_data_treshold:
+                    print(f"Collected tweets {number_tweets_collected}")
+                    exhibition_count = 0
+                number_tweets_collected += 1
+                exhibition_count += 1
                 # coloca na fila para processamento dos dados
                 self.storage.save_data((tweet))
         except (TwitterError, ProtocolError, IncompleteRead,
@@ -59,25 +59,26 @@ class SaraCollector():
             time.sleep(self.sleep_on_error)
             # realiza coleta no período de tempo restante
             restante = break_after-time.time()
-            self.scheduled(termo_pesquisa, restante)
+            self.scheduled(monitored_term, restante)
 
-    def real_time_collector(self, termo_pesquisa, limite=0):
-        """Monitora as postagens em tempo real"""
-        retorno = self.api.GetStreamFilter(track=[termo_pesquisa])
-        print("Coletando dados", "Termo:", termo_pesquisa)
-        contador = 0
-        exibicao = 0
+    def real_time_collector(self, monitored_term, collection_limit=0):
+        """Collect tweets in real time mode."""
+        tweets = self.api.GetStreamFilter(track=[monitored_term])
+        print(f"Running real time collector, monitored term: {monitored_term}")
+        number_tweets_collected = 0
+        exhibition_count = 0
         try:
-            for tweet in retorno:
-                if exibicao == self.controle_exibicao:
-                    print("Tweets Coletados", contador)
-                    exibicao = 0
-                contador += 1
-                exibicao += 1
+            for tweet in tweets:
+                if exhibition_count == self.show_data_treshold:
+                    print(f"Collected tweets {number_tweets_collected}")
+                    exhibition_count = 0
+                number_tweets_collected += 1
+                exhibition_count += 1
                 self.storage.save_data((tweet))
-                if contador == limite and limite != 0:
-                    print("Coleta encerrada a partir do limite determinado.")
-                    return
+                if collection_limit != 0:
+                    if number_tweets_collected == collection_limit:
+                        print("Limit the collect reached.")
+                        return
         except (TwitterError, ProtocolError, IncompleteRead,
                 ChunkedEncodingError) as exc:
             print(f"error {exc.message}")
@@ -87,21 +88,19 @@ class SaraCollector():
                 sys.exit(-1)
             # wait to retry collect tweets.
             time.sleep(self.sleep_on_error)
-            self.real_time_collector(termo_pesquisa, limite)
+            self.real_time_collector(monitored_term, collection_limit)
 
     def collector_followers(self, user_id):
-        """collector followers from a user_id."""
+        """Collect followers from user id."""
         next_cursor = -1
         new_list = []
         while True:
             data = self.api.GetFollowersPaged(user_id=user_id,
                                               cursor=next_cursor)
-            next_cursor, previous, users = data
+            next_cursor, _, users = data
             new_list = list(set(new_list+users))
             if len(users) < 200:
                 break
         name = str(user_id)+'.json'
-        print(name, len(new_list))
         for user in new_list:
             self.storage.save_data_file(name, user.AsDict())
-        print(previous, next_cursor)
