@@ -47,7 +47,7 @@ spacy==2.3.5
 srsly==1.0.2
 thinc==7.4.1
 tqdm==4.46.0
-urllib3==1.25.9
+urllib3==1.26.5
 wasabi==0.6.0
 wordcloud==1.8.1
 zipp==3.1.0
