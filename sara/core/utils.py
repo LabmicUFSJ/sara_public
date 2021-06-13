@@ -2,10 +2,95 @@
 Utils
 """
 import datetime
+import logging
 import re
+import time
 from pathlib import Path
 
 import networkx as nx
+import requests
+from requests.exceptions import (ChunkedEncodingError, ConnectionError,
+                                 ConnectTimeout, HTTPError, RequestException,
+                                 SSLError, Timeout)
+
+logging.basicConfig(filename='sara.log', level=logging.WARNING)
+
+
+def _is_valid(url):
+    """Check if url is valid."""
+    re_exp = ("((http|https)://)(www.)?" + "[a-zA-Z0-9@:%._\\+~#?&//=]" +
+              "{2,256}\\.[a-z]" + "{2,6}\\b([-a-zA-Z0-9@:%" +
+              "._\\+~#?&//=]*)")
+    exp = re.compile(re_exp)
+    if exp.match(url):
+        return url
+    return False
+
+
+def get_url_from_error(error_msg):
+    """Get url from error msg."""
+
+    # search by the match group
+    result = re.search('(host=[\'a-z.]*)', error_msg)
+    if result:
+        # Get first group of match
+        group = result.group(0)
+        # return url cleaned
+        return group.strip("\'host")
+
+    return False
+
+
+def get_web_url(url, connection_attempt=2):
+    """Get URL not shorted.
+
+    Make a web request in return the URL complete.
+    wait before multiple connections, be polite 2 seconds.
+    """
+
+    # polite
+    time.sleep(1)
+    headers = {'user-agent': 'Mozilla/5.0 (X11; Linux x86_64)'
+               ' AppleWebKit/537.36 (KHTML, like Gecko) '
+               'Chrome/51.0.2704.103 Safari/537.36'}
+    try:
+        response = requests.get(url, headers=headers, timeout=5)
+    except (ConnectTimeout, Timeout) as error_msg:
+        print(f'Error {error_msg}')
+        logging.error('Error time out %s', error_msg)
+
+        url_from_error = get_url_from_error(str(error_msg))
+        if not url_from_error:
+            return url
+        if _is_valid(url_from_error):
+            return url_from_error
+
+        return url
+
+    except (SSLError, HTTPError, ConnectionError) as error_msg:
+        if 'Temporary failure in name resolution' in str(error_msg):
+            print(f'Fail name resolution {error_msg}')
+            logging.error('Error name resolution %s', error_msg)
+            time.sleep(1)
+            connection_attempt -= 1
+            if connection_attempt:
+                get_web_url(url, connection_attempt)
+        logging.error('URL offline %s', url)
+        url_from_error = get_url_from_error(str(error_msg))
+        if not url_from_error:
+            return url
+        if _is_valid(url_from_error):
+            return url_from_error
+        return url
+
+    except (RequestException, ChunkedEncodingError, Exception) as error:
+        logging.error('General exception error %s', error)
+        return url
+
+    if response.content:
+        return response.url
+
+    return url
 
 
 def max_data_tweets(tweets):

@@ -3,7 +3,7 @@
 """
 URL analysis.
 
-Check the most common urls propagated in tweets.
+Extract URLS from Tweets hosted on MongoDB.
 
 - USE MONGODB
 
@@ -58,6 +58,14 @@ def generate_patterns():
     patterns = get_match_obj('disq.us', patterns)
     # wpp
     patterns = get_match_obj('wp.me', patterns)
+    # tinyurl
+    patterns = get_match_obj('tinyurl.com', patterns)
+    # go.shr
+    patterns = get_match_obj('go.shr.lc', patterns)
+    # goo.gl
+    patterns = get_match_obj('goo.gl', patterns)
+    # migre.me
+    patterns = get_match_obj('migre.me', patterns)
     return patterns
 
 
@@ -175,7 +183,8 @@ def main(collection_name, exclude_pattern=r'[\D0-9]+(go.jp)'):
 
     project = {"retweeted_status.entities.urls": 1, "entities.urls": 1}
 
-    tweets = data.get_projected_data(project, 0)
+    tweet_filter = {"lang": 'pt'}
+    tweets = data.get_filtered_tweet(tweet_filter, project, 0)
 
     urls = extract_urls(tweets, exclude_pattern)
     return _counter_links(urls)
