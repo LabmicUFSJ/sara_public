@@ -2,6 +2,7 @@
 Verify if a account is bot.
 This module is private.
 """
+import os
 import json
 
 import numpy as np
@@ -13,6 +14,8 @@ from sara.core.metadados import get_user_metadata
 from sara.core.mongo.db import load_users
 from sara.core.utils import create_path
 
+absolute_path = os.path.dirname(os.path.abspath(__file__))
+
 
 def _save_list(path, data_list):
     print(f"File stored in {path}")
@@ -21,17 +24,28 @@ def _save_list(path, data_list):
             arq.write(str(data['id'])+'\n')
 
 
+def format_user(user):
+    """Format user in np array."""
+    user_stats = get_user_metadata(user)
+    user_table = pd.DataFrame([user_stats])
+    user_table = user_table.drop(columns=['id_str'])
+    user = np.array(user_table)
+    return user
+
+
 class SaraBot:
     """SaraBotTagger Class."""
     # pylint:disable=too-many-instance-attributes
-    def __init__(self, database, collection, limit=None):
+    # TODO: Check the input before apply.
+    def __init__(self, database, collection, limit=None,
+                 model='modelo_3.joblib'):
 
         # Create a path
         self.path = f'{sarabot_path}{collection}/'
         create_path(self.path)
         self.human_list = []
         self.bot_list = []
-        self.model = load('sara/core/bot_model/modelo_2.joblib')
+        self.model = load(f'{absolute_path}/bot_model/{model}')
         self.human_path = f'{self.path}human_result_{collection}.txt'
         self.bot_path = f'{self.path}bot_result_{collection}.txt'
         self.path_csv = f'{self.path}sarabot_result_{collection}.csv'
@@ -43,14 +57,17 @@ class SaraBot:
         self.number_humans = 0
         self.number_bots = 0
         self.stats = []
+        self.proba_dict = {}
 
     def _is_bot(self, user):
         """Check if user is a bot returning 1 or 0."""
-        user_stats = get_user_metadata(user)
-        user_table = pd.DataFrame([user_stats])
-        user_table = user_table.drop(columns=['id_str'])
-        user = np.array(user_table)
+        user = format_user(user)
         return self.model.predict(user)[0]
+
+    def get_proba(self, user):
+        """Get proba from user class."""
+        user = format_user(user)
+        return self.model.predict_proba(user)
 
     def run(self):
         """Check a number of accounts."""
@@ -58,7 +75,16 @@ class SaraBot:
         count = 0
         for user in users:
             print(f"checking {count}/{len(users)}")
-            if self._is_bot(user):
+            result = self._is_bot(user)
+            class_proba = self.get_proba(user)
+            human_prob = class_proba[0][0]
+            bot_prob = class_proba[0][1]
+            final_class = 'bot' if result == 1 else 'human'
+            self.proba_dict[user['id_str']] = {'id_str': user['id_str'],
+                                               'human_prob': human_prob,
+                                               'bot_prob': bot_prob,
+                                               'final_class': final_class}
+            if result:
                 user['class'] = 'bot'
                 self.bot_list.append(user)
             else:
@@ -72,7 +98,7 @@ class SaraBot:
         _save_list(self.human_path, self.human_list)
         self.number_humans = len(self.human_list)
         self.number_bots = len(self.bot_list)
-        return self.human_list, self.bot_list
+        return self.human_list, self.bot_list, self.proba_dict
 
     def get_stats_dict(self):
         """Return a dict with stats."""
@@ -81,15 +107,10 @@ class SaraBot:
         return {"humans": len(self.human_list), "bots": len(self.bot_list),
                 "percent_bots": percent}
 
-    # def save_csv(self):
-    #     """Save data to csv."""
-    #     data = self.human_list+self.bot_list
-    #     table = pd.DataFrame(data)
-    #     table.to_csv(self.path_csv, index="False")
-    #     # save users metadata
-
-    #     table = pd.DataFrame(self.stats)
-    #     table.to_csv(self.metadata_csv, index="False")
+    def save_csv(self):
+        """Save proba dict to csv file."""
+        table = pd.DataFrame(list(self.proba_dict.values()))
+        table.to_csv(self.path_csv, index=False)
 
     def save_json(self):
         """Save json."""
@@ -103,7 +124,7 @@ class SaraBot:
 class SaraBotStandalone:
     """SaraBot Standalone Class."""
 
-    def __init__(self, model="sara/core/bot_model/modelo_2.joblib"):
+    def __init__(self, model=f"{absolute_path}/bot_model/modelo_2.joblib"):
         """Load bot model."""
         self.model = load(model)
 
@@ -115,10 +136,7 @@ class SaraBotStandalone:
         If the user is a bot return 1,
         otherwise return 0.
         """
-        user_stats = get_user_metadata(user_dict)
-        user_table = pd.DataFrame([user_stats])
-        user_table = user_table.drop(columns=['id_str'])
-        user = np.array(user_table)
+        user = format_user(user_dict)
         return self.model.predict(user)[0]
 
     def is_bots(self, list_users):
@@ -129,3 +147,8 @@ class SaraBotStandalone:
         Return a list if user is a bot return 1, otherwise return 0.
         """
         return [self.is_bot(user) for user in list_users]
+
+    def is_bot_with_proba(self, user_dict):
+        """Check if a account is human or bor returning proba."""
+        user = format_user(user_dict)
+        return self.model.predict_proba(user)
