@@ -24,9 +24,24 @@ Site : https://labmicufsj.github.io/sara_public/
 
 ## Instalação
 
-- Instale utilizando setup.py
+Após criar um ambiente virtual execute:
 
-> python3 setup.py install
+``` console
+pip install --upgrade wheel setuptools pip
+```
+
+Instale utilizando setup.py
+
+``` console
+python3 setup.py install
+```
+
+Instalando com Wheel:
+
+``` console
+python setup.py bdist_wheel && pip install --force-reinstall dist/*.whl
+
+```
 
 Módulos
 -------
@@ -82,7 +97,7 @@ Módulos associados:
 
 
 ## Dependências:
-- Python Versão 3.6 ou superior
+- Python Versão 3.6, 3.7
 - mongodb
 
 - [dependências](requirements.txt)
