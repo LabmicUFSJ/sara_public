@@ -17,7 +17,6 @@ Site : https://labmicufsj.github.io/sara_public/
 
 ## Guias
 
-- [Guia de Instalacão.](sara/Guias/Guia_instalacao.md)
 - [Guia geral como utilizar.](sara/Guias/Guia_execucao.md)
 - [Agendamento de Coleta.](sara/Guias/Guia_agendamento.md)
 
@@ -29,18 +28,17 @@ Após criar um ambiente virtual execute:
 ``` console
 pip install --upgrade wheel setuptools pip
 ```
-
-Instale utilizando setup.py
-
-``` console
-python3 setup.py install
-```
-
 Instalando com Wheel:
 
 ``` console
 python setup.py bdist_wheel && pip install --force-reinstall dist/*.whl
 
+```
+
+Instale utilizando setup.py
+
+``` console
+python3 setup.py install
 ```
 
 Módulos
@@ -70,7 +68,7 @@ A rede gerada é salva no diretório `redes/`.
 O framework identifica os vértices de maior importância de acordo com as seguintes métricas de centralidade:
 - Betweenness, PageRank, Degree, Curtidas, Retweets.
 
-A detecção de centralidade é realizada por meio da utilização do módulo sara_centralidade.
+A detecção de centralidade é realizada por meio da utilização do script `script/sara_centralidade`.
 
 O resultado deste módulo é salvo no diretório `resultados_importancia/`.
 
@@ -93,7 +91,6 @@ A visualização e análise do conteúdo é realizada por meio da utilização d
 Módulos associados:
 
 * `Sara_conteudo` - Responsável pela geração da nuvem de palavras.
-* `Sara_sentimento` - Responsável pela análise de sentimento.
 
 
 ## Dependências:
