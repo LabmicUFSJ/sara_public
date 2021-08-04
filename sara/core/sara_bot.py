@@ -2,8 +2,8 @@
 Verify if a account is bot.
 This module is private.
 """
-import os
 import json
+import os
 
 import numpy as np
 import pandas as pd
@@ -18,6 +18,7 @@ absolute_path = os.path.dirname(os.path.abspath(__file__))
 
 
 def _save_list(path, data_list):
+    """Save list to file."""
     print(f"File stored in {path}")
     with open(path, 'w') as arq:
         for data in data_list:

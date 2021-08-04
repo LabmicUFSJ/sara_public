@@ -4,8 +4,8 @@
 
 
 import gensim
-import gensim.corpora as corpora
 import nltk
+from gensim import corpora
 
 
 def unpack_tupla(tupla):

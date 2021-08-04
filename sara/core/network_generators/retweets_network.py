@@ -7,8 +7,8 @@ A -> B
 
 The user B was retweeted the user A.
 """
-from sara.core.network_generators.commons import (get_networkx_instance,
-                                                  format_weighted_edges)
+from sara.core.network_generators.commons import (format_weighted_edges,
+                                                  get_networkx_instance)
 
 
 def get_retweets_network(tweets, directed):

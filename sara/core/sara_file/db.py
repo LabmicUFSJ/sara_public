@@ -1,3 +1,5 @@
+"""SARA file module."""
+
 import json
 from pathlib import Path
 from sara.core.config import sara_files_path
@@ -5,6 +7,7 @@ from sara.core.utils import create_path
 
 
 create_path(sara_files_path)
+
 
 def save_data_file(name, data):
     """Save followers data to file."""
@@ -14,6 +17,7 @@ def save_data_file(name, data):
     with open(storage_path, 'a+', encoding='utf-8') as files:
         json.dump(data, files, ensure_ascii=False)
         files.write("\n")
+
 
 def load_data(name):
     """Load data from storage_path and return a list."""

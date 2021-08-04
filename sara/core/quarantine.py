@@ -5,14 +5,14 @@ import json
 
 from sara.core.config import quarentine_path
 from sara.core.utils import create_path
-from sara.credenciais.conexao_twitter import inicia_conexao
+from sara.credentials.twitter_api import get_twitter_api
 
 
 class Quarantine:
     """Quarantine Class."""
 
     def __init__(self, users_list, subject):
-        self.api = inicia_conexao()
+        self.api = get_twitter_api()
         self.users_ids = users_list
         self.number_users = len(users_list)
         self.subject = subject

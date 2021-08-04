@@ -18,6 +18,7 @@ def storage_mongodb():
         connection.replace_one(tweet, tweet, True)
         tweets_queue.task_done()
 
+
 # Use thread to save data in database.
 threading.Thread(target=storage_mongodb, daemon=True).start()
 
@@ -26,10 +27,14 @@ class SaraData:
     """
     Encapsule the backeend to store and load the data.
     """
-    def __init__(self, collection_name, storage_type='mongodb'):
+    def __init__(self, database=None, collection_name=None,
+                 storage_type='mongodb'):
         """SaraData arguments, collection_name and storage_type."""
         # default database
         self.database = default_database
+        if database:
+            self.database = database
+
         self.collection = collection_name
         # backend to store the data.
         self.storage_type = storage_type
