@@ -47,11 +47,3 @@ Nesta etapa é gerada uma lista de nós ordernada por importância quanto a cent
 Entrada: grafo.gml
 
 saída: Um ranking gravado na pasta resultados_importancia
-
-### Sara Sentimento(Leia)
-
-``` shell
-(saraEnv)$: python sara_sentimento.py <banco> <colecao>
-```
-
-Nesta etapa é gerada um gráfico simples da análise de sentimento.
