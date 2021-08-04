@@ -27,13 +27,15 @@ class SaraData:
     """
     Encapsule the backeend to store and load the data.
     """
-    def __init__(self, database=None, collection_name=None,
+    def __init__(self, collection_name=None, database=None,
                  storage_type='mongodb'):
         """SaraData arguments, collection_name and storage_type."""
-        # default database
-        self.database = default_database
+
         if database:
             self.database = database
+        else:
+            # default database
+            self.database = default_database
 
         self.collection = collection_name
         # backend to store the data.
