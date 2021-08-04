@@ -1,2 +1,3 @@
+include requirements.txt
 include sara/stopwords/stopwords_txt/stopwords_v2.txt
 include sara/core/bot_model/*.joblib

@@ -19,7 +19,6 @@ packages = [
     "sara.core.sara_file",
     "sara.core.mongo",
     "sara.core.network_generators",
-    "sara.sentimento",
     "sara.stopwords",
     "sara.stopwords.stopwords_txt",
     "sara.credentials",
