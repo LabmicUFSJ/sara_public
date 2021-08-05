@@ -41,7 +41,7 @@ Para realização desta etapa é necessário que se tenha um grafo gerado.
 Nesta etapa é gerada uma lista de nós ordernada por importância quanto a centralidade, que pode ser utilizada na detecção de comunidades.
 
 ``` shell
-(saraEnv)$: python sara_centralidade.py <banco> <colecao> <grafo>
+(saraEnv)$: python sara_centralidade.py <grafo>
 ```
 
 Entrada: grafo.gml
