@@ -125,9 +125,10 @@ class SaraBot:
 class SaraBotStandalone:
     """SaraBot Standalone Class."""
 
-    def __init__(self, model=f"{absolute_path}/bot_model/modelo_2.joblib"):
+    def __init__(self, model):
         """Load bot model."""
-        self.model = load(model)
+        path_to_module = f"{absolute_path}/bot_model/{model}"
+        self.model = load(path_to_module)
 
     def is_bot(self, user_dict):
         """Check if the user received is a bot.

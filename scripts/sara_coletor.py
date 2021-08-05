@@ -2,7 +2,7 @@
 """
 Coletor de Tweets.
 
-Sara - Sistema de Análise de Dados de Redes Sociais Online
+Sara - Framework
 Licença - MIT
 Autores: Carlos Magno
 LABMIC - UFSJ
@@ -29,10 +29,11 @@ except IndexError as exc:
           " 0 para definir sem limites" +
           "\nColecao: A coleção onde os tweets serão armazenados.\n")
 
-    sys.exit()
+    sys.exit(-1)
 
 
-log(term)
-storage = SaraData(collection)
-data_collector = SaraCollector(storage)
-data_collector.real_time_collector(term, n_tweets)
+if __name__ == '__main__':
+    log(term)
+    storage = SaraData(collection)
+    data_collector = SaraCollector(storage)
+    data_collector.real_time_collector(term, n_tweets)

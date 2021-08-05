@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/env python3
 """
-Central Estrutural -
-Realiza o calculo de centralidade
+Script to make centrality analysis
 
-Sara - Sistema de Análise de Dados de Redes Sociais Online
-Licença - MIT
-Autores: Carlos Magno
-LABMIC - UFSJ
+This script uses the SaraFramework.
+
+SARA Framework
+License - MIT
+LABMIC - UFSJ - 2019-2021
+Carlos Barbosa
 """
 import sys
 
@@ -21,26 +22,21 @@ class Importance():
 
     def __init__(self):
         try:
-            self.database = sys.argv[1]
-            self.collection = sys.argv[2]
-            self.network_name = sys.argv[3]
-            self.nodes = ""
+            self.network_name = sys.argv[1]
+            self.graph = None
         except IndexError as exc:
             print(f"ERRO {exc}!!"
-                  "Digite : \n>python3 sara_centralidade.py"
-                  " <nome_base> <nome_colecao> <grafo>")
-            sys.exit()
+                  "Digite : \n>python3 sara_centralidade.py <grafo>")
+            sys.exit(-1)
 
     def load_graph(self):
         """carrega um grafo e gera uma lista de vértices."""
-        graph = nx.read_gml(self.network_name)
-        self.nodes = graph.nodes()
+        self.graph = nx.read_gml(self.network_name)
 
     def search(self):
         """realiza pesquisa na rede."""
-        network = self.network_name.split(".")[0]
-        centrality_measures.main(self.database, self.collection,
-                                 self.nodes, network)
+        graph = centrality_measures.Centrality(self.graph)
+        graph.write_seeds()
 
 
 if __name__ == '__main__':
