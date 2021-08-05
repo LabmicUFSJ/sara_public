@@ -107,7 +107,8 @@ resultados/
 log_init.txt
 brasnam/
 resultados_bot/
-
+scripts/*.csv
+scripts_local/
 # Spyder project settings
 .spyderproject
 .spyproject
