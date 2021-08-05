@@ -2,7 +2,7 @@
 # !/usr/bin/env python3
 """
 Central Estrutural -
-Generate Networks:
+Generate Networks with weights:
 From retweets or mentions(@)
 
 Sara - Sistema de Análise de Dados de Redes Sociais Online
@@ -12,11 +12,15 @@ LABMIC - UFSJ
 """
 # system import
 import sys
+from pathlib import Path
 
+from sara.core.config import network_path
 # intern import
-from sara.core.network_generators.retweets_network import weigth_retweet_network
-from sara.core.network_generators.mentions_network import weighted_mentions_network
+from sara.core.network_generators import (get_weighted_mentions_network,
+                                          get_weigthed_retweet_network)
 from sara.core.sara_data import SaraData
+from sara.core.utils import save_network
+
 
 def main():
     """Inicia a geração da rede."""
@@ -35,32 +39,46 @@ def main():
               "\nInfo limite:0 para utilizar a base completa")
         print("Info r: para gerar uma rede utilizando retweets, "
               "m: gera a rede utilizando menções(@)")
-        sys.exit()
-    if 'True' in directed:
+        sys.exit(-1)
+
+    print("---Inputed Data---\n")
+    print(f"Network name: {network_name} \n"
+          f"Collection: {collection_name} \n"
+          f"Directed: {directed} \n"
+          f"Type: {source}")
+    print("-----------------")
+    if directed.lower() == 'true':
         directed = True
-    else:
+    elif directed.lower() == 'false':
         directed = False
+    else:
+        raise TypeError("Error, Valid type is True or False."
+                        f"You passed the type: {type(directed)}")
     try:
-        print('Gerando rede com pesos.')
         data = SaraData(collection_name, storage_type='mongodb')
         if source == 'r':
             # Generate Retweets network
-            projection = {'user.screen_name':1,
-                          'retweeted_status.user.screen_name':1}
+            projection = {'user.screen_name': 1,
+                          'retweeted_status.user.screen_name': 1}
             tweets = data.get_projected_data(projection, limit)
-            print('tipo', directed)
-            weigth_retweet_network(network_name, tweets, directed)
+            network = get_weigthed_retweet_network(tweets, directed)
+            path_to_save = Path(network_path, "retweets_with_weight/")
+            path_to_save = path_to_save.joinpath(network_name)
+            save_network(network, path_to_save)
         elif source == 'm':
             # Generate mentions network
-            projection = {'user.screen_name':1,
-                          'entities.user_mentions.screen_name':1}
+            projection = {'user.screen_name': 1,
+                          'entities.user_mentions.screen_name': 1}
             tweets = data.get_projected_data(projection, limit)
-            weighted_mentions_network(network_name, tweets, directed)
+            network = get_weighted_mentions_network(tweets, directed)
+            path_to_save = Path(network_path, "mention_with_weight/")
+            path_to_save = path_to_save.joinpath(network_name)
+            save_network(network, path_to_save)
         else:
-            raise IndexError
+            raise ValueError("Invalid network type, valid type r or m")
 
-    except IndexError:
-        print("Escolha o modo de geração da rede r - retweets ou m- mentions")
+    except (IndexError, ValueError) as error:
+        print(f"Error {error}")
 
 
 if __name__ == '__main__':

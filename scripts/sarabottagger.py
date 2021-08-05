@@ -1,3 +1,4 @@
+"""SaraBottagger script"""
 import sys
 from sara.core.sara_bot import SaraBot
 
@@ -15,7 +16,7 @@ except IndexError as exc:
 
 print(f"Banco a ser utilizado:{database} \nColecao: {collection}")
 population = None if population == 0 else population
-sara = SaraBot(database, collection, population, model='modelo_7.joblib')
+sara = SaraBot(database, collection, population, model='modelo_9.joblib')
 human_list, bot_list, _ = sara.run()
 print(f"Bots {len(bot_list)} Humanos {len(human_list)}")
 sara.save_json()

@@ -29,13 +29,13 @@ def main(network_name, collection_name, directed, limit, source):
           f"Directed: {directed} \n"
           f"Type: {source}")
     print("-----------------")
-    if 'True' in directed:
+    if directed.lower() == 'true':
         directed = True
-    elif 'False' in directed:
+    elif directed.lower() == 'false':
         directed = False
     else:
-        raise ValueError("Error, Valid type is True or False."
-                         f"You passed the type: {type(directed)}")
+        raise TypeError("Error, Valid type is True or False."
+                        f"You passed the type: {type(directed)}")
     try:
         data = SaraData(collection_name, storage_type='mongodb')
         if source == 'r':
