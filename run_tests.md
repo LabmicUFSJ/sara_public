@@ -1,7 +1,6 @@
 # Tests
 
 How to run the tests:
-
-* python3 setup.py tests
-* pytest --cov-report term --cov=sara tests/
+* python setup.py pytest
 * pytest tests/
+* pytest --cov-report term --cov=sara/core tests/
