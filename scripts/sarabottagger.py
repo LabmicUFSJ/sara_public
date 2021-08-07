@@ -1,7 +1,14 @@
-"""SaraBottagger script"""
-import sys
-from sara.core.sara_bot import SaraBot
+"""SaraBottagger
 
+Script to classify users from Twitter as bot or human.
+
+This script use SaraBotTagger model by SARA.
+
+SaraBotTagger was built using Random Forest.
+"""
+import sys
+
+from sara.core.sara_bot import SaraBot
 
 try:
     name_file = sys.argv[0]
@@ -10,16 +17,18 @@ try:
     population = int(sys.argv[3])
 except IndexError as exc:
     print(f"erro {exc}")
-    print(f"Digite {name_file} <banco> <colecao> <tamanho_populacao>")
-    print("tamanho_populacao = 0 checa todos os usuários da coleção.")
-    sys.exit()
+    print(f"Input: python {name_file} <database> <collection> "
+          "<number_of_users>")
+    print("number_of_users = 0 check all accounts in collection.")
+    sys.exit(-1)
 
-print(f"Banco a ser utilizado:{database} \nColecao: {collection}")
+print(f"Database:{database} \nCollection: {collection}")
 population = None if population == 0 else population
+# Atention: You will need specify the SarabotTagger model.
 sara = SaraBot(database, collection, population, model='modelo_9.joblib')
 human_list, bot_list, _ = sara.run()
-print(f"Bots {len(bot_list)} Humanos {len(human_list)}")
+print(f"Bots {len(bot_list)} Humans {len(human_list)}")
 sara.save_json()
-print('Salvando tabela de probabilidade..')
+print('Saving Class probability ..')
 sara.save_csv()
-print('Salvo')
+print('All data has been saved')

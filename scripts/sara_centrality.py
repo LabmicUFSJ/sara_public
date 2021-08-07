@@ -12,9 +12,8 @@ Carlos Barbosa
 """
 import sys
 
-import networkx as nx
-
-import sara.core.centrality as centrality_measures
+from sara.core.sara_graph import load_graph
+from sara.core.centrality import Centrality
 
 
 class Importance():
@@ -26,20 +25,21 @@ class Importance():
             self.graph = None
         except IndexError as exc:
             print(f"ERRO {exc}!!"
-                  "Digite : \n>python3 sara_centralidade.py <grafo>")
+                  "Input : \n>python {sys.argv[0]} <network.gml>")
             sys.exit(-1)
 
     def load_graph(self):
-        """carrega um grafo e gera uma lista de vértices."""
-        self.graph = nx.read_gml(self.network_name)
+        """Load a graph."""
+        self.graph = load_graph(self.network_name)
 
-    def search(self):
-        """realiza pesquisa na rede."""
-        graph = centrality_measures.Centrality(self.graph)
+    def save_ranking(self):
+        """Make centrality analysis and save a rank nodes.
+        """
+        graph = Centrality(self.graph)
         graph.write_seeds()
 
 
 if __name__ == '__main__':
     importance = Importance()
     importance.load_graph()
-    importance.search()
+    importance.save_ranking()

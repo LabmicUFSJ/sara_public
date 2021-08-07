@@ -1,9 +1,11 @@
 """
-Este módulo é responsavel pelo agendamento de coleta
+Script to schedule real time tweets collect.
+SARA - Framework
+
 """
 
-import sys
 import sched
+import sys
 import time
 
 from sara.core.collector import SaraCollector
@@ -15,51 +17,52 @@ def handler_input():
     """Handler user input."""
     try:
         name_file = sys.argv[0]
-        termo = sys.argv[1]
-        colecao = sys.argv[2]
-        nome_banco = sys.argv[3]
+        term = sys.argv[1]
+        collection = sys.argv[2]
+        database = sys.argv[3]
         # em minutos
-        msg_coleta = "Digite a duracão da coleta em minutos(Exemplo 10): "
-        msg_intervalo = "Digite o intervalo entre as coletas(Exemplo 60): "
-        duracao_coleta = float(input(msg_coleta))
-        intervalo_coleta = float(input(msg_intervalo))
+        msg_collect = ("Duration the window to collect tweets in minutes "
+                       "(Example 10): ")
+        msg_window = "Time between windows (Example 60): "
+        duracao_coleta = float(input(msg_collect))
+        intervalo_coleta = float(input(msg_window))
 
     except IndexError as exc:
-        print(f"error {exc}")
-        print(f"ERRO!Digite {name_file} <termo> "
-              "<colecao> <banco de dados>")
-        print("\nTermo: O termo a ser coletado" +
-              "\nColecao: A coleção onde os tweets serão salvos" +
-              "\nBanco de Dados: O  banco onde os dados serão armazenados")
+        print(f"Error {exc}")
+        print(f"ERRO!Plase input python {name_file} <term> "
+              "<collection> <database>")
+        print("\nTerm: The term will be collected." +
+              "\nCollection: Collection where these tweets will be stored" +
+              "\nDatabase: The database where this tweets will be stored")
 
         sys.exit(-1)
-    return termo, colecao, nome_banco, duracao_coleta, intervalo_coleta
+    return term, collection, database, duracao_coleta, intervalo_coleta
 
 
-def coleta(termo, duracao, coletor, intervalo):
-    """Coleta de dados."""
-    print("Realizando coleta agendada.")
-    print(f"Duracao desta coleta {duracao} min ")
-    log(termo)
-    coletor.scheduled(termo, duracao)
-    print("Fim desta coleta.. aguardando nova coleta agendada.")
-    print(f"Tempo até proxima coleta {intervalo} min.")
+def get_tweets(term, duration, colector, interval):
+    """Get tweets from real time stream."""
+    print("Making scheduled collect.")
+    print(f"Time these window {duration} min ")
+    log(term)
+    colector.scheduled(term, duration)
+    print("End.. waiting next window to collect tweets.")
+    print(f"Time to next windo {interval} min.")
 
 
 def main():
     """Main."""
-    termo, colecao, nome_banco, duracao, intervalo_coleta = handler_input()
-    storage = SaraData(colecao, nome_banco)
-    coletor = SaraCollector(storage)
-    agendamento = sched.scheduler(time.time, time.sleep)
-    intervalo = 0
+    term, collection, database_name, duration, coll_interval = handler_input()
+    storage = SaraData(collection, database_name)
+    colector = SaraCollector(storage)
+    schedule = sched.scheduler(time.time, time.sleep)
+    interval = 0
     while True:
-        agendamento.enter(intervalo*60, 1, coleta, argument=(termo,
-                                                             duracao,
-                                                             coletor,
-                                                             intervalo_coleta))
-        intervalo = intervalo_coleta
-        agendamento.run()
+        schedule.enter(interval*60, 1, get_tweets, argument=(term,
+                                                             duration,
+                                                             colector,
+                                                             coll_interval))
+        interval = coll_interval
+        schedule.run()
 
 
 if __name__ == '__main__':

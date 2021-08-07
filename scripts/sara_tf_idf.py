@@ -1,4 +1,10 @@
-"""Script to make TF-IDF analysis."""
+"""Script to make TF-IDF analysis.
+
+License: MIT License
+SARA
+LabMIC - UFSJ
+Carlos Barbosa
+"""
 import sys
 
 from sara.core.pre_processing import PreProcessing
@@ -10,9 +16,9 @@ try:
     collection = sys.argv[1]
 except IndexError as exc:
     print(f"error {exc}\n")
-    print(f"ERRO!Digite {file_name} <colecao>")
+    print(f"ERRO!Please input {file_name} <collection>")
     print('\n--------------------------------------------\n')
-    print("\nColecao: A coleção de origem dos tweets.\n")
+    print("\nCollection: Collection where these tweets will be stored.\n")
     sys.exit(-1)
 
 
@@ -41,7 +47,6 @@ def main():
             text = None
             if len(text_clean) > 2:
                 tweets_text.append(text_clean)
-    print('chegou aqui', len(tweets_text))
     get_tf_idf(tweets_text)
 
 

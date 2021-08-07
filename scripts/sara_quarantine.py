@@ -1,6 +1,11 @@
-import sys
-from sara.core.quarantine import Quarantine
+"""SARA quarantine.
 
+Atention: This module will be replaced by is_online script.
+
+"""
+import sys
+
+from sara.core.quarantine import Quarantine
 
 try:
     name_file = sys.argv[0]
@@ -8,7 +13,7 @@ try:
     subject = sys.argv[2]
 except IndexError as exc:
     print(f"erro {exc}")
-    print(f"Digite {name_file} <nome_lista_usuarios> <assunto_analisado>")
+    print(f"Enter: python {name_file} <list_of_users> <subject>")
     sys.exit()
 
 with open(list_users, 'r') as arq:

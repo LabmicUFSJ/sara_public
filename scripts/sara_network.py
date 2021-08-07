@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/env python3
 """
-Central Estrutural -
 Generate Networks:
 From retweets or mentions(@)
 
-Sara - Sistema de Análise de Dados de Redes Sociais Online
+The tweets used to generate these networks are loaded from MongoDB.
+
+SARA
 Licença - MIT
-Autores: Carlos Magno
-LABMIC - UFSJ
+LabMIC - UFSJ
+2019 - 2021
+Carlos Barbosa
 """
 # system import
 import sys
@@ -23,22 +25,25 @@ from sara.core.utils import save_network
 
 
 def main():
-    """Inicia a geração da rede."""
+    """Generate networks without weight.
+
+    Generate Graph or Digraph (Directed) from mentions or retweets.
+    """
     try:
         network_name = sys.argv[1]
         collection_name = sys.argv[2]
         directed = sys.argv[3]
         limit = int(sys.argv[4])
         source = sys.argv[5]
-        # limite de tweets a serem utilizados
     except IndexError as exc:
-        print(f"erro {exc}")
-        print(f"ERRO!!\nDigite:\n>python3 {sys.argv[0]} <nome_rede>"
-              " <nome_colecao> <True||False> <limite> <r|m>")
-        print("Info True: Rede direcionada, False: Rede não direcionada"
-              "\nInfo limite:0 para utilizar a base completa")
-        print("Info r: para gerar uma rede utilizando retweets, "
-              "m: gera a rede utilizando menções(@)")
+        print(f"Erro: {exc}")
+        print(f"ERRO!!\nInput:\n>python {sys.argv[0]} <network_name>"
+              " <collection_name> <True||False> <limit_of_tweets> <r|m>")
+        print("Info True: Directed network, False: Undirected network"
+              "\nInfo number_of_tweets: 0 use all tweets stored in "
+              "collection.")
+        print("Info r: generate retweet network, "
+              "m: generate mention(@) network")
         sys.exit(-1)
 
     print("---Inputed Data---\n")

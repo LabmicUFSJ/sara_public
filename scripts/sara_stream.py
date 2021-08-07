@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Coletor de Tweets.
+Script to collect real time tweets.
 
 Sara - Framework
 Licença - MIT
-Autores: Carlos Magno
-LABMIC - UFSJ
+Carlos Magno
+LabMIC - UFSJ
 """
 import sys
 
@@ -13,7 +13,7 @@ from sara.core.collector import SaraCollector
 from sara.core.logger import log
 from sara.core.sara_data import SaraData
 
-# termo colecao numero_tweets
+
 try:
     name = sys.argv[0]
     term = sys.argv[1]
@@ -21,13 +21,13 @@ try:
     collection = sys.argv[3]
 except IndexError as exc:
     print(f"error {exc}\n")
-    print(f"ERRO!Digite {name} <termo> "
-          "<numero_tweets> <colecao>")
+    print(f"ERRO!Digite {name} <term> "
+          "<tweets_number> <collection>")
     print('\n--------------------------------------------\n')
-    print("Termo: O termo a ser coletado" +
-          "\nNúmero de Tweets: número de tweets a ser coletado." +
-          " 0 para definir sem limites" +
-          "\nColecao: A coleção onde os tweets serão armazenados.\n")
+    print("Term: The term will be collected" +
+          "\ntweets_limit: Number of tweets will be collected." +
+          " 0 - not set a limit to collect." +
+          "\nCollection: Collection where these tweets will be stored.\n")
 
     sys.exit(-1)
 
