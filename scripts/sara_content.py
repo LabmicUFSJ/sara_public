@@ -22,11 +22,14 @@ except IndexError as exc:
     sys.exit(-1)
 
 data = SaraData(collection, storage_type='mongodb')
+tweet_filter = {'lang': 'pt'}
 projection = {'text': 1,
               'extended_tweet.full_text': 1,
               'retweeted_status.text': 1,
               'retweeted_status.extendeted_tweet.full_text': 1}
-tweets = data.get_projected_data(projection, 0)
+
+
+tweets = data.get_filtered_tweet(tweet_filter, projection, 0)
 
 print(f"Collection: {collection}")
 

@@ -93,7 +93,7 @@ class PreProcessing:
         # remove number in text
         text = re.sub(r"\d+", " ", text)
         # remove smiles type kkk
-        text = re.sub(r"[k]+\s", " ", text)
+        text = re.sub(r"(kk)+", " ", text)
         # remove broken words
         text = re.sub(r"\s[\w]{1}\s", " ", text)
         # remove punctuation
