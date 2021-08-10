@@ -15,6 +15,12 @@ Estado : Em desenvolvimento / Experimental
 
 Site : https://labmicufsj.github.io/sara_public/
 
+SaraBotTagger Web Tool - https://sara-labmic.herokuapp.com/
+
+SaraDashboard - https://sara-dash.herokuapp.com/
+
+SaraGraphVisualizer  - https://saragraph.herokuapp.com/
+
 ## Guias
 
 - [Guia geral como utilizar.](sara/guides/Guia_execucao.md)
@@ -108,6 +114,9 @@ Core:
 Script:
 
 - [`sara_content`](/sara/scripts/sara_content.py): Responsável pela geração da nuvem de palavras.
+
+## Detecção de contas automatizadas
+ - SaraBotTagger
 
 ## Testes
 
