@@ -49,16 +49,16 @@ class SaraCollector():
                 self.storage.save_data((tweet))
         except (TwitterError, ProtocolError, IncompleteRead,
                 ChunkedEncodingError) as exc:
-            print(f"error {exc.message}")
-            log_erro(exc.message)
-            if 'Unauthorized' in exc.message:
-                print(f"Please check your credentials {exc.message}.")
+            print(f"error {exc}")
+            log_erro(str(exc))
+            if 'Unauthorized' in str(exc):
+                print(f"Please check your credentials {exc}.")
                 sys.exit(-1)
 
             # Wait X seconds to try to collect new tweets again.
             time.sleep(self.sleep_on_error)
             # realiza coleta no período de tempo restante
-            restante = break_after-time.time()
+            restante = break_after - time.time()
             self.scheduled(monitored_term, restante)
 
     def real_time_collector(self, monitored_term, collection_limit=0):
@@ -81,10 +81,10 @@ class SaraCollector():
                         return
         except (TwitterError, ProtocolError, IncompleteRead,
                 ChunkedEncodingError) as exc:
-            print(f"error {exc.message}")
-            log_erro(exc.message)
-            if 'Unauthorized' in exc.message:
-                print(f"Please check your credentials {exc.message}.")
+            print(f"error {exc}")
+            log_erro(str(exc))
+            if 'Unauthorized' in str(exc):
+                print(f"Please check your credentials {exc}.")
                 sys.exit(-1)
             # wait to retry collect tweets.
             time.sleep(self.sleep_on_error)
