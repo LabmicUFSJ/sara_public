@@ -1,11 +1,12 @@
-Guia Agendamento de Coleta
----------------------------
+# Guia Agendamento de Coleta
 
 A Sara suporta coleta agendadas. Para tal somente é necessário executar o
-`coletor_agendado.py` como apresentado a seguir:
+`scripts/sara_scheduled_stream.py` como apresentado a seguir:
+
+> Lembre-se que o ambiente virtual deve estar ativo e o SARA instalado.
 
 ``` console
-python coletor_agendado.py <termo> <colecao> <banco_de_dados>
+(ENV) python sara_scheduled_stream.py <termo> <colecao> <banco_de_dados>
 
 ```
 
