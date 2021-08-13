@@ -91,11 +91,11 @@ O resultado deste script é salvo no diretório `resultados_importancia/`.
 
 ### Detecção de Comunidades
 
-A detecção de comunidade neste framework é realizada por meio do módulo Overlap.
+A detecção de comunidades neste framework é realizada utilizando o módulo de overlap e o algoritmo de Louvain.
 
-Esta ferramenta procura encontrar ego comunidades formada em torno de determinados usuários.
+Esta ferramenta procura encontrar ego-comunidades formada em torno de determinados usuários.
 
-- Detecção de comunidades - Realiza a detecção de comunidades sobrepostas, utilize o resultado da centralidade ou outra sequência de importância para detecção de comunidades.
+- Detecção de comunidades sobrepostas - Utilize o resultado da centralidade ou outra sequência de importância para detecção de comunidades.
 
 Modulo associado
 
