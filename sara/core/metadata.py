@@ -195,11 +195,10 @@ def get_user_from_dict(user, data_coleta=None):
         "ano_criacao": year,
         "crescimento_favoritos_dia": fav_growth
     }
+    return UserMetadata(user_metadata)
 
-    return UserMetadada(user_metadata)
 
-
-class UserMetadada:
+class UserMetadata:
     """User metadata class."""
 
     # pylint: disable=too-many-instance-attributes
