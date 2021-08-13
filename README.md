@@ -99,7 +99,7 @@ Esta ferramenta procura encontrar ego comunidades formada em torno de determinad
 
 Modulo associado
 
-- [`overlap.py`](/sara/detecta_comunidades)
+- [`overlap.py`](/sara/utils/community_overlap_detection)
 
 ### Análise de conteúdo
 
