@@ -55,13 +55,17 @@ python3 setup.py install
 
 O módulo de coleta utiliza a API do Twitter.
 
-Módulos associados:
+Scripts associados:
 
 - [`sara_stream`](scripts/sara_stream.py) - Realiza as coletas de tweets em tempo real.
 - [`sara_scheduled_stream`](scripts/sara_scheduled_stream.py) - Realiza coletas de acordo com agendamento.
 - [`credentials/twitter_api`](sara/credentials/twitter_api.py) - Contém os dados de acesso da API do Twitter.
 
-Os dados coletados são salvos no mongodb, um banco de dados não relacional.
+Core:
+
+- [`sara/core/collector.py`](sara/core/collector.py)
+
+Os dados coletados são salvos em um banco de dados não relacional (MongoDB).
 
 ### Geração da Rede
 
@@ -75,6 +79,10 @@ Scripts:
 
 A rede gerada é salva no diretório `redes/`.
 
+Core:
+
+- [`sara/core/network_generators`](sara/core/network_generators)
+
 ### Análise de Centralidade
 
 O framework identifica os vértices de maior importância de acordo com as seguintes métricas de centralidade:
@@ -83,10 +91,14 @@ O framework identifica os vértices de maior importância de acordo com as segui
 
 A detecção de centralidade é realizada por meio da utilização do script:
 
-```
-script/sara_centrality.py
-```
+Script:
 
+- [`script/sara_centrality.py`](script/sara_centrality.py)
+
+Core:
+
+- [`sara/core/centrality`](sara/core/centrality)
+   
 O resultado deste script é salvo no diretório `resultados_importancia/`.
 
 ### Detecção de Comunidades
@@ -106,16 +118,17 @@ Modulo associado
 A análise de conteúdo presente nos tweets é realizada por meio de modelagem de tópicos,
 distribuição inversa de frequência e nuvem de palavras.
 
+Script:
+
+- [`sara_content`](/sara/scripts/sara_content.py): Responsável pela geração da nuvem de palavras.
+
 Core:
 
 - [`sara/core/topic_model`](/sara/core/topic_model.py)
 - [`sara/core/tf_idf`](/sara/core/tf_idf.py)
 
-Script:
-
-- [`sara_content`](/sara/scripts/sara_content.py): Responsável pela geração da nuvem de palavras.
-
 ## Detecção de contas automatizadas
+ 
  - SaraBotTagger
 
 ## Testes
@@ -132,7 +145,7 @@ python setup.py pytest
 Testado em ambientes Ubuntu, CentOS 7
 
 - Python versão 3.6, 3.7
-- MongoDB
+- [MongoDB](https://www.mongodb.com/try/download/community)
 - [dependências](requirements.txt)
 
 ## Apoio
