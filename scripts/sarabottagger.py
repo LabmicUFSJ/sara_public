@@ -1,4 +1,4 @@
-"""SaraBottagger
+"""SaraBotTagger
 
 Script to classify users from Twitter as bot or human.
 
@@ -8,7 +8,7 @@ SaraBotTagger was built using Random Forest.
 """
 import sys
 
-from sara.core.sara_bot import SaraBot
+from sara.core.sarabottagger import SaraBotTagger
 
 try:
     name_file = sys.argv[0]
@@ -25,7 +25,8 @@ except IndexError as exc:
 print(f"Database:{database} \nCollection: {collection}")
 population = None if population == 0 else population
 # Atention: You will need specify the SarabotTagger model.
-sara = SaraBot(database, collection, population, model='modelo_9.joblib')
+sara = SaraBotTagger(database, collection, population,
+                     model='modelo_9.joblib')
 human_list, bot_list, _ = sara.run()
 print(f"Bots {len(bot_list)} Humans {len(human_list)}")
 sara.save_json()

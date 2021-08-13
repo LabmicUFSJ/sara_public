@@ -1,6 +1,7 @@
 """
-Verify if a account is bot.
-This module is private.
+SaraBotTagger core
+
+This module is still under development.
 """
 import json
 import os
@@ -9,8 +10,8 @@ import numpy as np
 import pandas as pd
 from joblib import load
 
-from sara.core.config import sarabot_path
-from sara.core.metadados import get_user_metadata
+from sara.core.config import sarabottagger_path
+from sara.core.metadata import get_user_from_dict
 from sara.core.mongo.db import load_users
 from sara.core.utils import create_path
 
@@ -27,30 +28,39 @@ def _save_list(path, data_list):
 
 def format_user(user):
     """Format user in np array."""
-    user_stats = get_user_metadata(user)
+    user_stats = get_user_from_dict(user).as_dict()
     user_table = pd.DataFrame([user_stats])
     user_table = user_table.drop(columns=['id_str'])
     user = np.array(user_table)
     return user
 
 
-class SaraBot:
+def valid_model(model):
+    """Check if the model is valid."""
+    if model is None:
+        raise ValueError("The SaraBotTagger model can not be None")
+    path_to_model = f'{absolute_path}/bot_model/{model}'
+    model = load(path_to_model)
+    return True
+
+
+class SaraBotTagger:
     """SaraBotTagger Class."""
     # pylint:disable=too-many-instance-attributes
     # TODO: Check the input before apply.
-    def __init__(self, database, collection, limit=None,
-                 model='modelo_3.joblib'):
+    def __init__(self, database, collection, limit, model):
 
+        valid_model(model)
         # Create a path
-        self.path = f'{sarabot_path}{collection}/'
+        self.path = f'{sarabottagger_path}{collection}/'
         create_path(self.path)
         self.human_list = []
         self.bot_list = []
         self.model = load(f'{absolute_path}/bot_model/{model}')
         self.human_path = f'{self.path}human_result_{collection}.txt'
         self.bot_path = f'{self.path}bot_result_{collection}.txt'
-        self.path_csv = f'{self.path}sarabot_result_{collection}.csv'
-        self.metadata_csv = f'{self.path}sarabot_metadata_{collection}.csv'
+        self.path_csv = f'{self.path}sarabottagger_result_{collection}.csv'
+        self.metadata_csv = f'{self.path}sarabottagger_md_{collection}.csv'
         self.stats_path = f'{self.path}/stats_{collection}.json'
         self.database = database
         self.collection = collection
@@ -91,7 +101,7 @@ class SaraBot:
             else:
                 user['class'] = 'human'
                 self.human_list.append(user)
-            stats = get_user_metadata(user)
+            stats = get_user_from_dict(user).as_dict()
             stats.update({"class": user['class']})
             self.stats.append(stats)
             count += 1
@@ -122,7 +132,7 @@ class SaraBot:
             json.dump(stats, json_file)
 
 
-class SaraBotStandalone:
+class SaraBotTaggerStandalone:
     """SaraBot Standalone Class."""
 
     def __init__(self, model):
