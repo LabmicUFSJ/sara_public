@@ -28,7 +28,19 @@ SaraGraphVisualizer  - https://saragraph.herokuapp.com/
 
 ## Instalação
 
-Após criar um ambiente virtual execute:
+Crie um ambiente virtual com o comando a seguir:
+
+``` console
+python3.7 -m venv <nome_ambiente>
+```
+
+Agora ative o ambiente virtual
+
+``` console
+source <nome_ambiente>/bin/activate
+```
+
+Após a criação e ativação do ambient execute:
 
 ``` console
 pip install --upgrade wheel setuptools pip
