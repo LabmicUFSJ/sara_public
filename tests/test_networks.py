@@ -1,10 +1,12 @@
 """Tests to networks module."""
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
-from sara.core.network_generators import (get_mentions_network,
-                                          get_weighted_mentions_network,
-                                          get_weigthed_retweet_network,
-                                          get_retweets_network)
+from sara.core.network_generators import (
+    get_mentions_network,
+    get_weighted_mentions_network,
+    get_weigthed_retweet_network,
+    get_retweets_network,
+)
 
 
 class TestNetworks(TestCase):
@@ -43,8 +45,7 @@ class TestNetworks(TestCase):
         self.assertEqual(len(graph.nodes), 3)
 
     @patch('sara.core.network_generators.mentions_network.validate_input')
-    @patch('sara.core.network_generators.mentions_network'
-           '.get_networkx_instance')
+    @patch('sara.core.network_generators.mentions_network' '.get_networkx_instance')
     def test_mentions_network_with_mock(self, *args):
         """Test method to generate mention network using mock."""
         (mock_get_network, mock_validate_input) = args

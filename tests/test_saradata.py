@@ -3,6 +3,7 @@ from unittest.mock import MagicMock, patch
 
 from sara.core.sara_data import SaraData
 
+
 class TestSaraData(TestCase):
     """Test SaraData class."""
 
@@ -29,4 +30,3 @@ class TestSaraData(TestCase):
         """Test get projected_data."""
         self.main.get_projected_data({"text": 1}, 0)
         mock_load_database.assert_called()
-

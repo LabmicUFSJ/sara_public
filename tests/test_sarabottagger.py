@@ -31,11 +31,11 @@ class SarabotTaggerTestCase(TestCase):
         (mock_save_list, mock_load_users, mock_get_users,
          mock_is_bot, mock_get_proba) = args
         mock_get_users.as_dict = {
-                                    'id_str': 548,
-                                    'human_prob': 0.80,
-                                    'bot_prob': 0.20,
-                                    'final_class': 'human'
-                                }
+            'id_str': 548,
+            'human_prob': 0.80,
+            'bot_prob': 0.20,
+            'final_class': 'human',
+        }
         mock_is_bot.return_value = 0
         mock_get_proba.return_value = [[[0.8], [0.2]], [0]]
         mock_load_users.return_value = [MagicMock()]

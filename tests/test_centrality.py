@@ -22,7 +22,7 @@ class TestCentrality(TestCase):
     @patch('sara.core.centrality.Centrality.get_pagerank')
     def setUp(self, *_):
         """Execute before each tests."""
-        self.digraph= MagicMock(spec=nx.DiGraph)
+        self.digraph = MagicMock(spec=nx.DiGraph)
         self.main_digraph = Centrality(self.digraph)
         self.main_digraph = begin_lists(self.main_digraph)
 
