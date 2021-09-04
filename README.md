@@ -5,6 +5,7 @@
 
 
 
+**Este repositorio se encontra desatualizado, em breve será substituido por uma nova versão**
 
 A Sara é um framework semi-automatizado para coleta e análise de dados de redes sociais online, utilizando Redes complexas, Aprendizagem de Máquina e Mineração de texto.
 
