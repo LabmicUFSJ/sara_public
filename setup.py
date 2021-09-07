@@ -30,7 +30,7 @@ install_requires = read_requirements()
 setup(
     name='sara',
     packages=packages,
-    version='0.0.3',
+    version='0.2.0',
     description='Sara framework to analysis online social networks',
     classifiers=[
         'Development Status :: 4 - Beta',
