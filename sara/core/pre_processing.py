@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# !/usr/bin/env python3
-
 """Pre-processing Class."""
 # import ast
 import os
@@ -13,6 +11,7 @@ import emoji
 import spacy
 
 import sara.stopwords.StopWords as stopWords
+from nltk.corpus import stopwords
 
 absolute_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -51,6 +50,7 @@ class PreProcessing:
     def __init__(self, remove_adjectives=False):
         """pre-processing."""
         self.nlp = spacy.load("pt_core_news_sm")
+        nltk_stopwords = set(stopwords.words('portuguese'))
         self.spacy_stopwords = spacy.lang.pt.stop_words.STOP_WORDS
         path_to_stopwords = (f"{absolute_path}/"
                              "../stopwords/stopwords_txt/stopwords_v2.txt")
@@ -64,6 +64,11 @@ class PreProcessing:
             self.set_stop = self.set_stop.union(self.set_adjectives)
         # Merge stopWords set
         self.set_stop = self.set_stop.union(self.spacy_stopwords)
+        self.set_stop = set(self.set_stop.union(nltk_stopwords))
+        swords_without_accent = map(_remove_accents, self.set_stop)
+        stop_words_english = set(stopwords.words('english'))
+        self.set_stop = self.set_stop.union(swords_without_accent)
+        self.set_stop = self.set_stop.union(stop_words_english)
 
     def add_stop_word(self, word):
         """Add a stop word to set the stopwords."""
@@ -85,7 +90,7 @@ class PreProcessing:
         # convert text to lowercase
         text = text.lower()
         # remove emoji
-        # text = self.__remove_emoji(text)
+        text = self.__remove_emoji(text)
         # find links
         text = _remove_links(text)
         # remove user mention
