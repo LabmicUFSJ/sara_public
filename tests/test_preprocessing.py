@@ -16,9 +16,10 @@ class TestPreProcessing(TestCase):
     @patch('sara.core.pre_processing._remove_links')
     @patch('sara.core.pre_processing._remove_accents')
     @patch('sara.core.pre_processing._remove_user_mention')
+    @patch('sara.core.pre_processing._remove_emoji')
     def test_clean_text_unit(self, *args):
         """unit test clean text."""
-        (mock_user_mention, mock_remove_accents, mock_remove_links,
+        (_, mock_user_mention, mock_remove_accents, mock_remove_links,
          mock_instance) = args
         text = MagicMock()
         mock_instance.return_value = True

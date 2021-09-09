@@ -90,7 +90,7 @@ class PreProcessing:
         # convert text to lowercase
         text = text.lower()
         # remove emoji
-        text = self.__remove_emoji(text)
+        text = _remove_emoji(text)
         # find links
         text = _remove_links(text)
         # remove user mention
