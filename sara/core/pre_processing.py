@@ -82,15 +82,16 @@ class PreProcessing:
         """Clean list with multiple text."""
         return [self.clean_text(word) for word in words]
 
-    def clean_text(self, text):
+    def clean_text(self, text, remove_emoji=False):
         """Clean a text."""
         if not isinstance(text, str):
             raise TypeError('Only string has accept.'
                             f'Our send: {text.__class__}')
         # convert text to lowercase
         text = text.lower()
-        # remove emoji
-        text = _remove_emoji(text)
+        if remove_emoji:
+            # remove emoji
+            text = _remove_emoji(text)
         # find links
         text = _remove_links(text)
         # remove user mention
