@@ -170,6 +170,14 @@ fomento e universidade:
 - FAPEMIG
 - UFSJ
 
+## Orientador
+- Orientador: Vinícius da Fonseca Vieira
+
+## Agradecimentos e Pesquisadores envolvidos
+- Carolina Ribeiro Xavier
+- Lucas Félix
+- Antônio Pedro Santos Alves
+
 ## Artigos associados
 
 Trabalhos relacionados a esta pesquisa que foram publicados em conferências:
