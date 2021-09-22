@@ -42,9 +42,9 @@ def get_client():
     return client
 
 
-def load_database(client, name, collection):
+def load_database(client, database_name, collection):
     """Load database."""
-    database = client[name]
+    database = client[database_name]
     return database[collection]
 
 

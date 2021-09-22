@@ -76,7 +76,7 @@ class SaraData:
     def get_filtered_tweet(self, proj_filter, project, number):
         """Get filtered data."""
         conn = load_database(self.client, self.database, self.collection)
-        return conn.find(proj_filter, projection=project).limit(number)
+        return conn.find(filter=proj_filter, projection=project).limit(number)
 
     def count_recovered_documments(self, proj_filter, number):
         """Return number the elements returned by the query the Mongo."""
