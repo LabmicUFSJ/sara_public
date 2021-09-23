@@ -17,3 +17,5 @@ pytest==6.2.4
 pytest-cov==2.11.1
 pytest-runner==5.3.0
 yala==3.0.1
+tweepy==3.10.0
+botometer==1.6
