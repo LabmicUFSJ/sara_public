@@ -12,7 +12,7 @@ from urllib3.exceptions import IncompleteRead, ProtocolError
 
 from sara.core.logger import log_erro
 from sara.core.sara_data import SaraData
-from sara.credentials.twitter_api import get_twitter_api
+from sara.credentials.twitter_api import get_tweepy_connector, get_twitter_api
 
 
 class SaraCollector():
@@ -104,3 +104,12 @@ class SaraCollector():
         name = str(user_id)+'.json'
         for user in new_list:
             self.storage.save_data_file(name, user.AsDict())
+
+
+# pylint:disable=protected-access
+def get_users_by_id(users):
+    """Get Users from Twitter using tweepy."""
+    api = get_tweepy_connector()
+    recovered = api.lookup_users(user_ids=users, count=100,
+                                 tweet_mode="extended")
+    return [usr._json for usr in recovered]
