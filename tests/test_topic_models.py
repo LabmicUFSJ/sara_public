@@ -29,30 +29,24 @@ class TestMain(TestCase):
 
     @patch('sara.core.topic_model.LatentDirichletAllocation')
     @patch('sara.core.topic_model.generate_tf')
-    @patch('sara.core.topic_model.plot_top_words')
     def test_lda_scikit(self, *args):
         """Test lda scikit method."""
-        (mock_plot_top_words, mock_tf, _) = args
+        (mock_tf, _) = args
         mock_text = MagicMock()
         mock_tf_vectorizer = MagicMock()
         mock_term_frequency = MagicMock()
         mock_tf.return_value = (mock_tf_vectorizer, mock_term_frequency)
-        lda_scikit(mock_text, 1, 1, False)
+        lda_scikit(mock_text, 1, False)
         mock_tf.assert_called()
-        mock_plot_top_words.assert_called()
 
     @patch('sara.core.topic_model.NMF')
     @patch('sara.core.topic_model.generate_tf_idf')
-    @patch('sara.core.topic_model.plot_top_words')
     def test_nmf_scikit(self, *args):
         """Test nmf scikit method."""
-        (mock_plot_top_words, mock_tf, _) = args
+        (mock_tf, _) = args
         mock_text = MagicMock()
         mock_tf_vectorizer = MagicMock()
         mock_term_frequency = MagicMock()
         mock_tf.return_value = (mock_tf_vectorizer, mock_term_frequency)
-        nmf_scikit(mock_text, 1, 1, False)
+        nmf_scikit(mock_text, 1, False)
         mock_tf.assert_called()
-        mock_plot_top_words.assert_called()
-
-

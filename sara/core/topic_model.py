@@ -11,8 +11,13 @@ This code is inspired by the code writed by:
 # License: BSD 3 clause
 # https://scikit-learn.org/
 
+In additional this code uses the changes made by:
+Lucas Félix - lucasgsfelix
+Vinícius Vieira - vfvieira
 """
 
+
+import uuid
 
 import gensim
 import matplotlib.pyplot as plt
@@ -21,18 +26,33 @@ from gensim import corpora
 from sklearn.decomposition import NMF, LatentDirichletAllocation
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
+from sara.core.utils import create_path
 
-def plot_top_words(model, feature_names, n_top_words, title):
+
+# pylint:disable=too-many-locals
+def plot_top_words(model, feature_names, number_topics, title, color):
     """Plot list with topics."""
-    fig, axes = plt.subplots(2, 5, figsize=(30, 15), sharex=True)
+    figure_distribution = {1: (1, 1), 2: (1, 2),
+                           3: (1, 3), 4: (1, 4),
+                           5: (1, 5), 6: (2, 3),
+                           7: (2, 4), 8: (2, 4),
+                           9: (2, 5), 10: (2, 5)}
+    try:
+        rows, columns = figure_distribution[number_topics]
+    except KeyError as error:
+        print(f"Error: {error}, The max topics to plot is 10"
+              f"the value passed is {number_topics}")
+        return
+
+    fig, axes = plt.subplots(rows, columns, figsize=(30, 15), sharex=True)
     axes = axes.flatten()
     for topic_idx, topic in enumerate(model.components_):
-        top_features_ind = topic.argsort()[:-n_top_words - 1:-1]
+        top_features_ind = topic.argsort()[:-number_topics - 1:-1]
         top_features = [feature_names[i] for i in top_features_ind]
         weights = topic[top_features_ind]
 
         position = axes[topic_idx]
-        position.barh(top_features, weights, height=0.7, color='lightblue')
+        position.barh(top_features, weights, height=0.7, color=color)
         position.set_title(f'Tópico {topic_idx +1}',
                            fontdict={'fontsize': 15})
         position.invert_yaxis()
@@ -42,7 +62,11 @@ def plot_top_words(model, feature_names, n_top_words, title):
         fig.suptitle(title, fontsize=25)
 
     plt.subplots_adjust(top=0.90, bottom=0.05, wspace=0.90, hspace=0.3)
-    plt.show()
+    # plt.show()
+    create_path("resultados/topic_model/")
+    save_name = f"resultados/topic_model/{title}_{str(uuid.uuid4().hex)}.pdf"
+    print(f"Saving file in the path {save_name}")
+    fig.savefig(save_name)
 
 
 def _unpack_tupla(tupla):
@@ -95,8 +119,9 @@ def generate_tf_idf(corpus, n_features=1000, bigram=False):
     """Generate TF-idf bag-of-words."""
     ngram_interval = (1, 1)
     if bigram:
+        # to use only bigram change to (2, 2)
         ngram_interval = (1, 2)
-    tfidf_vectorizer = TfidfVectorizer(max_df=0.95, min_df=2,
+    tfidf_vectorizer = TfidfVectorizer(max_df=0.95, min_df=1,
                                        max_features=n_features,
                                        ngram_range=ngram_interval)
     tfidf = tfidf_vectorizer.fit_transform(corpus)
@@ -106,20 +131,21 @@ def generate_tf_idf(corpus, n_features=1000, bigram=False):
 
 def generate_tf(corpus, n_features=1000, bigram=False):
     """Generate TF vectorization."""
+    # set to use unigram or bigram
     ngram_interval = (1, 1)
     if bigram:
         ngram_interval = (1, 2)
     # generate term-frequency representation
-    tf_vectorizer = CountVectorizer(max_df=0.95, min_df=2,
+    tf_vectorizer = CountVectorizer(max_df=0.95, min_df=1,
                                     max_features=n_features,
                                     ngram_range=ngram_interval)
+
     term_frequency = tf_vectorizer.fit_transform(corpus)
     return tf_vectorizer, term_frequency
 
 
-def lda_scikit(corpus, n_components=10, n_top_words=10, bigram=False):
+def lda_scikit(corpus, n_components=10, bigram=False):
     """Run LDA topic model using Scikit-learn"""
-
     tf_vectorizer, term_frequency = generate_tf(corpus, bigram=bigram)
     lda = LatentDirichletAllocation(n_components=n_components, max_iter=10,
                                     learning_method='online',
@@ -128,15 +154,15 @@ def lda_scikit(corpus, n_components=10, n_top_words=10, bigram=False):
     lda.fit(term_frequency)
     tf_feature_names = tf_vectorizer.get_feature_names()
 
-    plot_top_words(lda, tf_feature_names, n_top_words, 'Tópicos com LDA')
+    return lda, tf_feature_names
 
 
-def nmf_scikit(corpus, n_components=10, n_top_words=10, bigram=False):
+def nmf_scikit(corpus, n_components=10, bigram=False):
     """Run NMF topic model analysis using Scikit learn."""
     tfidf_vectorizer, tfidf = generate_tf_idf(corpus, bigram=bigram)
-    nmf = NMF(n_components=n_components, random_state=1,
+    nmf = NMF(n_components=n_components, random_state=1, max_iter=1600,
               alpha=.1, l1_ratio=.5, init='nndsvd').fit(tfidf)
 
     tfidf_feature_names = tfidf_vectorizer.get_feature_names()
-    plot_top_words(nmf, tfidf_feature_names, n_top_words,
-                   'Tópicos com NMF')
+
+    return nmf, tfidf_feature_names
