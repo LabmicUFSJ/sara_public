@@ -96,6 +96,25 @@ Core:
 
 Os dados coletados são salvos em um banco de dados não relacional (MongoDB).
 
+#### Exemplo
+
+Exemplo de como criar um script para coleta e armazenamento de dados:
+
+``` python
+from sara.core.collector import SaraCollector
+from sara.core.sara_data import SaraData
+
+
+database = "brasileirao"
+colecao = "futebol"
+termo = "cruzeiro"
+limite_coleta = 0
+storage = SaraData(database=database, collection_name=colecao)
+data_collector = SaraCollector(storage)
+data_collector.real_time_collector(termo, limite_coleta)
+```
+
+
 ### Geração da Rede
 
 A geração da rede é realizada utilizando o módulo `network_generators`.
