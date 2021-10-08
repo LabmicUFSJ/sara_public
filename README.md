@@ -60,6 +60,19 @@ python setup.py bdist_wheel && pip install --force-reinstall dist/*.whl
 ``` console
 python3 setup.py install
 ```
+### Pós-instalação
+
+Após a instalação pode ser necessário realizar o download de alguns recursos da biblioteca NLTK:
+
+``` console
+python -m nltk.downloader stopwords
+```
+Você também pode instalar os recursos do NLTK executando o script [`nltk`](install_punkt_nltk.py).
+
+Um segundo passo após a instalação é a atualização das credências de acesso:
+
+[`credentials`](sara/credentials/twitter_api.py) - Credênciais do Twitter
+
 
 ## Módulos
 
