@@ -65,6 +65,10 @@ python3 setup.py install
 Após a instalação pode ser necessário realizar o download de alguns recursos da biblioteca NLTK:
 
 ``` console
+python -m nltk.downloader punkt
+```
+
+``` console
 python -m nltk.downloader stopwords
 ```
 Você também pode instalar os recursos do NLTK executando o script [`nltk`](install_punkt_nltk.py).
