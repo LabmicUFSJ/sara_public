@@ -9,11 +9,13 @@ from pathlib import Path
 
 import networkx as nx
 import requests
-from requests.exceptions import (ChunkedEncodingError, ConnectionError,
-                                 ConnectTimeout, HTTPError, RequestException,
-                                 SSLError, Timeout)
+
+from sara.core.exceptions import SaraRequestException
 
 logging.basicConfig(filename='sara.log', level=logging.WARNING)
+
+POLITE_WEB_REQUEST_TIME = 2
+WAIT_TIME_RETRY_WEB_REQUEST = 3
 
 
 def _is_valid(url):
@@ -42,50 +44,31 @@ def get_url_from_error(error_msg):
 
 
 def get_web_url(url, connection_attempt=2):
-    """Get URL not shorted.
-
-    Make a web request in return the URL complete.
-    wait before multiple connections, be polite 2 seconds.
+    """Make polite web request and return a URL.
+    In case the fail return the same received URL.
     """
-
     # polite
-    time.sleep(1)
+    time.sleep(POLITE_WEB_REQUEST_TIME)
     headers = {'user-agent': 'Mozilla/5.0 (X11; Linux x86_64)'
                ' AppleWebKit/537.36 (KHTML, like Gecko) '
                'Chrome/51.0.2704.103 Safari/537.36'}
     try:
         response = requests.get(url, headers=headers, timeout=5)
-    except (ConnectTimeout, Timeout) as error_msg:
-        print(f'Error {error_msg}')
-        logging.error('Error time out %s', error_msg)
+    except (SaraRequestException) as error_msg:
+        logging.error('Error to make web request, error %s', error_msg)
 
-        url_from_error = get_url_from_error(str(error_msg))
-        if not url_from_error:
-            return url
-        if _is_valid(url_from_error):
-            return url_from_error
-
-        return url
-
-    except (SSLError, HTTPError, ConnectionError) as error_msg:
         if 'Temporary failure in name resolution' in str(error_msg):
-            print(f'Fail name resolution {error_msg}')
             logging.error('Error name resolution %s', error_msg)
-            time.sleep(1)
+            time.sleep(WAIT_TIME_RETRY_WEB_REQUEST)
             connection_attempt -= 1
+            # try a new web request
             if connection_attempt:
                 get_web_url(url, connection_attempt)
-        logging.error('URL offline %s', url)
+
+        # Try extract URL from error message
         url_from_error = get_url_from_error(str(error_msg))
-        if not url_from_error:
-            return url
         if _is_valid(url_from_error):
             return url_from_error
-        return url
-
-    except (RequestException, ChunkedEncodingError, Exception) as error:
-        logging.error('General exception error %s', error)
-        return url
 
     if response.content:
         return response.url
@@ -120,7 +103,7 @@ def create_path(path):
 
 def save_data(name, data):
     """save data to file json ."""
-    with open(name + ".txt", "a") as arq:
+    with open(name + ".txt", "a",  encoding='utf-8') as arq:
         arq.write(str(data))
         arq.write("\n")
 
@@ -135,7 +118,7 @@ def save_network(graph, network_path):
     if not network_path.exists():
         network_path.mkdir(parents=True, exist_ok=True)
     summary_path = network_path.joinpath(f"{network_name}_summary.txt")
-    with open(summary_path, "w") as archive:
+    with open(summary_path, "w", encoding='utf-8') as archive:
         archive.write(str(nx.info(graph)))
     print('Saving network with .gml')
     path_network_gml = str(network_path) + f"/{network_name}.gml"
@@ -146,11 +129,13 @@ def save_network(graph, network_path):
     # gera traducao de nome para números
     cont = 0
     print('Saving network with .edgelist')
-    with open(str(network_path) + f"/traducao_{network_name}", 'a+') as arq:
+    path_to_file = Path(str(network_path), f"/traducao_{network_name}")
+    with open(path_to_file, 'a+', encoding='utf-8') as arq:
         for i in graph:
             arq.write(i+":"+str(cont)+"\n")
             cont += 1
     edgelist_name = str(network_path)+f"/{network_name}.edgelist"
+
     nx.write_edgelist(graph_ids, edgelist_name, data=False)
 
 
@@ -160,5 +145,5 @@ def load_txt(path_to_file):
     Args:
         path_to_file ([type]): [description]
     """
-    with open(path_to_file, "r") as lines:
+    with open(path_to_file, "r", encoding='utf-8') as lines:
         return [line.strip() for line in lines]
