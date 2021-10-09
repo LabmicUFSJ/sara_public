@@ -5,15 +5,19 @@ import os
 import re
 # import base
 import string
+from logging import getLogger
 from unicodedata import normalize
 
 import emoji
+import nltk
 import spacy
-
-import sara.stopwords.StopWords as stopWords
 from nltk.corpus import stopwords
 
+import sara.stopwords.StopWords as stopWords
+
 absolute_path = os.path.dirname(os.path.abspath(__file__))
+
+LOG = getLogger('sara.preprocessing')
 
 
 def _remove_emoji(text):
@@ -45,12 +49,21 @@ def _remove_links(text):
 
 
 class PreProcessing:
-    """Classe responsável pelo pré-processamento dos dados."""
+    """Classe responsável pelo pré-processamento dos dados.
+
+    This class is responsible for the pre-processing step.
+    """
 
     def __init__(self, remove_adjectives=False):
         """pre-processing."""
         self.nlp = spacy.load("pt_core_news_sm")
-        nltk_stopwords = set(stopwords.words('portuguese'))
+        try:
+            nltk_stopwords = set(stopwords.words('portuguese'))
+        except LookupError as error:
+            LOG.error('Error to get nltk stopwords %s', error)
+            print("Error to get nltk stopwords trying install.")
+            nltk.download('punkt')
+            nltk.download('stopwords')
         self.spacy_stopwords = spacy.lang.pt.stop_words.STOP_WORDS
         path_to_stopwords = (f"{absolute_path}/"
                              "../stopwords/stopwords_txt/stopwords_v2.txt")
@@ -66,6 +79,7 @@ class PreProcessing:
         self.set_stop = self.set_stop.union(self.spacy_stopwords)
         self.set_stop = set(self.set_stop.union(nltk_stopwords))
         swords_without_accent = map(_remove_accents, self.set_stop)
+        # Try to remove stopwords from tweets written in English
         stop_words_english = set(stopwords.words('english'))
         self.set_stop = self.set_stop.union(swords_without_accent)
         self.set_stop = self.set_stop.union(stop_words_english)
@@ -85,8 +99,10 @@ class PreProcessing:
     def clean_text(self, text, remove_emoji=False):
         """Clean a text."""
         if not isinstance(text, str):
-            raise TypeError('Only string has accept.'
-                            f'Our send: {text.__class__}')
+            error_msg = (f'Expected string: received {text.__class__}')
+            LOG.error(error_msg)
+            raise TypeError(error_msg)
+
         # convert text to lowercase
         text = text.lower()
         if remove_emoji:

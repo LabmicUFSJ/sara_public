@@ -10,21 +10,20 @@ LabMIC - UFSJ
 import sys
 
 from sara.core.collector import SaraCollector
-from sara.core.logger import log
+from sara.core.logger import keyword_log
 from sara.core.sara_data import SaraData
-
 
 try:
     name = sys.argv[0]
-    term = sys.argv[1]
+    keyword = sys.argv[1]
     n_tweets = sys.argv[2]
     collection = sys.argv[3]
 except IndexError as exc:
-    print(f"error {exc}\n")
-    print(f"ERRO!Digite {name} <term> "
+    print(f"Error: {exc}\n")
+    print(f"ERRO!Please input {name} <keyword> "
           "<tweets_number> <collection>")
     print('\n--------------------------------------------\n')
-    print("Term: The term will be collected" +
+    print("keyword: The keyword will be collected" +
           "\ntweets_limit: Number of tweets will be collected." +
           " 0 - not set a limit to collect." +
           "\nCollection: Collection where these tweets will be stored.\n")
@@ -33,7 +32,7 @@ except IndexError as exc:
 
 
 if __name__ == '__main__':
-    log(term)
+    keyword_log(keyword)
     storage = SaraData(collection)
     data_collector = SaraCollector(storage)
-    data_collector.real_time_collector(term, n_tweets)
+    data_collector.real_time_collector(keyword, n_tweets)

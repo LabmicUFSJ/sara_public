@@ -5,12 +5,12 @@ Modulo de coleta utilizando a api do Twitter .
 
 import sys
 import time
+from logging import getLogger
 
 from requests.exceptions import ChunkedEncodingError
 from twitter.error import TwitterError
 from urllib3.exceptions import IncompleteRead, ProtocolError
 
-from sara.core.logger import log_erro
 from sara.core.sara_data import SaraData
 from sara.credentials.twitter_api import get_tweepy_connector, get_twitter_api
 
@@ -20,6 +20,7 @@ class SaraCollector():
 
     def __init__(self, storage):
         # Get twitter API
+        self.log = getLogger('sara.collector')
         self.api = get_twitter_api()
         self.show_data_treshold = 1000
         self.sleep_on_error = 10
@@ -50,7 +51,7 @@ class SaraCollector():
         except (TwitterError, ProtocolError, IncompleteRead,
                 ChunkedEncodingError) as exc:
             print(f"error {exc}")
-            log_erro(str(exc))
+            self.log.error(str(exc))
             if 'Unauthorized' in str(exc):
                 print(f"Please check your credentials {exc}.")
                 sys.exit(-1)
@@ -82,7 +83,7 @@ class SaraCollector():
         except (TwitterError, ProtocolError, IncompleteRead,
                 ChunkedEncodingError) as exc:
             print(f"error {exc}")
-            log_erro(str(exc))
+            self.log.error(str(exc))
             if 'Unauthorized' in str(exc):
                 print(f"Please check your credentials {exc}.")
                 sys.exit(-1)
