@@ -156,6 +156,11 @@ Core:
 - [`sara/core/topic_model`](/sara/core/topic_model.py)
 - [`sara/core/tf_idf`](/sara/core/tf_idf.py)
 
+## Scripts
+
+O diretório [`scripts`](/scripts) contém uma série de scripts construídos utilizando o SARA.
+O SARA pode ser modificado e expandido.
+
 ## Detecção de contas automatizadas
  
  - SaraBotTagger
