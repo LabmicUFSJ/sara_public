@@ -116,7 +116,7 @@ Core:
 
 O framework identifica os vértices de maior importância de acordo com as seguintes métricas de centralidade:
 
-- Betweenness, PageRank, Degree, Curtidas, Retweets.
+- Betweenness, PageRank, Degree
 
 A detecção de centralidade é realizada por meio da utilização do script:
 
