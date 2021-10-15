@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-# !/usr/bin/env python3
 """
 Script to perform content analisys.
 SARA
 LabMIC - UFSJ
-Carlos Barbosa
 """
 import sys
 

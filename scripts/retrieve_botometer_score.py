@@ -2,6 +2,11 @@
 Get Botometer score.
 
 This script uses Botometer API.
+
+SARA
+Licença - MIT
+LabMIC - UFSJ
+2019 - 2021
 """
 import sys
 from random import sample
@@ -13,12 +18,12 @@ from sara.core.utils import load_txt
 
 try:
     path_to_file = sys.argv[1]
-    database_name = sys.argv[2]
-    collection_name = sys.argv[3]
+    collection_name = sys.argv[2]
+    database_name = sys.argv[3]
 except IndexError as error:
     print(f"Error {error}")
-    print(f"Please, input python {sys.argv[0]} <path_to_file> <database> "
-          " <collection>")
+    print(f"Please, input python {sys.argv[0]} <path_to_file> "
+          "<collection> <database> ")
     sys.exit(-1)
 
 

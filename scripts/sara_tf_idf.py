@@ -1,9 +1,9 @@
 """Script to make TF-IDF analysis.
 
-License: MIT License
 SARA
+Licença - MIT
 LabMIC - UFSJ
-Carlos Barbosa
+2019 - 2021
 """
 import sys
 
@@ -14,18 +14,18 @@ from sara.core.tf_idf import get_tf_idf
 try:
     file_name = sys.argv[0]
     collection = sys.argv[1]
+    database = sys.argv[2]
 except IndexError as exc:
     print(f"error {exc}\n")
-    print(f"ERRO!Please input {file_name} <collection>")
+    print(f"ERRO!Please input {file_name} <collection> <database>")
     print('\n--------------------------------------------\n')
-    print("\nCollection: Collection where these tweets will be stored.\n")
     sys.exit(-1)
 
 
 def main():
     """Make TF-IDF analysis."""
     processing = PreProcessing()
-    storage = SaraData(collection)
+    storage = SaraData(collection, database)
     projection = {'text': 1,
                   'extended_tweet.full_text': 1,
                   'retweeted_status.text': 1,

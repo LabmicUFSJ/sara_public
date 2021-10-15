@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# !/usr/bin/env python3
 """
 URL analysis.
 
@@ -8,6 +7,11 @@ Extract URLS from Tweets hosted on MongoDB.
 - USE MONGODB
 
 Save the result as a CSV file.
+
+SARA
+Licença - MIT
+LabMIC - UFSJ
+2019 - 2021
 """
 # System import
 import re

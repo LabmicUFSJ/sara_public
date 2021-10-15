@@ -2,6 +2,10 @@
 Script to schedule real time tweets collect.
 SARA - Framework
 
+SARA
+Licença - MIT
+LabMIC - UFSJ
+2019 - 2021
 """
 
 import sched

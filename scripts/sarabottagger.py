@@ -12,12 +12,12 @@ from sara.core.sarabottagger import SaraBotTagger
 
 try:
     name_file = sys.argv[0]
-    database = sys.argv[1]
-    collection = sys.argv[2]
+    collection = sys.argv[1]
+    database = sys.argv[2]
     population = int(sys.argv[3])
 except IndexError as exc:
     print(f"erro {exc}")
-    print(f"Input: python {name_file} <database> <collection> "
+    print(f"Input: python {name_file} <collection> <database>"
           "<number_of_users>")
     print("number_of_users = 0 check all accounts in collection.")
     sys.exit(-1)

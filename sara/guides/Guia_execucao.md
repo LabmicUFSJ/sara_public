@@ -1,3 +1,8 @@
+# Guia de execução de scripts
+
+Este guia apresenta o modo de excecução dos scripts que acompanham o framework.
+Novos scripts podem ser criados utilizando o framework.
+
 ###  Coletando Tweets.
 
 Ative o ambiente virtual e digite:
@@ -15,7 +20,7 @@ Ative o ambiente virtual e digite:
 ### Gerando Rede (Estrutural)
 
 ``` shell
-(saraEnv)$: python sara_network.py <nome_rede> <nome_base> <nome_colecao> <True|False> <limite> <r|m>
+(saraEnv)$: python sara_network.py <nome_rede> <nome_colecao> <database> <True|False> <limite> <r|m>
 ```
 - nome_rede: Nome a ser utilizado para salvar a rede gerada.
 - nome_base: Nome do banco de dados onde os tweets baixados estão presente.
@@ -29,7 +34,7 @@ A rede gerada sera salva na pasta redes, a ser gerada após a execução.
 ### Gerando Rede com Peso nas Arestas (Estrutural)
 
 ``` shell
-(saraEnv)$: python sara_network_weighted.py <nome_rede> <nome_base> <nome_colecao> <True|False> <limite> <r|m>
+(saraEnv)$: python sara_network_weighted.py <nome_rede> <nome_colecao> <nome_base> <True|False> <limite> <r|m>
 ```
 - nome_rede: Nome a ser utilizado para salvar a rede gerada.
 - nome_base: Nome do banco de dados onde os tweets baixados estão presente.
@@ -70,7 +75,7 @@ A detecção de contas automatizada (BOTS) é realizada por meio do SaraBotTagge
 Em um console, com o ambiente virtual instalado execute:
 
 ``` console
-python sarabottagger.py <database> <collection> <number_of_users>
+python sarabottagger.py <collection> <database> <number_of_users>
 ```
 
 - database: A base de dados a ser utilizada.

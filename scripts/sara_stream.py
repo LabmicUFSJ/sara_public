@@ -2,10 +2,10 @@
 """
 Script to collect real time tweets.
 
-Sara - Framework
+SARA
 Licença - MIT
-Carlos Magno
 LabMIC - UFSJ
+2019 - 2021
 """
 import sys
 
@@ -18,10 +18,11 @@ try:
     keyword = sys.argv[1]
     n_tweets = sys.argv[2]
     collection = sys.argv[3]
+    database = sys.argv[4]
 except IndexError as exc:
     print(f"Error: {exc}\n")
     print(f"ERRO!Please input {name} <keyword> "
-          "<tweets_number> <collection>")
+          "<tweets_number> <collection> <database>")
     print('\n--------------------------------------------\n')
     print("keyword: The keyword will be collected" +
           "\ntweets_limit: Number of tweets will be collected." +
@@ -33,6 +34,6 @@ except IndexError as exc:
 
 if __name__ == '__main__':
     keyword_log(keyword)
-    storage = SaraData(collection)
+    storage = SaraData(collection, database)
     data_collector = SaraCollector(storage)
     data_collector.real_time_collector(keyword, n_tweets)

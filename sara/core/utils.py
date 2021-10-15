@@ -9,7 +9,6 @@ from pathlib import Path
 
 import networkx as nx
 import requests
-
 from sara.core.exceptions import SaraRequestException
 
 logging.basicConfig(filename='sara.log', level=logging.WARNING)
@@ -109,33 +108,39 @@ def save_data(name, data):
 
 
 def save_network(graph, network_path):
-    """Save retweet network to file.
-
+    """Save Graph to file.
+    Save graph as GML, gexf and edgelist
     """
-    print(f"Saving network in the path {network_path}")
 
+    print(f"Saving network in the path {network_path}")
     network_name = network_path.name
     if not network_path.exists():
         network_path.mkdir(parents=True, exist_ok=True)
+
+    # Save network summary
     summary_path = network_path.joinpath(f"{network_name}_summary.txt")
     with open(summary_path, "w", encoding='utf-8') as archive:
         archive.write(str(nx.info(graph)))
-    print('Saving network with .gml')
-    path_network_gml = str(network_path) + f"/{network_name}.gml"
-    nx.write_gml(graph, path_network_gml)
-    print('Saving network with .gexf')
-    nx.write_gml(graph, str(network_path)+f"/{network_name}.gexf")
-    graph_ids = nx.convert_node_labels_to_integers(graph)
-    # gera traducao de nome para números
-    cont = 0
-    print('Saving network with .edgelist')
-    path_to_file = Path(str(network_path), f"/traducao_{network_name}")
-    with open(path_to_file, 'a+', encoding='utf-8') as arq:
-        for i in graph:
-            arq.write(i+":"+str(cont)+"\n")
-            cont += 1
-    edgelist_name = str(network_path)+f"/{network_name}.edgelist"
 
+    # Save GML
+    print('Saving network with .gml')
+    path_network_gml = network_path.joinpath(f"{network_name}.gml")
+    nx.write_gml(graph, path_network_gml)
+
+    # Sava GEXF
+    print('Saving network with .gexf')
+    path_gexf = network_path.joinpath(f"{network_name}.gexf")
+    nx.write_gml(graph, path_gexf)
+    graph_ids = nx.convert_node_labels_to_integers(graph)
+
+    # Save Edgelist
+    # gera traducao de nome para números
+    print('Saving network with .edgelist')
+    path_to_file = network_path.joinpath(f"traducao_{network_name}")
+    with open(path_to_file, 'a+', encoding='utf-8') as arq:
+        for node, cont in enumerate(graph):
+            arq.write(str(node)+":"+str(cont)+"\n")
+    edgelist_name = network_path.joinpath(f"{network_name}.edgelist")
     nx.write_edgelist(graph_ids, edgelist_name, data=False)
 
 

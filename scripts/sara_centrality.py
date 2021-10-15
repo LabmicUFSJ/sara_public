@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
-# !/usr/bin/env python3
 """
 Script to make centrality analysis
 
-This script uses the SaraFramework.
+This script uses the Sara Framework.
 
-SARA Framework
-License - MIT
-LABMIC - UFSJ - 2019-2021
-Carlos Barbosa
+SARA
+Licença - MIT
+LabMIC - UFSJ
+2019 - 2021
 """
 import sys
 
