@@ -3,7 +3,7 @@
 [![experimental](https://img.shields.io/badge/stability-experimental-red)](https://github.com/LabmicUFSJ/sara_public/) [![version](https://img.shields.io/badge/version-0.2-blue)](https://github.com/LabmicUFSJ/sara_public/blob/master/CHANGELOG.md) [![labmic](https://img.shields.io/badge/UFSJ-Labmic-lightgrey)](https://ufsj.edu.br/)
 [![Build Python Package](https://github.com/LabmicUFSJ/sara/actions/workflows/main.yml/badge.svg)](https://github.com/LabmicUFSJ/sara/actions/workflows/main.yml)
 [![Tests and Linter](https://github.com/LabmicUFSJ/sara/actions/workflows/python-package.yml/badge.svg)](https://github.com/LabmicUFSJ/sara/actions/workflows/python-package.yml)
-[![Coverage](https://img.shields.io/badge/coverage-61%25-yellow)](https://github.com/LabmicUFSJ/sara/actions/workflows/python-package.yml)
+[![Coverage](https://img.shields.io/badge/coverage-64%25-yellow)](https://github.com/LabmicUFSJ/sara/actions/workflows/python-package.yml)
 
 A SARA é um framework semi-automatizado para coleta e análise de dados de
 redes sociais online (RSO), utilizando redes complexas, aprendizagem de máquina
@@ -19,13 +19,16 @@ SaraBotTagger Web Tool - https://sara-labmic.herokuapp.com/
 
 SaraDashboard - https://sara-dash.herokuapp.com/
 
-SaraGraphVisualizer  - https://saragraph.herokuapp.com/
+SaraGraphVisualizer - https://saragraph.herokuapp.com/
 
 ## Guias
 
 - [Guia geral como utilizar.](sara/guides/Guia_execucao.md)
 - [Agendamento de Coleta.](sara/guides/Guia_agendamento.md)
 
+Grafo dependencias
+- [core](sara/guides/sara_deps.pdf)
+- [scripts](sara/guides/scripts.pdf)
 ## Instalação
 
 Crie um ambiente virtual com o comando a seguir:
@@ -49,6 +52,7 @@ pip install --upgrade wheel setuptools pip
 ### Instalando com Wheel
 
 **Método de instalação recomendado**
+
 
 ``` console
 python setup.py bdist_wheel && pip install --force-reinstall dist/*.whl
@@ -146,7 +150,7 @@ Script:
 Core:
 
 - [`sara/core/centrality`](sara/core/centrality)
-   
+
 O resultado deste script é salvo no diretório `resultados_importancia/`.
 
 ### Detecção de Comunidades
@@ -181,7 +185,7 @@ O diretório [`scripts`](/scripts) contém uma série de scripts construídos ut
 O SARA pode ser modificado e expandido.
 
 ## Detecção de contas automatizadas
- 
+
  - SaraBotTagger
 
 ## Testes

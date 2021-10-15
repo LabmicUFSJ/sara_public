@@ -19,6 +19,7 @@ except IndexError as exc:
     print(f"error {exc}\n")
     print(f"ERRO!Please input {file_name} <collection> <database>")
     print('\n--------------------------------------------\n')
+    print("\nCollection: Collection where tweets are stored.\n")
     sys.exit(-1)
 
 
