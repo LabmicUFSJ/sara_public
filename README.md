@@ -109,7 +109,7 @@ database = "brasileirao"
 colecao = "futebol"
 termo = "cruzeiro"
 limite_coleta = 0
-storage = SaraData(database=database, collection_name=colecao)
+storage = SaraData(colecao, database)
 data_collector = SaraCollector(storage)
 data_collector.real_time_collector(termo, limite_coleta)
 ```
