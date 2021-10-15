@@ -178,7 +178,7 @@ python setup.py pytest
 
 Testado em ambientes Ubuntu, CentOS 7
 
-- Python versão 3.6, 3.7, 3.8, 3.9
+- Python versão 3.7, 3.8, 3.9
 - [MongoDB](https://www.mongodb.com/try/download/community)
 - [dependências](requirements.txt)
 
