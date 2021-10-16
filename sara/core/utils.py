@@ -5,6 +5,7 @@ import datetime
 import logging
 import re
 import time
+from collections import Counter
 from pathlib import Path
 
 import networkx as nx
@@ -152,3 +153,30 @@ def load_txt(path_to_file):
     """
     with open(path_to_file, "r", encoding='utf-8') as lines:
         return [line.strip() for line in lines]
+
+
+def _extract_hashtag(entities):
+    """Extract hashtags."""
+    htags = []
+    for htag in entities['entities'].get('hashtags'):
+        htags.append(htag.get('text'))
+    if htags:
+        return htags
+    return None
+
+
+def get_hashtags(tweets, k):
+    """Return a list of tuples with k most common hashtags.
+
+    The returned tuple is ordered:
+    [(a, 10), (b, 5)]
+    """
+    lista = list(map(_extract_hashtag, tweets))
+    # Remove None from list
+    listahtags = []
+    for htag in filter(None.__ne__, lista):
+        listahtags.extend(htag)
+
+    # Most common hashtags
+    counter_dict = Counter(listahtags)
+    return counter_dict.most_common(k)
