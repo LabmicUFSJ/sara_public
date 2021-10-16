@@ -21,72 +21,41 @@ from pathlib import Path
 
 # library import
 import pandas as pd
-
 # Local import
 from sara.core.config import DEFAULT
 from sara.core.sara_data import SaraData
 from sara.core.utils import create_path, get_web_url, load_txt
 
 
-def get_match_obj(url_pattern, patterns_list):
+def get_match_obj(url_pattern):
     """Return re.match object."""
     pattern = r'(http[s]*://)(' + url_pattern + r')[\D\d]+'
-    patterns_list.append(re.compile(pattern))
-    return patterns_list
+    return re.compile(pattern)
 
 
 def generate_patterns():
     """Generate list with regex match objs to match with website urls."""
-    patterns = []
-    # bit.ly
-    patterns = get_match_obj('bit.ly', patterns)
-    # http://zpr.io/
-    patterns = get_match_obj('zpr.io', patterns)
-    # http://chng.it/
-    patterns = get_match_obj('chng.it', patterns)
-    # dlvr.it
-    patterns = get_match_obj('dlvr.it', patterns)
-    # buff
-    patterns = get_match_obj('buff.ly', patterns)
-    # glob
-    patterns = get_match_obj('glo.bo', patterns)
-    # ow.ly
-    patterns = get_match_obj('ow.ly', patterns)
-    # mlab.bs
-    patterns = get_match_obj('mla.bs', patterns)
-    # cnn
-    patterns = get_match_obj('cnn.it', patterns)
-    # is.gd
-    patterns = get_match_obj('is.gd', patterns)
-    # disq
-    patterns = get_match_obj('disq.us', patterns)
-    # wpp
-    patterns = get_match_obj('wp.me', patterns)
-    # tinyurl
-    patterns = get_match_obj('tinyurl.com', patterns)
-    # go.shr
-    patterns = get_match_obj('go.shr.lc', patterns)
-    # goo.gl
-    patterns = get_match_obj('goo.gl', patterns)
-    # migre.me
-    patterns = get_match_obj('migre.me', patterns)
+    domains = ['bit.ly', 'zpr.io', 'chng.it', 'dlvr.it', 'buff.ly', 'glo.bo',
+               'ow.ly', 'mla.bs', 'cnn.it', 'is.gd', 'disq.us', 'wp.me',
+               'tinyurl.com', 'go.shr.lc', 'goo.gl', 'migre.me']
+    patterns = list(map(get_match_obj, domains))
     return patterns
 
 
 PATTERNS = generate_patterns()
 
 
-def _get_url(expanded_url):
+def _get_url(minimized_url):
     """Format bit.ly link to be translated into a 'real' web link
 
     Translate from bit.ly to 'real' web link.
     """
     for pattern in PATTERNS:
+        # If minimized URL try expand
+        if pattern.match(minimized_url):
+            return get_web_url(minimized_url)
 
-        if pattern.match(expanded_url):
-            return get_web_url(expanded_url)
-
-    return expanded_url
+    return minimized_url
 
 
 def extract_urls(tweets, exclude_pattern):
