@@ -17,10 +17,6 @@ Site : https://labmicufsj.github.io/sara_public/
 
 SaraBotTagger Web Tool - https://sara-labmic.herokuapp.com/
 
-SaraDashboard - https://sara-dash.herokuapp.com/
-
-SaraGraphVisualizer - https://saragraph.herokuapp.com/
-
 ## Guias
 
 - [Guia geral como utilizar.](sara/guides/Guia_execucao.md)
