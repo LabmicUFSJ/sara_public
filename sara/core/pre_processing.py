@@ -57,6 +57,7 @@ class PreProcessing:
     def __init__(self, remove_adjectives=False):
         """pre-processing."""
         self.nlp = spacy.load("pt_core_news_sm")
+        nltk_stopwords = " "
         try:
             nltk_stopwords = set(stopwords.words('portuguese'))
         except LookupError as error:
@@ -64,6 +65,7 @@ class PreProcessing:
             print("Error to get nltk stopwords trying install.")
             nltk.download('punkt')
             nltk.download('stopwords')
+            nltk_stopwords = set(stopwords.words('portuguese'))
         self.spacy_stopwords = spacy.lang.pt.stop_words.STOP_WORDS
         path_to_stopwords = (f"{absolute_path}/"
                              "../stopwords/stopwords_txt/stopwords_v2.txt")
