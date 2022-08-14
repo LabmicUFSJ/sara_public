@@ -213,9 +213,9 @@ fomento e universidade:
 
 ## Orientador
 - Orientador: Vinícius da Fonseca Vieira
+- Coorientadora: Carolina Ribeiro Xavier
 
 ## Agradecimentos e Pesquisadores envolvidos
-- Carolina Ribeiro Xavier
 - Lucas Félix
 - Antônio Pedro Santos Alves
 
