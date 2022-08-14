@@ -29,7 +29,7 @@ Grafo dependencias
 Crie um ambiente virtual com o comando a seguir:
 
 ``` console
-python3.7 -m venv <nome_ambiente>
+python3.8 -m venv <nome_ambiente>
 ```
 
 Agora ative o ambiente virtual
@@ -196,7 +196,7 @@ python setup.py pytest
 
 Testado em ambientes Ubuntu, CentOS 7
 
-- Python versão 3.7, 3.8, 3.9
+- Python versão 3.8, 3.9
 - [MongoDB](https://www.mongodb.com/try/download/community)
 - [dependências](requirements.txt)
 
