@@ -15,7 +15,6 @@ Estado : Em desenvolvimento / Experimental
 
 Site : https://labmicufsj.github.io/sara_public/
 
-SaraBotTagger Web Tool - https://sara-labmic.herokuapp.com/
 
 ## Guias
 
