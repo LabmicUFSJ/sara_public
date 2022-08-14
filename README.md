@@ -223,7 +223,7 @@ fomento e universidade:
 
 Trabalhos relacionados a esta pesquisa que foram publicados em conferências:
 
-- [ Uso de URLs para a caracterização de Comunidades em redes Sociais Online] (https://sol.sbc.org.br/index.php/brasnam/article/view/20514)
+- [Uso de URLs para a caracterização de Comunidades em redes Sociais Online](https://sol.sbc.org.br/index.php/brasnam/article/view/20514)
 
 - [SaraBotTagger - A Light Tool to Identify Bots in Twitter](https://link.springer.com/chapter/10.1007/978-3-030-65351-4_9)
 
