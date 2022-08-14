@@ -28,8 +28,8 @@ def get_twitter_api():
     api = twitter.Api(
         consumer_key=SECONDARY_TWITTER_KEYS['consumer_key'],
         consumer_secret=SECONDARY_TWITTER_KEYS['consumer_secret'],
-        access_token_key=SECONDARY_TWITTER_KEYS['acess_token_key'],
-        access_token_secret=SECONDARY_TWITTER_KEYS['acess_token_secret'],
+        access_token_key=SECONDARY_TWITTER_KEYS['access_token_key'],
+        access_token_secret=SECONDARY_TWITTER_KEYS['access_token_secret'],
         sleep_on_rate_limit=True,
         tweet_mode='extended',
     )
