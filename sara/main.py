@@ -2,12 +2,10 @@
 
 Usage:
   sara --version
-  sara --show-config
   sara -h | --help
   sara -n | --networks <network_name> <collection_name> <directed> <type>
 
 Options:
-  --show-config  Show config.
   --version  Show sara version.
   -h --help  Show help file.
   -n --networks  Call module to generate networks; type (r || m).
