@@ -77,6 +77,13 @@ Um segundo passo após a instalação é a atualização das credências de aces
 [`credentials`](sara/credentials/twitter_api.py) - Credênciais do Twitter
 
 
+Como terceiro passo a instalação do modelo utilizado no pré-processamento:
+
+
+``` console
+pip install https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.4.0/pt_core_news_sm-3.4.0.tar.gz
+```
+
 ## Módulos
 
 ### Coletor

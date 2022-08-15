@@ -38,7 +38,6 @@ Pillow==9.2.0
 platformdirs==2.5.2
 pluggy==0.13.1
 preshed==3.0.6
-pt-core-news-sm @ https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.4.0/pt_core_news_sm-3.4.0.tar.gz
 py==1.11.0
 pycodestyle==2.9.1
 pydantic==1.8.2
