@@ -3,7 +3,7 @@ attrs==22.1.0
 blis==0.7.8
 botometer==1.6
 catalogue==2.0.8
-certifi==2022.6.15
+certifi==2022.12.7
 charset-normalizer==2.0.12
 click==7.1.2
 coverage==6.4.3
